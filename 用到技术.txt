@@ -1,0 +1,13 @@
+http://www.111cn.net/phper/php-cy/55963.htm
+
+
+https://github.com/PHPOffice/PHPExcel  PHP导出excel
+
+http://blog.csdn.net/huyanping/article/details/7068356  导出CSV
+
+http://www.thinkphp.cn/code/1419.html  导入CSV数据
+
+http://www.sucaihuo.com/php/324.html  导出数据
+
+
+http://www.cnblogs.com/anny0404/p/5329960.html  下拉多选框
