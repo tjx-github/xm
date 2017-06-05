@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
+ 
     <title><?php echo SITENAME?></title>
 
     <!-- Bootstrap Core CSS -->
@@ -199,21 +199,17 @@
                                             <th>成本价</th>
                                             <th>定金</th>
                                             <th>销售员</th>
-                                            <th>平台</th>
-                                            <th>付款</th>
-
+                                            <th>其他费用</th>
+                                            <th>快递费</th>
                                             <th>利润</th>
                                            <th>日期</th>
-                                           
-                                             <th>操作</th>
+                                           <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php 
-
-                                        foreach ($salelist as $key => $value) {
-
-                                        ?>
+                        <?php
+                            foreach ($salelist as $key => $value) {
+                        ?>
                                         <tr>
                                             <td><?php echo $value->id?></td>
                                             <td><?php echo $value->pid?></td>
@@ -232,8 +228,13 @@
                                             <td><?php echo $value->costprice?></td>
                                             <td><?php echo $value->preprice?></td>
                                             <td><?php echo $value->saleman?></td>
-                                            <td><?php echo $value->platformname?></td>
-                                            <td><?php echo $value->payment?></td>
+                                            <!--dddddddddd-->
+                                            <td> <?php echo $value->otherfee  ?> </td>
+                                            <td> <?php echo $value->kuaidifee  ?> </td>
+                                             
+                                            <!--dddddddddd-->
+                                            
+                                            
                                             <td>￥<?php echo $value->siteprofit?></td>
                                             
                                             <td>
