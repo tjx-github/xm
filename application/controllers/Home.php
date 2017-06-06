@@ -11,7 +11,7 @@ class Home extends CI_Controller
         $this->load->model('user_model');
         $this->load->model('home_model');
         $this->load->model('sms_model');
-        $this->load->library('upload');
+        $this->load->library('upload');       
         $this->load->library('image_lib');
         $this->load->library('pagination');
         $this->user_model->checklogin();
@@ -602,11 +602,10 @@ class Home extends CI_Controller
 
 
 
-    /*
+/*
     添加洗护
 */
     public function care_edit_save(){
-
         global $login;
         $data['login']=$login;
 
@@ -638,6 +637,8 @@ class Home extends CI_Controller
         
         $myinput['getkuaidicompany'] = $this->input->post('getkuaidicompany', true);
         $myinput['getkuaidi'] = $this->input->post('getkuaidi', true);
+
+        
         $myinput['getkuaidifee'] = $this->input->post('getkuaidifee', true);
 
         $myinput['kuaidicompany'] = $this->input->post('kuaidicompany', true);
@@ -646,7 +647,7 @@ class Home extends CI_Controller
         $myinput['payment'] = $this->input->post('payment', true);
 
         $myinput['category'] = $this->input->post('category', true);
- 
+
        
         $myinput['brandname']  = $this->input->post('brandname', true);
         
@@ -656,6 +657,7 @@ class Home extends CI_Controller
         
 
         $updir = './uploads/care/';
+        
         $faceimg=$this->input->post('facephoto');
         if($faceimg<>''){
           $myinput['facephoto']=$this->upload->base64_upload($updir, $faceimg);
@@ -696,20 +698,37 @@ class Home extends CI_Controller
         $myinput['photos'] = $jsonstr;
        
     */
+/*
+  * pid     商品编号    $myinput['pid'] 
+  * status  订单状态    $myinput['status']
+  * 
+  * uz_product	库存产品   
+  * uz_care	护理表
+  */
 
-
-        
         $this->db->where('id',$id);
         $this->db->update(PREFIX.'care', $myinput);
+        #有货号，
+        if(mb_strlen( trim($myinput['pid']) ) ){
+            $this->load->model("updateproduct_model","up");
+            $this->up->update( $myinput);
+        }
+        
+        
+        
+//        $this->db->update(PREFIX.'care');
+        
+        
+        header('location:' . site_url('home/care_list'));
+         
         //$cid=$this->db->insert_ID();
         //header('location:' . site_url('home/care_list'));
-
-         if( $this->session->carelisturl){
-         header('location:' .$this->session->carelisturl);
-         }else
-        {
-         header('location:' . site_url('home/sale_list'));
-       }
+        
+//        if( $this->session->carelisturl){
+//            header('location:' .$this->session->carelisturl);
+//         }else{
+//         header('location:' . site_url('home/sale_list'));
+//       }
        
     }
 
@@ -761,7 +780,7 @@ class Home extends CI_Controller
         $id=$this->uri->segment(3);
         $backurl = $_SERVER["HTTP_REFERER"];
 
-        $this->db->query('delete from '.PREFIX.'care where id='.$id.'and siteid='.SITEID);
+        $this->db->query('delete from '.PREFIX.'care where id='.$id.' and siteid='.SITEID);
         header('location:'.$backurl);
     }
 
@@ -1858,6 +1877,8 @@ public function sale_add()
 
         $data['login']=$login;
         $data['nav']=$this->load->view('home/nav',$data,true);
+//        print_r($data);
+//        die;
         $this->load->view('home/sale_list',$data);
 
     }
