@@ -30,7 +30,7 @@ class Home extends CI_Controller
                 define("SITEID", $login['id']);
             }
         }
-      
+        $this->load->model("UpdateSaleOrProductModel","TUpdate");
     }
     /*
     	首页模块
@@ -710,8 +710,8 @@ class Home extends CI_Controller
         $this->db->update(PREFIX.'care', $myinput);
         #有货号，
         if(mb_strlen( trim($myinput['pid']) ) ){
-            $this->load->model("updateproduct_model","up");
-            $this->up->update( $myinput);
+            $this->TUpdate->UpdateProductStatus( $myinput);
+            
         }
         
         
@@ -791,10 +791,9 @@ class Home extends CI_Controller
         global $login;
         $data['login']=$login;
         $id=$this->uri->segment(3);
-        
-        $this->db->query('update  '.PREFIX.'care set ispayback=1 where id='.$id);
+        $this->db->query('update  '.PREFIX."care set ispayback=1,datetime='". time()  ."'  where id=".$id);
         //header('location:' . site_url('home/sale_list'));
-        header('location:'.$_SERVER["HTTP_REFERER"]);
+        header('location:'. ($_SERVER["HTTP_REFERER"] ? $_SERVER["HTTP_REFERER"] : site_url('home/sale_list'))  );
     }
 
 
@@ -975,14 +974,11 @@ class Home extends CI_Controller
         echo '<li style="text-align:center"><a href="###" onclick="closesuggest()">关闭</a><li>';
     }
 
-
+#编辑产品
     public function product_edit(){
         global $login;
         $data['login']=$login;
-        
         $id=$this->uri->segment(3);
-
-        
         $proobj=$this->db->from(PREFIX.'product')->where(array('id'=>$id,'siteid'=>SITEID))->get()->result_array();
         if(count($proobj)<1)
         {
@@ -991,7 +987,6 @@ class Home extends CI_Controller
         {
             $product=$proobj[0];
         }
-
         //代理商姓名
         if($product['agentid']>0)
         {
@@ -1000,9 +995,6 @@ class Home extends CI_Controller
         }else{
             $product['agentname']='';
         }
-
-
-
         $data['product'] = $product;
 
 
@@ -1046,7 +1038,11 @@ class Home extends CI_Controller
         global $login;
         $data=$this->home_model->product_list();
         $data['login']=$login;
-
+/*
+ * uz_sale	销售表
+ * uz_product	库存产品
+ * 
+ */
 
         $query = $this->db->query("select * from " . PREFIX . "category  order by ordernum asc");
         $category = $query->result_array();
@@ -1170,7 +1166,14 @@ class Home extends CI_Controller
  
         $this->db->where('id',$id);
         $this->db->update(PREFIX.'product',$myinput);
-
+        print_r($myinput);
+        $this->TUpdate->UpdateSale([
+            "pid"=>$myinput["pid"]
+        ],[
+            "costprice"=>$myinput['costprice'],
+            "otherfee"=>$myinput['otherfee']
+        ] );
+        
         if( $this->session->prolisturl){
          header('location:' .$this->session->prolisturl);
          }else
@@ -1883,16 +1886,10 @@ public function sale_add()
 
     }
 /* 修改销售订单 */
-public function sale_edit()
-    {
+public function sale_edit(){
         global $login;
         $data['login']=$login;
-
        $id=$this->uri->segment(3);
-
-        
-
-
         $saleobj=$this->db->from(PREFIX.'sale')->where(array('id'=>$id,'siteid'=>SITEID))->get()->result_array();
         if(count($saleobj)<1)
         {
@@ -1902,15 +1899,13 @@ public function sale_edit()
             $sale=$saleobj[0];
         }
         $data['sale'] = $sale;
- 
+
         $query = $this->db->query("select * from " . PREFIX . "city  order by ordernum asc");
         $city = $query->result_array();
         $data['city'] = $city;
-
         $query = $this->db->query("select * from " . PREFIX . "saleman  order by ordernum asc");
         $saleman = $query->result_array();
         $data['saleman'] = $saleman;
-
         $query = $this->db->query("select * from " . PREFIX . "sale_platform  order by ordernum asc");
         $platform = $query->result_array();
         $data['platform'] = $platform;
@@ -1933,51 +1928,37 @@ public function sale_edit()
     }
 
 
-    /*
+/*
     添加销售 入库
 */
  public function sale_edit_save(){
-         global $login;
+        global $login;
         $data['login']=$login;
         $id = $this->input->post('id', true);
-
-
         $saleobj=$this->db->from(PREFIX.'sale')->where(array('id'=>$id,'siteid'=>SITEID))->get()->result_array();
-        if(count($saleobj)<1)
-        {
+        if(count($saleobj)<1){
             exit('该订单不存在');
-        }else
-        {
+        }else{
             $sale=$saleobj[0];
         }
-
-
-
         $myinput['siteid'] = SITEID;
         $myinput['title'] = $this->input->post('title', true);
         $myinput['pid'] = $this->input->post('pid', true);
         $myinput['cid'] = $this->input->post('cid', true);
         $myinput['agentid'] = $this->input->post('agentid', true);
         $myinput['saletype'] = $this->input->post('saletype', true);
-    
-
         $price=$this->input->post('price', true);
         if(is_numeric($price)){
-           $myinput['price'] = $price; 
+            $myinput['price'] = $price; 
         }else{
             $myinput['price'] = 0;
         }
-
-
         $preprice=$this->input->post('preprice', true);
         if(is_numeric($preprice)){
            $myinput['preprice'] = $preprice; 
         }else{
             $myinput['preprice'] = 0;
         }
-
-
-
         $costprice=$this->input->post('costprice', true);
         if(is_numeric($costprice)){
            $myinput['costprice'] = $costprice; 
@@ -1992,82 +1973,91 @@ public function sale_edit()
             $myinput['carefee'] = 0;
         }
 
-         $otherfee=$this->input->post('otherfee', true);
-        if(is_numeric($otherfee)){
-           $myinput['otherfee'] = $otherfee; 
-        }else{
-            $myinput['otherfee'] = 0;
-        }
-
-         $platformfee=$this->input->post('platformfee', true);
-        if(is_numeric($platformfee)){
-           $myinput['platformfee'] = $platformfee; 
-        }else{
-            $myinput['platformfee'] = 0;
-        }
-
-
-        $myinput['saleplatform'] = $this->input->post('saleplatform', true);
-        $myinput['saleman'] = $this->input->post('saleman', true);
-        $myinput['receiver'] = $this->input->post('receiver', true);
-        $myinput['payment'] = $this->input->post('payment', true);
-
-        $myinput['kuaidicompany'] = $this->input->post('kuaidicompany', true);
-        $myinput['kuaidinum'] = $this->input->post('kuaidinum', true);
-        $myinput['kuaidifee'] = $this->input->post('kuaidifee', true);
-        $myinput['saletime'] = $this->input->post('saletime', true);
-        $myinput['saletime'] = strtotime($myinput['saletime']);
-
-        $myinput['content'] = $this->input->post('content', true);
-        $updir = './uploads/product/';
-        ///封面图片
-        $faceimg=$this->input->post('facephoto');
-        if($faceimg<>''){
-          $myinput['facephoto']=$this->upload->base64_upload($updir, $faceimg);
-          $myinput['facephoto']='/uploads/product/'.$myinput['facephoto'];
-        }
-        
-
-         if($myinput['saletype']<>$sale['saletype'])
-        {
-            $myinput['saletime'] = time();
-        }
-
-
-       // if($myinput['saletype']==4){
-         /* 计算利润 */
-            $myinput['siteprofit']=$myinput['price']-$myinput['costprice']-$myinput['otherfee']-$myinput['platformfee']-$myinput['kuaidifee'];
-            if($myinput['agentid']>0)
-            {
-                $agentfee = $this->home_model->getC($myinput['agentid'], 'id', 'fee', PREFIX . 'user');
-            }else
-            {
-                $agentfee=0;
-            }
-
-            $myinput['agentprofit']=round(($myinput['siteprofit']*$agentfee)/100,2);
-        //}
-
-        
-        $this->db->where('id',$id);
-        $this->db->where('siteid',SITEID);
-
-        $this->db->update(PREFIX.'sale',$myinput);
-
-         if($myinput['pid']!='')
-        {
-           
-             $this->db->set('status',$myinput['saletype']);
-             $this->db->where('pid',$myinput['pid']);
-             $this->db->update(PREFIX.'product');
-        }
-
-        if( $this->session->salelisturl){
-         header('location:' .$this->session->salelisturl);
-         }else
-        {
-         header('location:' . site_url('home/sale_list'));
+        $otherfee=$this->input->post('otherfee', true);
+       if(is_numeric($otherfee)){
+          $myinput['otherfee'] = $otherfee; 
+       }else{
+           $myinput['otherfee'] = 0;
        }
+
+        $platformfee=$this->input->post('platformfee', true);
+       if(is_numeric($platformfee)){
+          $myinput['platformfee'] = $platformfee; 
+       }else{
+           $myinput['platformfee'] = 0;
+       }
+
+
+       $myinput['saleplatform'] = $this->input->post('saleplatform', true);
+       $myinput['saleman'] = $this->input->post('saleman', true);
+       $myinput['receiver'] = $this->input->post('receiver', true);
+       $myinput['payment'] = $this->input->post('payment', true);
+
+       $myinput['kuaidicompany'] = $this->input->post('kuaidicompany', true);
+       $myinput['kuaidinum'] = $this->input->post('kuaidinum', true);
+       $myinput['kuaidifee'] = $this->input->post('kuaidifee', true);
+       $myinput['saletime'] = $this->input->post('saletime', true);
+       $myinput['saletime'] = strtotime($myinput['saletime']);
+
+       $myinput['content'] = $this->input->post('content', true);
+       $updir = './uploads/product/';
+       ///封面图片
+       $faceimg=$this->input->post('facephoto');
+       if($faceimg<>''){
+         $myinput['facephoto']=$this->upload->base64_upload($updir, $faceimg);
+         $myinput['facephoto']='/uploads/product/'.$myinput['facephoto'];
+       }
+
+
+        if($myinput['saletype']<>$sale['saletype'])
+       {
+           $myinput['saletime'] = time();
+       }
+
+
+      // if($myinput['saletype']==4){
+        /* 计算利润 */
+           $myinput['siteprofit']=$myinput['price']-$myinput['costprice']-$myinput['otherfee']-$myinput['platformfee']-$myinput['kuaidifee'];
+           if($myinput['agentid']>0)
+           {
+               $agentfee = $this->home_model->getC($myinput['agentid'], 'id', 'fee', PREFIX . 'user');
+           }else
+           {
+               $agentfee=0;
+           }
+
+           $myinput['agentprofit']=round(($myinput['siteprofit']*$agentfee)/100,2);
+       //}
+       $this->db->where('id',$id);
+       $this->db->where('siteid',SITEID);
+       print_r($myinput);
+       
+       
+       $this->db->update(PREFIX.'sale',$myinput); #更新销售表
+        if($myinput['pid']!=''){
+            #这段代码去掉。
+//            $this->db->set('status',$myinput['saletype']); #更新库存表 入库状态
+//            $this->db->where('pid',$myinput['pid']); 
+//            $this->db->update(PREFIX.'product'); #更新库存表
+            
+            
+            $this->TUpdate->UpdateProduct([
+                "pid"=>$myinput['pid']
+            ],[
+                "costprice"=>$myinput["costprice"],  #成本价
+                "otherfee"=>$myinput["otherfee"],     #其他费用
+                "status"=>$myinput['saletype']  #此处更新
+            ]);
+            
+            
+            
+       }
+
+       if( $this->session->salelisturl){
+            header('location:' .$this->session->salelisturl);
+        }else{
+            header('location:' . site_url('home/sale_list'));
+        }
 
         
        // header('location:' . site_url('home/sale_list').'/?saletype='.$myinput['saletype']);

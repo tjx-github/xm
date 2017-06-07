@@ -201,9 +201,10 @@
                                              <div style="position:absolute;margin-top:-150px;height:400px;width:400px;z-index:999;float:left;display:none;" id="imgdiv<?php echo $value->id;?>"> <img src="<?php echo site_url('/').$value->facephoto?>" height="400" width="400" class="imgborder" ></div>
                                       
                                         </td>
-
-                                         <td><?php echo date('Y-m-d',$value->datetime)?></td>
-                                             <th>
+                                            <td>
+                                               <?php echo date('Y-m-d',$value->datetime)?>
+                                            </td>
+                                        <th>
 
  <?php 
                                              if($value->ispayback==0)
