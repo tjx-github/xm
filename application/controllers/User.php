@@ -174,9 +174,10 @@ class User extends CI_Controller {
 			if($user)
 			{
 				//echo 'user is ok';
-				$newpass=md5($password.$user['salt']);
+				 $newpass=md5($password.$user['salt']);
 				$oldpass=$user['password'];
-				
+//				echo $newpass ."\n";
+//				echo $oldpass ."\n";
 				if($newpass==$oldpass)
 				{
 

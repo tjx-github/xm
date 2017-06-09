@@ -1,5 +1,5 @@
 <?php
-class Home_model extends CI_Model
+class Home_model extends CI_Model 
 {
     function __construct()
     {
@@ -408,11 +408,9 @@ class Home_model extends CI_Model
      /*
         协议列表
     */
-     function agree_list()
-    {
+     function agree_list(){
         //引入登录信息
         global $login;
-    
         /////////
         $order_by = ' order by datetime desc';
         $config['base_url'] = site_url('home/agree_list');
@@ -429,7 +427,13 @@ class Home_model extends CI_Model
 
         
         $query = $this->db->query($sql);
-        $total_rows = count($query->result());
+        
+        if(isset($_GET['pid']) || isset($_GET['mobile'])  ){
+            $total_rows=$this->agree_list_search(true);
+        } else {
+            $total_rows = count($query->result());
+        }
+        
         $config['total_rows'] = $total_rows;
         $config['per_page'] = 20;
         $config['uri_segment'] = 3;
@@ -458,30 +462,71 @@ class Home_model extends CI_Model
         $this->db->order_by("id", "desc");
         $intpage = $this->get_page(3);
         $limitstr = ' limit ' . ($intpage - 1) * $config['per_page'] . ',' . $config['per_page'];
-
+        
         if ($wd != '0') {
             
             $sql = "select * from " . PREFIX . "agree  where id>0 ".$order_by.$limitstr;
         } else {
              $sql = "select * from " . PREFIX . "agree  where id>0 ".$order_by.$limitstr;
          
-            }
+        }
 
-
-        $query = $this->db->query($sql);
+        
+         if(isset($_GET['pid']) || isset($_GET['mobile'])  ){
+                    $rs=$this->agree_list_search($limitstr);
+                    $data = array('agreelist' => $rs, 'pagelink' => $pagelink, 'wd' => $wd, 'count' => $total_rows);
+         }else{
+                $query = $this->db->query($sql);
         //$query = $this->db->get(PREFIX.'consult', $config['per_page'],($intpage-1)*$config['per_page']);
-        $rs = $query->result();
-        if ($wd != '0') {
-            $data = array('agreelist' => $rs, 'pagelink' => $pagelink, 'wd' => $wd, 'count' => $total_rows);
-        } else {
-            $data = array('agreelist' => $rs, 'pagelink' => $pagelink, 'wd' => '', 'count' => $total_rows);
+                $rs = $query->result();
+            if ($wd != '0') {
+                $data = array('agreelist' => $rs, 'pagelink' => $pagelink, 'wd' => $wd, 'count' => $total_rows);
+            } else {
+                $data = array('agreelist' => $rs, 'pagelink' => $pagelink, 'wd' => '', 'count' => $total_rows);
+            }
         }
         return $data;
+    }
+    
+    public function  agree_list_search($limitstr ){
+        $search=[];
+        if( $this->input->get("pid",1) ){
+            $search['m.pid'] =$this->input->get("pid",1);
+        }
+        if( $this->input->get("mobile",1) ){
+            $search['e.mobile'] =$this->input->get("mobile",1);
+        }
+        if(empty($search)){
+            return ;
+        }
+        if($limitstr === True){
+            return
+                $this->db
+                    ->select("e.id")
+                    ->from(PREFIX."agree as e")
+                    ->join(PREFIX."agree_item as m" ,"e.id=m.aid" ,"inner" )
+                    ->where($search)
+                    ->get()
+                    ->num_rows();
+        }else{
+            return
+                $this->db
+                    ->select("e.*,m.pid")
+                    ->from(PREFIX."agree as e")
+                    ->join(PREFIX."agree_item as m" ,"e.id=m.aid" ,"inner" )
+                    ->where($search)
+                    ->order_by("e.datetime desc")
+                    ->limit($limitstr)
+                    ->get()
+                    ->result();
+        }
+        
+        
     }
 
 
 
-     /*
+    /*
         协议列表
     */
      function care_list()

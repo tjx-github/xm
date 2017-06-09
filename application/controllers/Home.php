@@ -280,15 +280,22 @@ class Home extends CI_Controller
         $this->load->view('home/agree',$data);
     }
 
-
-        public function agree_list()
-    {
+#协议列表
+    public function agree_list(){
         global $login;
+//        if(isset($_GET[''])){
+//            
+//        }else{
+//            
+//        }
         $data=$this->home_model->agree_list();
         $data['login']=$login;
+        
+        
+        
+        
         $data['nav']=$this->load->view('home/nav',$data,true);
         $this->load->view('home/agree_list',$data);
-
     }
 
 

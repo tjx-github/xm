@@ -10,7 +10,11 @@
     <meta name="author" content="">
 
     <title><?php echo SITENAME?></title>
-
+    
+    <link rel="stylesheet" href="<?php echo site_url('/')?>bootadmin/layui/css/layui.css">
+    <script src="<?php echo site_url('/')?>bootadmin/layui/layui.js"></script>
+    
+     <script src="<?php echo site_url('/')?>bootadmin/js/jquery-3.2.1.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -37,6 +41,10 @@
 
 <body>
 
+    
+    
+    <!--==========-->
+    
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -49,6 +57,34 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+
+        <div class="form-group input-group col-lg-12  ">                            
+        <p>
+            <form  action="" method="get">
+                     <input type="text" class="form-control " name="pid"  value="" placeholder="货号"  style="width:200px;"> &nbsp;  &nbsp; 
+                     <input type="text" class="form-control " name="mobile"  value="" placeholder="手机号"  style="width:200px;"> &nbsp; 
+                     <input class="btn btn-success "  onclick="return ck();" type="Submit" value="搜索" id="searchbtn"> </input>
+            </form>
+        </p>
+
+<script type="text/javascript">
+    function ck(){
+        mobile =$("input[name='mobile']").val();
+        pid =$("input[name='pid']").val();
+        if( mobile.match(/^1[34578]{1}\d{9}$/) || pid){
+             return true ;
+        }else{
+            layui.use(['layer', 'form'], function(){
+                 var layer = layui.layer
+                 ,form = layui.form();
+
+               layer.msg('请正确输入号码或货号');
+            });
+            return false;
+        }
+   }
+</script>
+</div>
             
       
 
@@ -93,6 +129,7 @@
                                     </thead>
                                     <tbody>
                                         <?php 
+                                        if(! empty($agreelist)){
                                         foreach ($agreelist as $key => $value) {
                                             # code...
                                         
@@ -149,7 +186,7 @@
 
                                           </th>
                                         </tr>
-                                        <?php } ?>
+                                        <?php }} ?>
 
                                          
                                     </tbody>
