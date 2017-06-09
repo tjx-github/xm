@@ -1040,8 +1040,7 @@ class Home extends CI_Controller
 
 
     /* 产品列表 */
-      public function product_list()
-    {
+    public function product_list(){
         global $login;
         $data=$this->home_model->product_list();
         $data['login']=$login;

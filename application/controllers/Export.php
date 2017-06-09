@@ -40,8 +40,25 @@ class Export extends CI_Controller {
 	{
 		echo 'OK';
 	}
- 
-
+    static private function str_sort(CI_Controller $object){  #排序
+        $order=[1=>"desc","asc"];
+        $str="order by  ";
+        if(array_key_exists((int) $object->input->get("datetime_sort"),$order ) ){
+            $str .="  datetime ".$order[(int) $object->input->get("datetime_sort")];
+        }
+        if(array_key_exists((int) $object->input->get("costprice_sort"),$order ) ){
+            if(mb_strlen($str) == 10){
+                $str .="  costprice ".$order[(int) $object->input->get("costprice_sort")];
+            } else {
+                $str .=" , costprice ".$order[(int) $object->input->get("costprice_sort")];
+            }
+        }
+        if(mb_strlen($str) == 10){
+            return false;
+        }else{
+            return $str;
+        }
+    }
      /* 导出产品 */
     public function product(){
         global $login;
@@ -122,8 +139,12 @@ class Export extends CI_Controller {
         }
 
         $sqlstr=$titlesql.$pidsql.$categorysql.$saletypesql.$sizesql.$storeidsql.$statussql.$cityidsql.$agentidsql.$receiversql.$ownersql.$storedatesql.$havephotosql.$startdaysql.$enddaysql.$paymentsql;
+        
+        self::str_sort($this) ? $order_by=self::str_sort($this) : $order_by = 'order by id desc';
 
-        $orderstr=' order by id desc';
+        
+        
+        
         $sql = "select * from " . PREFIX . "product  where siteid=".SITEID." ".$sqlstr.$orderstr;
         
         // Create new PHPExcel object

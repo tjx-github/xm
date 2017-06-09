@@ -703,23 +703,39 @@ class Home_model extends CI_Model
     
     }
 
-
-
-
+/*
+ * 
+ */
+#return str false
+    static private function str_sort(CI_Model $object){  #排序
+        $order=[1=>"desc","asc"];
+        $str="order by  ";
+        if(array_key_exists((int) $object->input->get("datetime_sort"),$order ) ){
+            $str .="  datetime ".$order[(int) $object->input->get("datetime_sort")];
+        }
+        if(array_key_exists((int) $object->input->get("costprice_sort"),$order ) ){
+            if(mb_strlen($str) == 10){
+                $str .="  costprice ".$order[(int) $object->input->get("costprice_sort")];
+            } else {
+                $str .=" , costprice ".$order[(int) $object->input->get("costprice_sort")];
+            }
+        }
+        if(mb_strlen($str) == 10){
+            return false;
+        }else{
+            return $str;
+        }
+    }
 
     /*
         产品列表
     */
-     function product_list()
-    {
+
+    function product_list(){
         //引入登录信息
         global $login;
-    
-        /////////
-        $order_by = 'order by id desc';
-       
-
-
+        self::str_sort($this) ? $order_by=self::str_sort($this) : $order_by = 'order by id desc';
+//        exit($order_by);
         $titlesql='';
         $pidsql='';
         $saletypesql='';
@@ -767,7 +783,12 @@ class Home_model extends CI_Model
         
 
         $searchstr='';
-        $search=array('title'=>$title,'pid'=>$pid,'category'=>$category,'saletype'=>$saletype,'size'=>$size,'storeid'=>$storeid,'status'=>$status,'cityid'=>$cityid,'agentid'=>$agentid,'receiver'=>$receiver,'payment'=>$payment,'owner'=>$owner,'startday'=>$startday,'endday'=>$endday,'havephoto'=>$havephoto);
+        $search=array('title'=>$title,'pid'=>$pid,'category'=>$category,'saletype'=>$saletype,'size'=>$size,'storeid'=>$storeid,'status'=>$status,
+            'cityid'=>$cityid,'agentid'=>$agentid,'receiver'=>$receiver,'payment'=>$payment,'owner'=>$owner,'startday'=>$startday,
+            'endday'=>$endday,'havephoto'=>$havephoto,
+            "datetime_sort"=>(int) $this->input->get("datetime_sort"),
+            "costprice_sort"=>(int) $this->input->get("costprice_sort")
+                );
         foreach ($search as $key => $value) {
             $searchstr=$searchstr.'&'.$key.'='.$value;
         }
@@ -801,9 +822,6 @@ class Home_model extends CI_Model
 
 
         $sqlstr=$titlesql.$pidsql.$categorysql.$saletypesql.$sizesql.$storeidsql.$statussql.$cityidsql.$agentidsql.$receiversql.$paymentsql.$ownersql.$storedatesql.$havephotosql.$startdaysql.$enddaysql;
-
-
-
         // 计算总页数
         $wd = $this->uri->segment(4, '0');
         
