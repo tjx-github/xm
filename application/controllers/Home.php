@@ -1851,8 +1851,7 @@ public function sale_add()
     }
 
     /* 产品列表 */
-      public function sale_list()
-    {
+      public function sale_list()    {
         global $login;
         
         $data=$this->home_model->sale_list();

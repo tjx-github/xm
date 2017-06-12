@@ -142,10 +142,11 @@ class Export extends CI_Controller {
         
         self::str_sort($this) ? $order_by=self::str_sort($this) : $order_by = 'order by id desc';
 
+
         
         
-        
-        $sql = "select * from " . PREFIX . "product  where siteid=".SITEID." ".$sqlstr.$orderstr;
+//        $sql = "select * from " . PREFIX . "product  where siteid=".SITEID." ".$sqlstr.$orderstr;
+        $sql = "select * from " . PREFIX . "product  where siteid=".SITEID." ".$sqlstr.$order_by;
         
         // Create new PHPExcel object
         $objPHPExcel = new PHPExcel();
