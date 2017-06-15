@@ -1090,6 +1090,7 @@ class CI_Loader {
 		// One last attempt. Maybe the library is in a subdirectory, but it wasn't specified?
 		if ($subdir === '')
 		{
+                    
 			return $this->_ci_load_library($class.'/'.$class, $params, $object_name);
 		}
 

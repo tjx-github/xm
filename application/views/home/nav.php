@@ -9,9 +9,6 @@
                 <a class="navbar-brand" href="<?php echo site_url('/')?>"><?php echo SITENAME?></a>
             </div>
             <!-- /.navbar-header -->
-
-          
-
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
@@ -73,7 +70,8 @@
                         </li>
 
 
-<?php if($login['roleid']==5){?>
+                        
+<?php  if($login['roleid']==5){?>
                         <li>
                             <a href="#"><i class="fa fa-table fa-fw"></i> 咨询管理 <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">

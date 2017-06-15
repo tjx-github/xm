@@ -149,15 +149,16 @@ class Home_model extends CI_Model
         return $data;
     }
 
- 
+ public function x(){
+     echo "asdfadfa";
+ }
  
 
 
     /*
         获取当前页数 分页函数用
     */
-    function get_page($num)
-    {
+    function get_page($num) {
         $intpage = $this->uri->segment($num);
         if (isset($intpage)) {
             $intpage = intval($intpage);

@@ -1,12 +1,16 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 date_default_timezone_set('PRC');
-class Home extends CI_Controller
-{
-    function __construct()
-    {
+//interface My_bb{
+//    
+//}
+
+class Home  extends CI_Controller {
+//    use Trait_;
+    function __construct() {
         global $login;
         parent::__construct();
+        include_once  __DIR__."/Factory.php";
         $this->load->helper('url');
         $this->load->model('user_model');
         $this->load->model('home_model');
@@ -1038,31 +1042,28 @@ class Home extends CI_Controller
 
     }
 
-
     /* 产品列表 */
     public function product_list(){
         global $login;
+       
+//        $object=Factory::GetObject($login['roleid'] ,1 ,$this );
+//        return $object->showviewdata();
+        
         $data=$this->home_model->product_list();
         $data['login']=$login;
 /*
  * uz_sale	销售表
  * uz_product	库存产品
- * 
  */
-
         $query = $this->db->query("select * from " . PREFIX . "category  order by ordernum asc");
         $category = $query->result_array();
         $data['category'] = $category;
-
-
         $query = $this->db->query("select * from " . PREFIX . "city  order by ordernum asc");
         $city = $query->result_array();
         $data['city'] = $city;
-
         $query = $this->db->query("select * from " . PREFIX . "saleman  order by ordernum asc");
         $saleman = $query->result_array();
         $data['saleman'] = $saleman;
-
         $query = $this->db->query("select * from " . PREFIX . "store  order by ordernum asc");
         $store = $query->result_array();
         $data['store'] = $store;
@@ -1070,23 +1071,18 @@ class Home extends CI_Controller
         $query = $this->db->query("select * from " . PREFIX . "product_status  order by ordernum asc");
         $status = $query->result_array();
         $data['status'] = $status;
-
         $query = $this->db->query("select * from " . PREFIX . "user  where roleid=3 order by id asc");
         $agent = $query->result_array();
         $data['agent'] = $agent;
-
-
         $query = $this->db->query("select * from " . PREFIX . "sale_payment  order by ordernum asc");
         $payment = $query->result_array();
         $data['payment'] = $payment;
-
         $prolisturl='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
         $this->session->prolisturl=$prolisturl;
         $this->session->sess_expiration=31536000;
 
         $data['nav']=$this->load->view('home/nav',$data,true);
         $this->load->view('home/product_list',$data);
-
     }
 
 
@@ -1357,7 +1353,7 @@ class Home extends CI_Controller
         $data['login']=$login;
         $id=$this->uri->segment(3);
         
-        $this->db->query('delete from '.PREFIX.'salema where id='.$id);
+        $this->db->query('delete from '.PREFIX.'saleman where id='.$id);
         header('location:' . site_url('home/saleman_list'));
     }
 
@@ -1853,9 +1849,7 @@ public function sale_add()
     /* 产品列表 */
       public function sale_list()    {
         global $login;
-        
         $data=$this->home_model->sale_list();
-
         //销售平台
         $query = $this->db->query("select * from " . PREFIX . "sale_platform  order by ordernum asc");
         $platform = $query->result_array();

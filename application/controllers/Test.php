@@ -2,8 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 date_default_timezone_set('PRC');
 class Test extends CI_Controller {
-
-	function __construct()
+            function __construct()
 	{
 		parent::__construct();
 		$this->load->helper('url');
@@ -14,6 +13,7 @@ class Test extends CI_Controller {
 		$this->load->library('upload');
 
 	}
+
 
 	
 	/**
