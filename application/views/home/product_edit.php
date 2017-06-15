@@ -266,9 +266,21 @@
                                    <input type="checkbox" name="havephoto" value="1" <?php if($product['havephoto']=='1'){echo 'checked';}?>>
                        </div> 
 
+               
                <div class="form-group" id="codediv">
                                         <label>备注信息：</label>
                                        <textarea class="form-control" name="content" id="content" rows="3"><?php echo $product['content']?></textarea>
+                       </div>
+                        <div class="form-group" id="codediv">
+                                        <label>视频地址：</label>
+                                       <?php 
+                                        if(empty($product['video'])){
+                                            echo "没有视频";
+                                        }else{
+                                            echo   "<a href='".site_url("/").$product['video'] ."' target='_blank'>查看视频</a>"  ;
+                                        }
+                                                
+                                       ?>
                        </div>
     <div id="fileupload" >
         <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
