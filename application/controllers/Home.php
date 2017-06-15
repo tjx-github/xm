@@ -10,7 +10,7 @@ class Home  extends CI_Controller {
     function __construct() {
         global $login;
         parent::__construct();
-        include_once  __DIR__."/Factory.php";
+//        include_once  __DIR__."/Factory.php";
         $this->load->helper('url');
         $this->load->model('user_model');
         $this->load->model('home_model');
@@ -984,10 +984,45 @@ class Home  extends CI_Controller {
         }
         echo '<li style="text-align:center"><a href="###" onclick="closesuggest()">关闭</a><li>';
     }
+    public function updatevideo(){
+
+//        print_r($_FILES);
+        if(isset($_FILES['file']['tmp_name']  )){
+            $filename=time().".mp4";
+            $config= [
+                "upload_path"=>"./uploads/video",
+                "allowed_types"=>"mp4",
+                "max_size"=>1024 * 1024 * 100 ,  #定义最多传100兆
+                "file_name"=>$filename,
+                "detect_mime"=>true
+            ];
+            
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+            $this->upload->do_upload("file");
+            $p=$this->upload->data();
+            $data=[
+               "files"=> [
+                [
+                    "size"=>$p['file_size'],
+                    "type"=>$p['file_type'],
+                    "url"=>site_url("/")."uploads/video".$filename,
+                    "name"=>$p['orig_name']
+                ]
+                ]
+            ];
+ 
+            $this->db->where('id', $this->input->post('id', true) );
+            $this->db->update(PREFIX.'product',["video"=> "/uploads/video/" .$filename]);
+
+            die(json_encode($data));
+        }
+    }
 
 #编辑产品
     public function product_edit(){
         global $login;
+        $this->updatevideo();
         $data['login']=$login;
         $id=$this->uri->segment(3);
         $proobj=$this->db->from(PREFIX.'product')->where(array('id'=>$id,'siteid'=>SITEID))->get()->result_array();
