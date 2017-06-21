@@ -87,8 +87,8 @@ jQuery(function() {
         // server: 'http://webuploader.duapp.com/server/fileupload.php',
         server: 'http://admin.zhengpin.com/static/webuploader/fileupload.php',
         fileNumLimit: 300,
-        fileSizeLimit: 20 * 1024 * 1024,    // 200 M
-        fileSingleSizeLimit: 1 * 1024 * 1024    // 50 M
+        fileSizeLimit: 100 * 1024 * 1024,    // 200 M
+        fileSingleSizeLimit: 10 * 1024 * 1024    // 50 M
     });
 
     // 添加“添加文件”的按钮，

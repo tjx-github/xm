@@ -72,7 +72,8 @@ class User_model extends CI_Model {
 		$idstr=substr($login['adminrole'], 1,-1);
 		$myrole=explode('-', $idstr);
 
-		 
+//		 print_r($myrole);
+//                 die;
 		$needrole=explode(',', $rolelist);
 		 
 		foreach ($myrole as $key => $value) {

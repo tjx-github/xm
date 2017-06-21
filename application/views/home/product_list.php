@@ -204,13 +204,13 @@
     <!--===================-->
     <select name="datetime_sort" id="datetime_sort" class="form-control" style="width:150px;">
                 <option value="">按入库日期排序</option>
-                <option value="1">逆序</option>
-                <option value="2">正序</option>
+                <option value="1">从最近</option>
+                <option value="2">从最早</option>
     </select>
     <select name="costprice_sort" id="costprice_sort" class="form-control" style="width:150px;">
                 <option value="">按成本价排序</option>
-                <option value="1">逆序</option>
-                <option value="2">正序</option>
+                <option value="1">从价格最高</option>
+                <option value="2">从价格最低</option>
     </select>
      <!--==================-->
             <button class="btn btn-success " type="button" id="searchbtn">搜索 </button>

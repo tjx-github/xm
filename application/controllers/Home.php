@@ -10,7 +10,7 @@ class Home  extends CI_Controller {
     function __construct() {
         global $login;
         parent::__construct();
-//        include_once  __DIR__."/Factory.php";
+        include_once  __DIR__."/Factory.php";
         $this->load->helper('url');
         $this->load->model('user_model');
         $this->load->model('home_model');
@@ -752,8 +752,23 @@ class Home  extends CI_Controller {
         global $login;
         $data=$this->home_model->care_list();
         $data['login']=$login;
-
-
+//        for($i=9;$i <= 37;$i++ ){
+//            $this->db->insert(PREFIX."power",[
+//                "MenuID"=>$i,
+//                "BelongAdminRoleid"=>2,
+//                "AdminRoleid"=>2
+//            ]);
+//        }
+// $query = $this->db->query("select p.MenuID,p.BelongAdminRoleid,p.AdminRoleid ,m.FromMenuId,m.MenuController, a.AdminExplain  ,k.MenuName as TMenuName,m.MenuName
+//    from uz_power p
+//    inner join uz_menu m on m.MenuID=p.MenuID 
+//    inner join uz_admin a on a.AdminRoleid=p.BelongAdminRoleid 
+//    left  join   (select MenuName,MenuId from uz_menu where frommenuid is null) k on k.MenuId=m.FromMenuId
+//    where p.PowerEffective=1 and  p.BelongAdminRoleid=5");
+//        $category = $query->result_array();
+//        print_r($category);
+//        die;
+       
         $query = $this->db->query("select * from " . PREFIX . "category  order by ordernum asc");
         $category = $query->result_array();
         $data['category'] = $category;
@@ -991,22 +1006,22 @@ class Home  extends CI_Controller {
             $filename=time().".mp4";
             $config= [
                 "upload_path"=>"./uploads/video",
-                "allowed_types"=>"mp4",
+                "allowed_types"=>"mp4|MOV",
                 "max_size"=>1024 * 1024 * 100 ,  #定义最多传100兆
                 "file_name"=>$filename,
                 "detect_mime"=>true
             ];
             
-            $this->load->library('upload',$config);
+//            $this->load->library('upload',$config);
             $this->upload->initialize($config);
-            $this->upload->do_upload("file");
+//            $this->upload->do_upload("file");
             $p=$this->upload->data();
             $data=[
                "files"=> [
                 [
                     "size"=>$p['file_size'],
                     "type"=>$p['file_type'],
-                    "url"=>site_url("/")."uploads/video".$filename,
+                    "url"=>site_url("/")."uploads/video/".$filename,
                     "name"=>$p['orig_name']
                 ]
                 ]
@@ -1081,8 +1096,8 @@ class Home  extends CI_Controller {
     public function product_list(){
         global $login;
        
-//        $object=Factory::GetObject($login['roleid'] ,1 ,$this );
-//        return $object->showviewdata();
+        $object=Factory::GetObject($login['roleid'] ,"ProductRoleDataList" ,$this );
+        return $object->showviewdata();
         
         $data=$this->home_model->product_list();
         $data['login']=$login;
@@ -1203,7 +1218,7 @@ class Home  extends CI_Controller {
  
         $this->db->where('id',$id);
         $this->db->update(PREFIX.'product',$myinput);
-        print_r($myinput);
+//        print_r($myinput);
         $this->TUpdate->UpdateSale([
             "pid"=>$myinput["pid"]
         ],[
