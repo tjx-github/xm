@@ -1,7 +1,12 @@
 <?php
 //接口
 interface InterfaceProductListShow{
-    public  function showviewdata();  #返回veiw加工过的数据
-    public  function GetSearchBlock(); #获取搜索栏数据
-    public  function searchview(); #返回搜索内容
+    public  function showallview();  #显示全网的
+    public  function showpview();  #显示私人的
+    public  function updae_p(); #更改私人的  
+    public  function updae_a();  #更全网/他人的
+    public  function showoneaview();  #显示一个，全网的详情
+    public  function showonepview();  #显示一个私人的详情
+    public  function delete_();  
+
 }

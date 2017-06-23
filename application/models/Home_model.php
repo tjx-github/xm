@@ -788,7 +788,8 @@ class Home_model extends CI_Model
             'cityid'=>$cityid,'agentid'=>$agentid,'receiver'=>$receiver,'payment'=>$payment,'owner'=>$owner,'startday'=>$startday,
             'endday'=>$endday,'havephoto'=>$havephoto,
             "datetime_sort"=>(int) $this->input->get("datetime_sort"),
-            "costprice_sort"=>(int) $this->input->get("costprice_sort")
+            "costprice_sort"=>(int) $this->input->get("costprice_sort"),
+            "video"=>$this->input->get("video")
                 );
         foreach ($search as $key => $value) {
             $searchstr=$searchstr.'&'.$key.'='.$value;
@@ -809,7 +810,7 @@ class Home_model extends CI_Model
         if($storedate){ $storedatesql=" and  storedate= '".$storedate."' " ;}
         if($havephoto<>''){ $havephotosql=" and  havephoto= ".$havephoto." " ;}
         if($payment){ $paymentsql=" and  payment= ".$payment." " ;}
-
+        
         if($startday){
             $starttime=strtotime($startday);
             $startdaysql=" and  storedate >=".$starttime." ";
@@ -819,15 +820,24 @@ class Home_model extends CI_Model
             $endtime=strtotime($endday);
             $enddaysql=" and  storedate <=".$endtime." ";
         }
+        if($this->input->get("video") == 1){
+            $video =" and video !=''  ";
+        }elseif($this->input->get("video") == 2 ){
+            $video ="and video =''  ";
+        }else{
+            $video ="";
+        }
 
 
+        $sqlstr=$titlesql.$pidsql.$categorysql.$saletypesql.$sizesql.$storeidsql.$statussql.$cityidsql
+                .$agentidsql.$receiversql.$paymentsql.$ownersql.$storedatesql.
+                $havephotosql.$startdaysql.$enddaysql;
+        $sqlstr .=$video;
 
-        $sqlstr=$titlesql.$pidsql.$categorysql.$saletypesql.$sizesql.$storeidsql.$statussql.$cityidsql.$agentidsql.$receiversql.$paymentsql.$ownersql.$storedatesql.$havephotosql.$startdaysql.$enddaysql;
         // 计算总页数
         $wd = $this->uri->segment(4, '0');
         
-        $sql = 'select id from ' . PREFIX . 'product where siteid='.SITEID.' '.$sqlstr;
-        
+       $sql = 'select id from ' . PREFIX . 'product where siteid='.SITEID.' '.$sqlstr;
 
 
         $query = $this->db->query($sql);
@@ -862,6 +872,7 @@ class Home_model extends CI_Model
         $config['last_tag_close'] = '</li>';
         $this->pagination->initialize($config);
         $pagelink = $this->pagination->create_links();
+        
         $this->db->order_by("id", "desc");
         $intpage = $this->get_page(3);
         $limitstr = ' limit ' . ($intpage - 1) * $config['per_page'] . ',' . $config['per_page'];
@@ -870,6 +881,7 @@ class Home_model extends CI_Model
 
 
         $query = $this->db->query($sql);
+        
         //$query = $this->db->get(PREFIX.'consult', $config['per_page'],($intpage-1)*$config['per_page']);
         $rs = $query->result();
 
@@ -877,7 +889,6 @@ class Home_model extends CI_Model
             $rs[$key]->storename=$this->getC($value->storeid, 'id', 'name', PREFIX.'store');
             # code...
         }
-
         foreach ($rs as $key => $value) {
             $rs[$key]->city=$this->getC($value->cityid, 'id', 'name', PREFIX.'city');
             # code...
@@ -891,10 +902,10 @@ class Home_model extends CI_Model
         foreach ($rs as $key => $value) {
             $rs[$key]->payment=$this->getC($value->payment, 'id', 'name', PREFIX.'sale_payment');
         }
-
+ 
  
             $data = array('productlist' => $rs, 'pagelink' => $pagelink, 'search' => $search,'searchstr'=>$searchstr, 'count' => $total_rows);
-         
+    
         return $data;
     }
 

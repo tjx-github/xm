@@ -1,5 +1,4 @@
- 
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -177,11 +176,17 @@
      
 
          <select name="havephoto" id="havephoto" class="form-control" style="width:120px;">
-                                        <option value="">是否拍照</option>
-                                         <option value="">全部</option>
-                                        <option value="1" <?php if($search['havephoto']=='1'){echo 'selected';} ?>>是</option>
-                                        <option value="0" <?php if($search['havephoto']=='0'){echo 'selected';} ?>>否</option>
-                                     </select> 
+            <option value="">是否拍照</option>
+             <option value="">全部</option>
+            <option value="1" <?php if($search['havephoto']=='1'){echo 'selected';} ?>>是</option>
+            <option value="0" <?php if($search['havephoto']=='0'){echo 'selected';} ?>>否</option>
+         </select> 
+         <select name="video" id="video" class="form-control" style="width:120px;">
+            <option value="">是否拍视频</option>
+             <option value="">全部</option>
+            <option value="1" >是</option>
+            <option value="2" >否</option>
+         </select> 
 
   </div>
 
@@ -246,6 +251,7 @@
                                     </thead>
                                     <tbody>
                                         <?php 
+                                        
                                         foreach ($productlist as $key => $value) {
                                             # code...
                                         
@@ -415,7 +421,7 @@
         query=query+'&havephoto='+$('#havephoto').val();
         query=query+'&owner='+$('#owner').val();
         query=query+'&payment='+$('#payment').val();
-        
+        query += "&video=" +$("#video").val();
         
         query=query+'&datetime_sort='+$("#datetime_sort").val();
         query=query+'&costprice_sort='+$("#costprice_sort").val();

@@ -4,7 +4,9 @@ spl_autoload_register(function ($class) {
 //    echo str_replace("\\","/",  __DIR__."/showdata/".$class . ".php<br>");
     if(is_file(str_replace("\\","/",  __DIR__."/Controller/".$class . ".php") )){
          include_once str_replace("\\","/",  __DIR__."/Controller/".$class . ".php");
-    } 
+    } else {
+        die("错误  不存在". str_replace("\\","/",  __DIR__."/Controller/".$class . ".php"). "文件！");
+    }
 });
 //按角色 显示 
 final class Factory  {
@@ -19,19 +21,12 @@ final class Factory  {
         if(array_key_exists(md5($classname), self::$object)){
             return self::$object[md5($classname)];  
         }
-
-        die;
-//        if(  preg_match("/^". $name ."[0-9]+$/",$classname)  ){
             return  self::Set(new $classname() , md5($classname) ,$ci_obj);
-//        } else {
-//            exit("错误");
-//        }
     }
     
     static private function Set(InterfaceProductListShow $obj ,$key ,$ci){
         self::$object[$key]=$obj;
         $obj->ci($ci);
-        
         return $obj;
     }
     static public function del($name) {

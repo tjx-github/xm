@@ -6,6 +6,7 @@ date_default_timezone_set('PRC');
 //}
 
 class Home  extends CI_Controller {
+    private static $login;
 //    use Trait_;
     function __construct() {
         global $login;
@@ -15,6 +16,7 @@ class Home  extends CI_Controller {
         $this->load->model('user_model');
         $this->load->model('home_model');
         $this->load->model('sms_model');
+        $this->load->model('PowerModel');
         $this->load->library('upload');       
         $this->load->library('image_lib');
         $this->load->library('pagination');
@@ -33,6 +35,7 @@ class Home  extends CI_Controller {
             {
                 define("SITEID", $login['id']);
             }
+            self::$login=$login;
         }
         $this->load->model("UpdateSaleOrProductModel","TUpdate");
     }
@@ -1033,6 +1036,8 @@ class Home  extends CI_Controller {
             die(json_encode($data));
         }
     }
+    //显示全网库存中的一个库存信息
+
 
 #编辑产品
     public function product_edit(){
@@ -1040,6 +1045,7 @@ class Home  extends CI_Controller {
         $this->updatevideo();
         $data['login']=$login;
         $id=$this->uri->segment(3);
+      
         $proobj=$this->db->from(PREFIX.'product')->where(array('id'=>$id,'siteid'=>SITEID))->get()->result_array();
         if(count($proobj)<1)
         {
@@ -1091,15 +1097,35 @@ class Home  extends CI_Controller {
         $this->load->view('home/product_edit',$data);
 
     }
+    private function Factory($controller,$C_N){
+        $data=$this->PowerModel->IfPower("home/".$controller, self::$login['roleid'] );
+        if(empty($data)){
+            exit("无权访问！");
+        }
+        return  Factory::GetObject( $data[0]['AdminRoleid'] , $C_N  ,$this);
+    }
+    //我的库存
+    public function product_private_list(){
+//        $this->Factory("product_private_list","ProductPrivateList") ->showallview();
+       
+    }
+    #显示私有 某一商品详情
+    public function product_p_one(){
+        if($login['roleid'] != 5){
+            return $this->Factory("product_list","Product") ->selete_();
+        }
 
-    /* 产品列表 */
+    }
+    /* 产品列表   全网*/
     public function product_list(){
         global $login;
-       
-        $object=Factory::GetObject($login['roleid'] ,"ProductRoleDataList" ,$this );
-        return $object->showviewdata();
+        if($login['roleid'] != 5){
+            return $this->Factory("product_list","Product") ->showallview();
+        }
+        
         
         $data=$this->home_model->product_list();
+     
         $data['login']=$login;
 /*
  * uz_sale	销售表
@@ -1130,7 +1156,7 @@ class Home  extends CI_Controller {
         $prolisturl='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
         $this->session->prolisturl=$prolisturl;
         $this->session->sess_expiration=31536000;
-
+        
         $data['nav']=$this->load->view('home/nav',$data,true);
         $this->load->view('home/product_list',$data);
     }
@@ -1176,6 +1202,9 @@ class Home  extends CI_Controller {
         $myinput['storedate']=strtotime($myinput['storedate']);
 
         $havephoto= $this->input->post('havephoto', true);
+        if($this->input->post('pvideo', true)){
+            $myinput['video']=$this->input->post('pvideo', true);
+        }
         if($havephoto!=1)
         {
             $havephoto=0;
