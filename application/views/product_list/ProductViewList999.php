@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>全网库存</title>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
 <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -49,7 +49,7 @@
 <body>
 
 <div id="wrapper">
-       <?php echo $menu;?>
+       <?php  echo $menu;?>
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
@@ -79,6 +79,18 @@
                                     <input type="submit" class="btn btn-success "  value="搜索" > </input>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-3 ">查询总记录:<?php echo $count;?> <a href="<?php  
+                               
+                                        if(strpos($_SERVER['REQUEST_URI'] ,"?") === false){
+                                            echo $_SERVER['REQUEST_URI']."?download=true";
+                                        } else {
+                                            echo $_SERVER['REQUEST_URI']."&download=true";
+                                        }
+                                        
+                                        
+                                        ;?>"  target="_blank">导出EXCEL格式 </a></div>
+                            </div>
                         </form>
                     </div>
                     <div class="panel-body">
@@ -90,7 +102,7 @@
                                         <th>产品名称</th>
                                         <th>产品类别</th>
                                         <th>销售价</th> 
-                                        <th>同行价</th>
+                                        <th>代理价</th>
                                         <th>地点</th>
                                         <th>查看详情</th>
                                     </tr>
@@ -98,7 +110,7 @@
                                 <tbody id="body">
                                     <tr v-for="k in body">
                                         <td v-for="(va,key) in k">
-                                            <button class="btn btn-outline btn-success" v-bind:value="[va]" v-if="key === 'id'" data-toggle="modal" data-target="#myModal">查看{{va}}</button>
+                                            <button class="btn btn-outline btn-success" v-bind:value="[va]" v-if="key === 'id'" data-toggle="modal" data-target="#myModal">查看</button>
                                             <div v-else>{{va}}</div>
                                         </td>
                                     </tr>
@@ -143,7 +155,7 @@
    $(function(){
         $(".btn-outline").click(function(){
             $("#put").html("");
-            $.get("<?php   echo site_url("home/product_edit");  ?>/"+$(this).val(),function(data){                   
+            $.get("<?php   echo site_url("home/product_edit");  ?>",{pid:$(this).val()},function(data){                   
                    $("#put").html(data);
             }); 
         });

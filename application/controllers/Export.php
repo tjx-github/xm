@@ -83,8 +83,7 @@ class Export extends CI_Controller {
         $storedate='';
         $paymentsql='';
 
-         
-
+  
         $title = $this->input->get('title', true);
         $pid = $this->input->get('pid', true);
         $saletype = $this->input->get('saletype', true);
@@ -105,6 +104,8 @@ class Export extends CI_Controller {
         $endday= $this->input->get('endday', true);
         $payment= $this->input->get('payment', true);
          
+       
+        
         $searchstr='';
         $search=array('title'=>$title,'pid'=>$pid,'category'=>$category,'saletype'=>$saletype,'size'=>$size,'storeid'=>$storeid,'status'=>$status,'cityid'=>$cityid,'agentid'=>$agentid,'receiver'=>$receiver,'owner'=>$owner,'startday'=>$startday,'endday'=>$endday,'havephoto'=>$havephoto,'payment'=>$payment);
         foreach ($search as $key => $value) {
@@ -281,7 +282,7 @@ class Export extends CI_Controller {
     exit;
  
 }
-
+    
 
 
   /* 导出产品 */

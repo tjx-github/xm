@@ -174,7 +174,8 @@ class User extends CI_Controller {
 			if($user)
 			{
 				//echo 'user is ok';
-				 $newpass=md5($password.$user['salt']);
+
+				$newpass=md5($password.$user['salt']);
 				$oldpass=$user['password'];
 				
 				if($newpass==$oldpass)
@@ -472,7 +473,6 @@ class User extends CI_Controller {
 	public function logout(){
 		unset($_SESSION['uid']);
 		unset($_SESSION['v']);
-	 	
 		header('location:'.site_url('user/login'));
 
 	}

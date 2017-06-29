@@ -15,6 +15,7 @@ class Menu extends \CI_Model{
                     ->join(PREFIX."admin a","a.AdminRoleid=p.BelongAdminRoleid ","inner")
                     ->join (" (select MenuName,MenuId from  ".PREFIX."menu where frommenuid is null) k","k.MenuId=m.FromMenuId","inner")
                     ->where("p.PowerEffective=1 and p.BelongAdminRoleid=". $login['roleid'])
+                    ->order_by("k.MenuId asc,m.MenuID")
                     ->get()->result_array();
     }
 }

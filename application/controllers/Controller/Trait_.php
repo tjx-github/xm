@@ -19,6 +19,7 @@ trait Trait_  {
         }
         return self::$ci->load->view("menu",['menu'=>$b],true );
     }
+    
     static public function page_html($function,$count){
             self::$ci->load->library('pagination');
             $config['base_url'] =site_url($function);

@@ -916,8 +916,7 @@ class Home_model extends CI_Model
   /*
         产品列表
     */
-     function sale_list()
-    {
+     function sale_list(){
         //引入登录信息
         global $login;
     
@@ -1037,9 +1036,7 @@ class Home_model extends CI_Model
         $limitstr = ' limit ' . ($intpage - 1) * $config['per_page'] . ',' . $config['per_page'];
 
         
-        $sql = "select * from " . PREFIX . "sale  where siteid=".SITEID." ".$sqlstr.$orderstr.$limitstr;
-        
-
+          $sql = "select * from " . PREFIX . "sale  where siteid=".SITEID." ".$sqlstr.$orderstr.$limitstr;
         $query = $this->db->query($sql);
         //$query = $this->db->get(PREFIX.'consult', $config['per_page'],($intpage-1)*$config['per_page']);
         $rs = $query->result();
@@ -1061,7 +1058,6 @@ class Home_model extends CI_Model
         }
 
         $data = array('salelist' => $rs, 'pagelink' => $pagelink, 'search' => $search, 'searchstr'=>$searchstr,'count' => $total_rows);
-        
         return $data;
     }
 

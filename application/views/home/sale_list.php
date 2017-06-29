@@ -238,7 +238,7 @@
                                             <td>￥<?php echo $value->siteprofit?></td>
                                             
                                             <td>
-                                            <?php echo date('Y-m-d',$value->saletime);?>
+                                            <?php echo date('Y-m-d',$value->saletime) ;?>
                                         </td>
                                              <th>
                                              <?php 

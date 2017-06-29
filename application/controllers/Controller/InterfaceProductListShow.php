@@ -1,8 +1,8 @@
 <?php
 //接口
 interface InterfaceProductListShow{
-    public  function showallview();  #显示全网的
-    public  function showpview();  #显示私人的
+    public  function showallview();  #显示全网的 list
+    public  function showpview();  #显示私人的  list
     public  function updae_p(); #更改私人的  
     public  function updae_a();  #更全网/他人的
     public  function showoneaview();  #显示一个，全网的详情
