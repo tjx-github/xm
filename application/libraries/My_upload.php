@@ -2,7 +2,7 @@
  
 class MY_Upload extends CI_Upload {
     public function base64_upload ($updir="./uploads/",$base64_image) {
-        parent::base64_upload($updir="./uploads/",$base64_image);
+//        parent::base64_upload($updir="./uploads/",$base64_image);
     // $base64_image = str_replace(' ', '+', $base64);
         //post的数据里面，加号会被替换为空格，需要重新替换回来，如果不是post的数据，则注释掉这一行
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image, $result)){

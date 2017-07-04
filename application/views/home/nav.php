@@ -71,7 +71,7 @@
 
 
                         
-<?php  if($login['roleid']==5){?>
+<?php  if($login['roleid']==5  ){?>
                         <li>
                             <a href="#"><i class="fa fa-table fa-fw"></i> 咨询管理 <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">

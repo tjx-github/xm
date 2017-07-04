@@ -83,8 +83,7 @@ class Export extends CI_Controller {
         $storedate='';
         $paymentsql='';
 
-         
-
+  
         $title = $this->input->get('title', true);
         $pid = $this->input->get('pid', true);
         $saletype = $this->input->get('saletype', true);
@@ -105,8 +104,19 @@ class Export extends CI_Controller {
         $endday= $this->input->get('endday', true);
         $payment= $this->input->get('payment', true);
          
+       
+        
         $searchstr='';
-        $search=array('title'=>$title,'pid'=>$pid,'category'=>$category,'saletype'=>$saletype,'size'=>$size,'storeid'=>$storeid,'status'=>$status,'cityid'=>$cityid,'agentid'=>$agentid,'receiver'=>$receiver,'owner'=>$owner,'startday'=>$startday,'endday'=>$endday,'havephoto'=>$havephoto,'payment'=>$payment);
+        $search=array('title'=>$title,'pid'=>$pid,'category'=>$category,
+            'saletype'=>$saletype,'size'=>$size,'storeid'=>$storeid,'status'=>$status,
+            'cityid'=>$cityid,'agentid'=>$agentid,'receiver'=>$receiver,'owner'=>$owner,
+            'startday'=>$startday,'endday'=>$endday,'havephoto'=>$havephoto,
+            'payment'=>$payment);
+//        print_r($_GET);
+//        print_r($search);
+//        print_r(array_diff_key($_GET,$search));
+        
+        
         foreach ($search as $key => $value) {
             $searchstr=$searchstr.'&'.$key.'='.$value;
         }
@@ -126,8 +136,17 @@ class Export extends CI_Controller {
         if($storedate){ $storedatesql=" and  storedate= '".$storedate."' " ;}
         if($havephoto<>''){ $havephotosql=" and  havephoto= ".$havephoto." " ;}
         if($payment){ $paymentsql=" and  payment= ".$payment." " ;}
-
-
+        
+       
+        if($this->input->get("video") == 1){
+            $video =" and video !=''  ";
+        }elseif($this->input->get("video") == 2 ){
+            $video ="and video =''  ";
+        }else{
+            $video ="";
+        }
+        
+        
         if($startday){
             $starttime=strtotime($startday);
             $startdaysql=" and  storedate >=".$starttime." ";
@@ -138,16 +157,27 @@ class Export extends CI_Controller {
             $enddaysql=" and  storedate <=".$endtime." ";
         }
 
-        $sqlstr=$titlesql.$pidsql.$categorysql.$saletypesql.$sizesql.$storeidsql.$statussql.$cityidsql.$agentidsql.$receiversql.$ownersql.$storedatesql.$havephotosql.$startdaysql.$enddaysql.$paymentsql;
+        $sqlstr=$titlesql.$pidsql.$categorysql.$saletypesql.$sizesql.$storeidsql.$statussql.$cityidsql.$agentidsql.$receiversql.$ownersql.$storedatesql.$havephotosql.$startdaysql.$enddaysql.$paymentsql.$video;
         
-        self::str_sort($this) ? $order_by=self::str_sort($this) : $order_by = 'order by id desc';
+        self::str_sort($this) ? $order_by=self::str_sort($this) : $order_by = ' order by id desc';
 
 
-        
         
 //        $sql = "select * from " . PREFIX . "product  where siteid=".SITEID." ".$sqlstr.$orderstr;
-        $sql = "select * from " . PREFIX . "product  where siteid=".SITEID." ".$sqlstr.$order_by;
-        
+        if(SITEID === 0 ){
+            
+            if($sqlstr){
+//               $sql = 'select id from ' . PREFIX . 'product where  1'. $sqlstr;
+               $sql = "select * from " . PREFIX . "product  where 1  ".$sqlstr.$order_by;
+           }else{
+               
+               $sql = "select * from " . PREFIX . "product     ".$order_by;
+           }
+        }else{
+            $sql = "select * from " . PREFIX . "product  where siteid=".SITEID." ".$sqlstr.$order_by;
+        }
+
+       
         // Create new PHPExcel object
         $objPHPExcel = new PHPExcel();
         // Set document properties
@@ -281,7 +311,7 @@ class Export extends CI_Controller {
     exit;
  
 }
-
+    
 
 
   /* 导出产品 */

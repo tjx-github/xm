@@ -515,3 +515,35 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+$config['page_config']=[
+    "base_url"=> "/"  ,#路径
+//    "total_rows"总行数
+    "per_page"=>20,
+    "query_string_segment"=>"per_page",
+    "enable_query_strings"=>True,
+//    "uri_segment"=>3,
+    "full_tag_open"=>'<ul class="pagination">',
+    'full_tag_close' => ' </ul>',
+    'use_page_numbers' => TRUE,
+    'page_query_string' => FALSE, #url 类型   ？xx&2 或  xx/2/dsd/2
+    'reuse_query_string' => TRUE,
+    'num_links'=> 5,
+    'next_link'=> '&gt;',
+    'next_tag_open'=> '<li>',
+    'next_tag_close' => '</li>',
+    'prev_link' => '&lt;',
+    'prev_tag_open' => '<li>',
+    'prev_tag_close' => '</li>',
+    'cur_tag_open' => '<li class="active"><a href="#">',
+    'cur_tag_close' => '</a></li>',
+    'num_tag_open' => '<li>',
+    'num_tag_close' => '</li>',
+    'first_link'=> '首页',
+    'first_tag_open'=> '<li>',
+    'first_tag_close' => '</li>',
+    'last_link' => '尾页',
+    'last_tag_open' => '<li>',
+    'last_tag_close'=> '</li>'
+];
+//        $config['total_rows'] = $total_rows;
+

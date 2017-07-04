@@ -87,8 +87,8 @@
                                       
                                       
                                <div class="form-group form-inline" id="codediv">
-                                        <label>规格款式：</label>
-                                        <input class="form-control" name="size"  id="size"   placeholder="规格款式">
+                                        <label>配件：</label>
+                                        <input class="form-control" name="size"  id="size"   placeholder="配件">
                        </div>   
  
                                     
@@ -426,6 +426,11 @@
        if($('#status').val()=='')
       {
           $('#status').focus();
+          return false;
+      }
+       if($('#storeid').val()=='')
+      {
+          $('#storeid').focus();
           return false;
       }
 

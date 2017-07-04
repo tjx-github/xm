@@ -1,5 +1,4 @@
- 
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -71,7 +70,7 @@
                                
                                     <p><input type="text" class="form-control" name="title" id="title" value="<?php echo $search['title']?>" placeholder="关键词" style="width:100px;">
                                     <input type="text" class="form-control" name="pid" id="pid" value="<?php echo $search['pid']?>" placeholder="货号" style="width:100px;">
-                                          <input type="text" class="form-control" name="size" id="size" value="<?php echo $search['size']?>" placeholder="规格" style="width:100px;">
+                                          <input type="text" class="form-control" name="size" id="size" value="<?php echo $search['size']?>" placeholder="配件" style="width:100px;">
  
   
                                         <select name="saletype" id="saletype" class="form-control" style="width:120px;">
@@ -177,11 +176,17 @@
      
 
          <select name="havephoto" id="havephoto" class="form-control" style="width:120px;">
-                                        <option value="">是否拍照</option>
-                                         <option value="">全部</option>
-                                        <option value="1" <?php if($search['havephoto']=='1'){echo 'selected';} ?>>是</option>
-                                        <option value="0" <?php if($search['havephoto']=='0'){echo 'selected';} ?>>否</option>
-                                     </select> 
+            <option value="">是否拍照</option>
+             <option value="">全部</option>
+            <option value="1" <?php if($search['havephoto']=='1'){echo 'selected';} ?>>是</option>
+            <option value="0" <?php if($search['havephoto']=='0'){echo 'selected';} ?>>否</option>
+         </select> 
+         <select name="video" id="video" class="form-control" style="width:120px;">
+            <option value="">是否拍视频</option>
+             <option value="">全部</option>
+            <option value="1" >是</option>
+            <option value="2" >否</option>
+         </select> 
 
   </div>
 
@@ -204,13 +209,13 @@
     <!--===================-->
     <select name="datetime_sort" id="datetime_sort" class="form-control" style="width:150px;">
                 <option value="">按入库日期排序</option>
-                <option value="1">逆序</option>
-                <option value="2">正序</option>
+                <option value="1">从最近</option>
+                <option value="2">从最早</option>
     </select>
     <select name="costprice_sort" id="costprice_sort" class="form-control" style="width:150px;">
                 <option value="">按成本价排序</option>
-                <option value="1">逆序</option>
-                <option value="2">正序</option>
+                <option value="1">从价格最高</option>
+                <option value="2">从价格最低</option>
     </select>
      <!--==================-->
             <button class="btn btn-success " type="button" id="searchbtn">搜索 </button>
@@ -230,10 +235,11 @@
                                             <th>ID</th>
                                             <th>商品货号</th>
                                             <th>产品名称</th>
-                                             <th>规格款式</th>
+                                             <th>配件款式</th>
                                              <th>图片</th>
-                                            <th>销售类型</th>
+                                            <!--<th>销售类型</th>-->
                                              <th>成本价</th>
+                                             <th>销售价</th>
                                             <th>所在城市</th>
                                             <th>所属仓库</th>
                                             <th>入库日期</th>
@@ -246,6 +252,7 @@
                                     </thead>
                                     <tbody>
                                         <?php 
+                                        
                                         foreach ($productlist as $key => $value) {
                                             # code...
                                         
@@ -265,8 +272,9 @@
                                             <div style="position:absolute;margin-top:-150px;height:400px;width:400px;z-index:999;float:left;display:none;" id="imgdiv<?php echo $value->id;?>"> <img src="<?php echo site_url('/').$value->facephoto?>" height="400" width="400" class="imgborder" ></div>
                                         </td>
 
-                                            <td><?php echo $value->saletype?></td>
+                                            <!--<td><?php // echo $value->saletype?></td>-->
                                             <td><?php echo $value->costprice?></td>
+                                            <td><?php echo $value->saleprice;?></td>
                                             <td><?php echo $value->city?></td>
                                             <td><?php echo $value->storename?></td>
                                             <td><?php echo date('Y-m-d',$value->storedate)?></td>
@@ -415,7 +423,7 @@
         query=query+'&havephoto='+$('#havephoto').val();
         query=query+'&owner='+$('#owner').val();
         query=query+'&payment='+$('#payment').val();
-        
+        query += "&video=" +$("#video").val();
         
         query=query+'&datetime_sort='+$("#datetime_sort").val();
         query=query+'&costprice_sort='+$("#costprice_sort").val();

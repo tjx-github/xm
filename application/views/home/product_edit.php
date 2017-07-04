@@ -265,6 +265,16 @@
                                     <label>是否拍照</label>
                                    <input type="checkbox" name="havephoto" value="1" <?php if($product['havephoto']=='1'){echo 'checked';}?>>
                        </div> 
+              <div class="form-group form-inline" id="codediv">
+                                    <label>是否拍视频</label>
+                                    <?php 
+                                    if($product['video']){
+                                        echo '<input type="checkbox" name="" value="1" checked>';
+                                    }else{
+                                        echo '<input type="checkbox" name="pvideo" value="1" >';
+                                    }?>
+                                   
+                       </div> 
 
                
                <div class="form-group" id="codediv">
