@@ -46,10 +46,10 @@ class Home  extends CI_Controller {
     {
         global $login;
         
-        if($login['roleid'] == 3){
+        if($login['roleid'] == 3  || $login['roleid']==1){
            $data['nav']=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
         }else{
-            $data['nav']=$this->load->view('home/nav',$data,true);
+            $data['nav']=$this->load->view('home/nav',["login"=>$login],true);
         }
         
         $data['login']=$login;
@@ -836,11 +836,13 @@ class Home  extends CI_Controller {
 /*
     库存系统
 */
-    public function product_add()
-    {
+    public function product_add()    {
         global $login;
         $data['login']=$login;
-
+        
+//        if($login['roleid'] == 3){
+//            return $this->Factory("user/logout","ProductAdd") ->showoneaview();
+//        }
         
        
         $query = $this->db->query("select * from " . PREFIX . "category  order by ordernum asc");
@@ -867,8 +869,13 @@ class Home  extends CI_Controller {
         $query = $this->db->query("select * from " . PREFIX . "product_status  order by ordernum asc");
         $status = $query->result_array();
         $data['status'] = $status;
-
-        $data['nav']=$this->load->view('home/nav',$data,true);
+        if($login['roleid'] == 3){
+             $data['nav']=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
+        }else{
+            $data['nav']=$this->load->view('home/nav',$data,true);
+        }
+//echo $data['nav'];
+//die;
         $this->load->view('home/product_add',$data);
     }
 
@@ -1058,8 +1065,12 @@ class Home  extends CI_Controller {
         $this->updatevideo();
         $data['login']=$login;
         $id=$this->uri->segment(3);
-      
-        $proobj=$this->db->from(PREFIX.'product')->where(array('id'=>$id,'siteid'=>SITEID))->get()->result_array();
+      if(SITEID == 0){
+          $proobj=$this->db->from(PREFIX.'product')->where(array('id'=>$id))->get()->result_array();
+      }else{
+          $proobj=$this->db->from(PREFIX.'product')->where(array('id'=>$id,'siteid'=>SITEID))->get()->result_array();
+      }
+        
         if(count($proobj)<1)
         {
             exit('该产品不存在');
@@ -1107,6 +1118,12 @@ class Home  extends CI_Controller {
 
 
         $data['nav']=$this->load->view('home/nav',$data,true);
+        if($login['roleid'] == 3){
+            $data['nav']=$this->load->view('N',$data,true);
+        }else{
+            $data['nav']=$this->load->view('home/nav',$data,true);
+        }
+        
         $this->load->view('home/product_edit',$data);
 
     }
@@ -1119,13 +1136,54 @@ class Home  extends CI_Controller {
     }
     //我的库存
     public function product_private_list(){
+
         return $this->Factory("product_private_list","ProductPrivate") ->showpview();
-    }
-    public function product_private_edit(){
         global $login;
-        if($login['roleid'] == 3){
-            return $this->Factory("product_private_list","ProductPrivate") ->showoneaview();
-        }
+
+        
+        $data=$this->home_model->product_list();
+
+        $data['login']=$login;
+/*
+ * uz_sale	销售表
+ * uz_product	库存产品
+ */
+        $query = $this->db->query("select * from " . PREFIX . "category  order by ordernum asc");
+        $category = $query->result_array();
+        $data['category'] = $category;
+        $query = $this->db->query("select * from " . PREFIX . "city  order by ordernum asc");
+        $city = $query->result_array();
+        $data['city'] = $city;
+        $query = $this->db->query("select * from " . PREFIX . "saleman  order by ordernum asc");
+        $saleman = $query->result_array();
+        $data['saleman'] = $saleman;
+        $query = $this->db->query("select * from " . PREFIX . "store  order by ordernum asc");
+        $store = $query->result_array();
+        $data['store'] = $store;
+
+        $query = $this->db->query("select * from " . PREFIX . "product_status  order by ordernum asc");
+        $status = $query->result_array();
+        $data['status'] = $status;
+        $query = $this->db->query("select * from " . PREFIX . "user  where roleid=3 order by id asc");
+        $agent = $query->result_array();
+        $data['agent'] = $agent;
+        $query = $this->db->query("select * from " . PREFIX . "sale_payment  order by ordernum asc");
+        $payment = $query->result_array();
+        $data['payment'] = $payment;
+        $prolisturl='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+        $this->session->prolisturl=$prolisturl;
+        $this->session->sess_expiration=31536000;
+
+        $data['nav']=$this->load->view('N',$data,true);
+
+        $this->load->view('home/product_list',$data);
+    }
+    public function product_private_edit(){   #（私有数据）显示要编辑数据详情 view
+        global $login;
+        
+//        if($login['roleid'] == 3){
+            return $this->Factory("product_private_list","ProductPrivate") ->showonepview();
+//        }
     }
 
     /* 产品列表   全网*/
@@ -1134,10 +1192,10 @@ class Home  extends CI_Controller {
         if($login['roleid'] == 3){
             return $this->Factory("product_list","Product") ->showallview();
         }
-        
+
         
         $data=$this->home_model->product_list();
-     
+
         $data['login']=$login;
 /*
  * uz_sale	销售表
@@ -1169,7 +1227,13 @@ class Home  extends CI_Controller {
         $this->session->prolisturl=$prolisturl;
         $this->session->sess_expiration=31536000;
         
+
         $data['nav']=$this->load->view('home/nav',$data,true);
+         if($login['roleid'] == 3){
+             $data['nav']=$this->load->view('N',$data,true);
+         }else{
+             $data['nav']=$this->load->view('home/nav',$data,true);
+         }
         $this->load->view('home/product_list',$data);
     }
 
@@ -1188,8 +1252,10 @@ class Home  extends CI_Controller {
      public function product_edit_save(){
         global $login;
         $data['login']=$login;
+    
         $id=$this->input->post('id', true);
-        $myinput['siteid'] = SITEID;
+//        $myinput['siteid'] = SITEID;
+        
         $myinput['pid'] = $this->input->post('pid', true);
         $myinput['title'] = $this->input->post('title', true);
         $myinput['saletype'] = $this->input->post('saletype', true);
@@ -1741,12 +1807,21 @@ public function sale_add()
 
         $pid=$this->uri->segment(3,0);
 
+//        echo $pid= preg_replace("/（.+$/","",urldecode($pid));
+         
         $product=array('title'=>'','agentid'=>0,'pid'=>'','category'=>'','costprice'=>'0','otherfee'=>'0','carefee'=>'0','receiver'=>'','facephoto'=>'');
 
-        if($pid!='')
+        if($pid !='')
         {
-
+            $pid= urldecode($pid);
+//                $proobj=$this->db->from(PREFIX.'product')->where(array('pid'=>$pid,'siteid'=>SITEID))->get()->result_array();
+             if( SITEID === 0  ){
+                $proobj=$this->db->from(PREFIX.'product')->where(array('pid'=>$pid))->get()->result_array();
+//                print_r($proobj);
+//                die;
+            }else{
                 $proobj=$this->db->from(PREFIX.'product')->where(array('pid'=>$pid,'siteid'=>SITEID))->get()->result_array();
+            }
                 if(count($proobj)<1)
                 {
                     exit('该订单不存在');
@@ -1755,7 +1830,12 @@ public function sale_add()
                     $product=$proobj[0];
                 }
 
-                $proobj=$this->db->from(PREFIX.'care')->where(array('pid'=>$pid,'siteid'=>SITEID))->get()->result_array();
+//                $proobj=$this->db->from(PREFIX.'care')->where(array('pid'=>$pid,'siteid'=>SITEID))->get()->result_array();
+                 if( SITEID === 0  ){
+                    $proobj=$this->db->from(PREFIX.'care')->where(array('pid'=>$pid))->get()->result_array();
+                }else{
+                    $proobj=$this->db->from(PREFIX.'care')->where(array('pid'=>$pid ,'siteid'=>SITEID ))->get()->result_array();
+                }
                 if(count($proobj)<1)
                 {
                      $product['carefee']=0;

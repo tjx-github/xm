@@ -5,6 +5,7 @@ abstract class CAbstract   implements InterfaceProductListShow  {
     protected $search=[];
     static $searchdata=[];   
     private $select=[];
+
     public  function SearchHeader() {
         if(! empty(self::$searchdata)   || empty($this->search) ){
             return ;
@@ -16,7 +17,7 @@ abstract class CAbstract   implements InterfaceProductListShow  {
 //            self::$searchdata[$TableName]= $obj ->searchquery(PREFIX.$TableName, $data['column'] ,$data['where'],$data['order']  );
         }
      
-        self::$searchdata= json_encode(self::$searchdata);
+        return self::$searchdata= json_encode(self::$searchdata);
     }
     public  function updae_p(){}  
     public  function updae_a(){}  

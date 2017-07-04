@@ -148,9 +148,9 @@
                                         <td>{{value.pid}}</td>
                                         <td>{{value.title}}</td>
                                         <td class="imglist" id="415">
-                                              <a v-bind:href="[value.facephoto]" target="_blank"><img v-bind:src="[value.facephoto]" width="80" height="80"></a>
+                                              <img v-bind:src="[value.facephoto]" width="80" height="80">
                                              <div style="position: absolute; margin-top: -150px; height: 400px; width: 400px; z-index: 999; float: left; display: none;">
-                                                 <img v-bind:src="[value.facephoto]" height="400" width="400" class="imgborder">
+                                                 <a v-bind:href="[value.facephoto]" target="_blank"><img v-bind:src="[value.facephoto]" height="400" width="400" class="imgborder"></a>
                                              </div>
                                         </td>
                                         <td>{{value.stname}}</td>

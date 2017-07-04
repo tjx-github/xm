@@ -37,7 +37,7 @@ class ProductPrivate3 extends CAbstract{
               );
        return json_encode($data);
     }
-    public function showoneaview() {
+    public function showonepview() {
         $this->CI_obj()->load->model("GetProductPrivateModel3");
         $data=$this->CI_obj()->GetProductPrivateModel3->getaone(  $this->CI_obj()->input->get("pid") );
         empty($data) && exit("抱歉。找不到相应数据");

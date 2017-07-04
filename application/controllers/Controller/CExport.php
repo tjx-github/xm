@@ -1,8 +1,8 @@
 <?php
 class CExport {
-    static $export=[];
-    static $Key="A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,O1,P1,Q1,R1,S1,T1,U1,V1,W1,S1,Y1,Z1";
-    static $Key2="A,B,C,D,E,F,G,H,I,J,K,L,M,O,P,Q,R,S,T,U,V,W,S,Y,Z";
+    static private $export=[];
+    static private $Key="A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,O1,P1,Q1,R1,S1,T1,U1,V1,W1,S1,Y1,Z1";
+    static private $Key2="A,B,C,D,E,F,G,H,I,J,K,L,M,O,P,Q,R,S,T,U,V,W,S,Y,Z";
     static function downloadxml($key,$data,$delkey=[]){
 //        print_r($data);
 //        die;
@@ -39,7 +39,7 @@ class CExport {
                $obj->setCellValue( $key[$k2].($k1+2) ,$vv );
                $k2++;
             }
-            $k2=0;
+//            $k2=0;
         }
         $filename =date('YmdHis')."_".md5(json_encode($data)) .".xlsx";
         self::$export->getActiveSheet()->setTitle('Simple');

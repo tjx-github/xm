@@ -2,6 +2,7 @@
 
 class PowerModel extends CI_Model{
     public function IfPower($controller,$siteid){
+        
         return 
             $this->db->select("p.AdminRoleid")
                 ->from(PREFIX."power p")

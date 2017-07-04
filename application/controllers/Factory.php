@@ -1,4 +1,5 @@
 <?php
+
 spl_autoload_register(function ($class) {
 //    echo $class."<br>\n";
 //    echo str_replace("\\","/",  __DIR__."/showdata/".$class . ".php<br>");
@@ -10,10 +11,11 @@ spl_autoload_register(function ($class) {
 });
 //按角色 显示 
 final class Factory  {
+    
     static private $object=[];
 /*
  *  $roleide  用户权限码
- *  $tpye      方法类型
+ *  $name      方法类型
  *
  */
     public static function GetObject($roleide,$name,$ci_obj){  #返回对象

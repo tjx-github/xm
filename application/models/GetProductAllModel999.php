@@ -23,7 +23,7 @@ class GetProductAllModel999 extends CI_Model{
             if($boo){
                 return 
                     $this->db->from("uz_product p")
-                            ->select("p.pid ,p.title,ca.name as caname,p.rivalprice ,p.saleprice,c.name as cname,p.id")
+                            ->select("p.pid ,p.title ,ca.name as caname,p.rivalprice ,p.saleprice,c.name as cname,p.id")
                             ->join("uz_store s","s.id=p.storeid","inner")
                             ->join("uz_category ca","ca.id=p.category")
                             ->join("uz_city  c","c.id=p.cityid","inner")
@@ -34,7 +34,7 @@ class GetProductAllModel999 extends CI_Model{
             }
         return
             $this->db->from("uz_product p")
-                    ->select("p.pid ,p.title,ca.name as caname,p.rivalprice ,p.saleprice,c.name as cname,p.id")
+                    ->select("p.pid ,p.title,p.facephoto,ca.name as caname,p.rivalprice ,p.saleprice,c.name as cname,p.id")
                     ->join("uz_store s","s.id=p.storeid","inner")
                     ->join("uz_category ca","ca.id=p.category")
                     ->join("uz_city  c","c.id=p.cityid","inner")

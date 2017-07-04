@@ -14,12 +14,11 @@ class Product999 extends CAbstract{
                 
                 ], $this->getdata(TRUE),['id']);
         }
-        
-        $this->SearchHeader();
+
         $this->CI_obj()->load->view("product_list/ProductViewList999",[
             "menu"=>$this->MenuView(),
             "data"=>$this->getdata(),
-            "search"=> self::$searchdata,
+            "search"=> $this->SearchHeader(),
             "count"=>$this->CI_obj()->all->get_count() ,
             "page"=> self::page_html("home/product_list",  $this->CI_obj()->all->get_count()  )
         ]);

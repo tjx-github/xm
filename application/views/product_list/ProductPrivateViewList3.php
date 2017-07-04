@@ -8,15 +8,6 @@
     <meta name="author" content="">
 
     <title>我的库存</title>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="<?php echo site_url('/')?>bootadmin/vendor/datatables/js/jquery.js"></script>
     <!-- Bootstrap Core CSS -->
@@ -101,6 +92,7 @@
                                     <tr>
                                         <th>商品编号</th>
                                         <th>产品名称</th>
+                                        <th>图片</th>
                                         <th>产品类别</th>
                                         <th>销售价</th> 
                                         <th>代理价</th>
@@ -112,6 +104,12 @@
                                     <tr v-for="k in body">
                                         <td v-for="(va,key) in k">
                                             <button class="btn btn-outline btn-success" v-bind:value="[va]" v-if="key === 'id'" data-toggle="modal" data-target="#myModal">查看</button>
+                                            <div v-else-if="key === 'facephoto'" class="imglist">
+                                                    <img v-bind:src="[va]" height="50" width="50">
+                                                    <div style="position:absolute;margin-top:-150px;height:400px;width:400px;z-index:999;float:left;display:none;"> 
+                                                        <a v-bind:href="[va]"  target="_blank"><img v-bind:src="[va]"  height="400" width="400" class="imgborder" ></a> 
+                                                    </div>
+                                            </div>
                                             <div v-else>{{va}}</div>
                                         </td>
                                     </tr>
@@ -154,6 +152,13 @@
     <script>
         
    $(function(){
+       $('.imglist').on("mouseover mouseout",function(event){
+            if(event.type == "mouseover"){
+                $(this).children().eq(1).show();
+            }else if(event.type == "mouseout"){
+                    $(this).children().eq(1).hide();
+            }
+        });
         $(".btn-outline").click(function(){
             $("#put").html("");
             $.get("<?php   echo site_url("home/product_private_edit");  ?>",{pid:$(this).val()},function(data){                   

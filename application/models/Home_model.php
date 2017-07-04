@@ -604,8 +604,8 @@ class Home_model extends CI_Model
         
         if($urgent){ $urgentsql=" and  urgent= '".$urgent."' " ;}
 
-        if($ispayback){ $ispaybacksql=" and ispayback= ".$ispayback." " ;}
-       
+//        if($ispayback){ $ispaybacksql=" and ispayback= ".$ispayback." " ;}
+       if(is_numeric($ispayback)){ $ispaybacksql=" and ispayback= ".$ispayback." " ;}
 
         if($startday){
             $starttime=strtotime($startday);
@@ -837,7 +837,16 @@ class Home_model extends CI_Model
         // 计算总页数
         $wd = $this->uri->segment(4, '0');
         
-       $sql = 'select id from ' . PREFIX . 'product where siteid='.SITEID.' '.$sqlstr;
+
+       if(SITEID === 0){
+           if($sqlstr){
+               $sql = 'select id from ' . PREFIX . 'product where  1'. $sqlstr;
+           }else{
+               $sql = 'select id from ' . PREFIX . 'product';
+           }
+       } else {
+           $sql = 'select id from ' . PREFIX . 'product where siteid='.SITEID.' '.$sqlstr;
+       }
 
 
         $query = $this->db->query($sql);
@@ -877,8 +886,16 @@ class Home_model extends CI_Model
         $intpage = $this->get_page(3);
         $limitstr = ' limit ' . ($intpage - 1) * $config['per_page'] . ',' . $config['per_page'];
 
-        $sql = "select * from " . PREFIX . "product  where siteid=".SITEID." ".$sqlstr.$order_by.$limitstr;
-
+//        $sql = "select * from " . PREFIX . "product  where siteid=".SITEID." ".$sqlstr.$order_by.$limitstr;
+        if(SITEID === 0){
+           if($sqlstr){
+               $sql = "select * from " . PREFIX . "product  where  1 ".$sqlstr.$order_by.$limitstr;
+           }else{
+               $sql = "select * from " . PREFIX . "product   ".$order_by.$limitstr;
+           }
+       } else {
+          $sql = "select * from " . PREFIX . "product  where siteid=".SITEID." ".$sqlstr.$order_by.$limitstr;
+       }
 
         $query = $this->db->query($sql);
         
@@ -905,7 +922,6 @@ class Home_model extends CI_Model
  
  
             $data = array('productlist' => $rs, 'pagelink' => $pagelink, 'search' => $search,'searchstr'=>$searchstr, 'count' => $total_rows);
-    
         return $data;
     }
 
@@ -967,8 +983,8 @@ class Home_model extends CI_Model
         if($payment){ $paymentsql=" and  payment= ".$payment." " ;}
         if($saleman){ $salemansql=" and  saleman = '".$saleman."' " ;}
         if($receiver){ $receiversql=" and  receiver = '".$receiver."' " ;}
-        if($ispayback){ $ispaybacksql=" and  ispayback = ".$ispayback." " ;}
-
+//        if($ispayback){ $ispaybacksql=" and  ispayback = ".$ispayback." " ;}
+        if(is_numeric($ispayback)){ $ispaybacksql=" and ispayback= ".$ispayback." " ;}
         if($saleplatform){ $saleplatformsql=" and  saleplatform = '".$saleplatform."' " ;}
         if($startday){
             $starttime=strtotime($startday);
@@ -984,12 +1000,12 @@ class Home_model extends CI_Model
             $time1='';
             $time2='';
             $tt='';
-            $oldtime=strtotime("-10 days",time());
+            $oldtime=strtotime("-10 day",time());
             $time1=date('Y-m-d',''.$oldtime);
            
             $time1=strtotime($time1);
-            $time2=strtotime("+1 days",$time1);
-            $checktimesql="and (saletime >=".$time1." and saletime <".$time2.")";
+            //$time2=strtotime("+1 days",$time1);
+            $checktimesql="and ( saletime <".$time1." and ispayback=0 and lcase(pid) like '%b%')";
         }
 
         

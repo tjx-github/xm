@@ -70,7 +70,7 @@
                                
                                     <p><input type="text" class="form-control" name="title" id="title" value="<?php echo $search['title']?>" placeholder="关键词" style="width:100px;">
                                     <input type="text" class="form-control" name="pid" id="pid" value="<?php echo $search['pid']?>" placeholder="货号" style="width:100px;">
-                                          <input type="text" class="form-control" name="size" id="size" value="<?php echo $search['size']?>" placeholder="规格" style="width:100px;">
+                                          <input type="text" class="form-control" name="size" id="size" value="<?php echo $search['size']?>" placeholder="配件" style="width:100px;">
  
   
                                         <select name="saletype" id="saletype" class="form-control" style="width:120px;">
@@ -235,10 +235,11 @@
                                             <th>ID</th>
                                             <th>商品货号</th>
                                             <th>产品名称</th>
-                                             <th>规格款式</th>
+                                             <th>配件款式</th>
                                              <th>图片</th>
-                                            <th>销售类型</th>
+                                            <!--<th>销售类型</th>-->
                                              <th>成本价</th>
+                                             <th>销售价</th>
                                             <th>所在城市</th>
                                             <th>所属仓库</th>
                                             <th>入库日期</th>
@@ -271,8 +272,9 @@
                                             <div style="position:absolute;margin-top:-150px;height:400px;width:400px;z-index:999;float:left;display:none;" id="imgdiv<?php echo $value->id;?>"> <img src="<?php echo site_url('/').$value->facephoto?>" height="400" width="400" class="imgborder" ></div>
                                         </td>
 
-                                            <td><?php echo $value->saletype?></td>
+                                            <!--<td><?php // echo $value->saletype?></td>-->
                                             <td><?php echo $value->costprice?></td>
+                                            <td><?php echo $value->saleprice;?></td>
                                             <td><?php echo $value->city?></td>
                                             <td><?php echo $value->storename?></td>
                                             <td><?php echo date('Y-m-d',$value->storedate)?></td>
