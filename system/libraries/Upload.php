@@ -46,7 +46,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		https://codeigniter.com/user_guide/libraries/file_uploading.html
  */
-
 class CI_Upload {
 
 	/**
@@ -1378,8 +1377,8 @@ class CI_Upload {
                                 'files' => $files
                         );
         }
-
-public function base64_upload ($updir="./uploads/",$base64_image) {
+ public function base64_upload ($updir="./uploads/",$base64_image) {
+//        parent::base64_upload($updir="./uploads/",$base64_image);
     // $base64_image = str_replace(' ', '+', $base64);
         //post的数据里面，加号会被替换为空格，需要重新替换回来，如果不是post的数据，则注释掉这一行
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image, $result)){
@@ -1402,5 +1401,6 @@ public function base64_upload ($updir="./uploads/",$base64_image) {
             return false;
         }
     }
+
 
 }

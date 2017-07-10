@@ -24,6 +24,11 @@
                                 <li>
                                     <a href="<?php echo site_url('home/product_add')?>">添加产品</a>
                                 </li>
+                                <?php if(SITEID == 0){?>
+                                <li>
+                                    <a href="<?php echo site_url('home/product_agent_add')?>">添加代理商产品</a>
+                                </li>
+                                <?php  }?>
                                 <li>
                                     <a href="<?php echo site_url('home/product_list')?>">产品列表</a>
                                 </li>

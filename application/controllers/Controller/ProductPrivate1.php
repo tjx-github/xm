@@ -15,21 +15,47 @@ class ProductPrivate1 extends CAbstract{
         
     ];
     public function showpview() {
-        
         self::$ci->load->model("GetProductPrivateModel1");
+        if(self::$ci->input->is_ajax_request()){
+            return self::ajax_data();
+        }
         $dat=self::$ci->GetProductPrivateModel1->GetData((int) self::$ci->uri->segment(3),self::$ci->config->item("page_config")['per_page']);
         self::$ci->load->view(
              "product_list/GetProductPrivateView1",
              [
                  "menu"=>$this->MenuView(),
                  "data"=> json_encode($dat),
-                 "pagelink"=> $this->page_html("/home/product_private_list",self::$ci->GetProductPrivateModel1->GetCount() ),
+                 "pagelink"=> self::page_html("/home/product_private_list",self::$ci->GetProductPrivateModel1->GetCount() ),
                  "search"=> $this->SearchHeader()
              ]
         );
         
     }
+    private static function ajax_data(){
+        return
+                self::$ci->load->view(
+                     "product_list/GetProductPrivateViewajax1",
+                     [
+                         "data"=> json_encode(self::$ci->GetProductPrivateModel1->GetData(0,self::$ci->config->item("page_config")['per_page'])),
+                         "pagelink"=> self::page_html("/home/product_private_list",self::$ci->GetProductPrivateModel1->GetCount() ),
+                     ]
+                );
+    }
+
     public function showonepview() {
-        
+        self::$ci->load->model("GetProductPrivateModel1");
+        $data=self::$ci-> GetProductPrivateModel1->GetOne((int)self::$ci->uri->segment(4));
+        if(empty($data)){
+            header("location: /home/product_private_list");
+            exit;
+        }
+        return  self::$ci->load->view("product_list/ProductShowOneP1",array_merge([
+                "menu"=>$this->MenuView(),
+                "product"=>$data[0]
+            ], json_decode($this->SearchHeader(),true)  ));
+    }
+    public function updae_p(){
+        self::$ci->load->model("GetProductPrivateModel1");
+        self::$ci-> GetProductPrivateModel1->UpdateOne((int) Model\IsOrGet::post("id"));
     }
 }

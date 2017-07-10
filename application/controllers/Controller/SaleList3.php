@@ -28,7 +28,7 @@ class SaleList3 extends CAbstract{
                     "search"=> self::$searchdata,
                     "body"=>json_encode($data),
                     "count"=>self::$ci->SaleModel3->getcount(),
-                    "pagehtml"=>$this->page_html("home/sale_list", self::$ci->SaleModel3->getcount()),
+                    "pagehtml"=> self::page_html("home/sale_list", self::$ci->SaleModel3->getcount()),
                     "menu"=>$this->MenuView()
                 ]
             );

@@ -80,15 +80,15 @@
                                     </thead>
                                     <tbody>
                                         <?php 
-                                        foreach ($store as $key => $value) {
-                                            # code...
                                         
+                                        foreach ($store as $key => $value) {
+
                                         ?>
                                         <tr>
                                             <form name="saveform<?php echo $value['id']?>" method="post" action="<?php echo site_url('home/store_edit_save')?>">
-                                            <td><?php echo $value['id']?><input name="id" type="hidden" value="<?php $value['id']?>"></td>
+                                            <td><?php echo $value['id']?><input name="id" type="hidden" value="<?php echo $value['id']?>" /></td>
                                             <td> <input name="name" type="text" value="<?php echo $value['name']?>"></td>
-                                            <td>  <?php echo $value['count']?> <a href="<?php echo site_url('home/product_list/?storeid='.$value['id'])?>">查看库存</a> </td>
+                                            <td>  <?php echo $value['count']?> <a href="<?php echo site_url('home/product_list/?storeid='. $value['id'])?>">查看库存</a> </td>
                                             <td><input name="ordernum" type="text" value="<?php echo $value['ordernum'];?>"></td>
                                              <th><input type="submit" name="Submit" value="保存" class="btn btn-success"> 
                                             <?php if($value['id']<>2){?>

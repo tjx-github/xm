@@ -195,7 +195,7 @@ switch (ENVIRONMENT)
 	{
 		chdir(dirname(__FILE__));
 	}
-
+        
 	if (($_temp = realpath($system_path)) !== FALSE)
 	{
 		$system_path = $_temp.DIRECTORY_SEPARATOR;
@@ -225,7 +225,7 @@ switch (ENVIRONMENT)
  */
 	// The name of THIS file
 	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
-
+        define("WEBDIR", __DIR__);
 	// Path to the system directory
 	define('BASEPATH', $system_path);
 

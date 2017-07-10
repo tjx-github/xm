@@ -19,7 +19,7 @@ class Export extends CI_Controller {
         
         if($login['roleid']==0)
         {
-            exit('ä½ æ²¡æœ‰æƒé™ <a href="'.site_url("user/logout").'">é€€å‡º</a>');
+            exit('ÄãÃ»ÓĞÈ¨ÏŞ <a href="'.site_url("user/logout").'">ÍË³ö</a>');
         }else
         {
             if($login['roleid']==5)
@@ -40,7 +40,7 @@ class Export extends CI_Controller {
 	{
 		echo 'OK';
 	}
-    static private function str_sort(CI_Controller $object){  #æ’åº
+    static private function str_sort(CI_Controller $object){  #ÅÅĞò
         $order=[1=>"desc","asc"];
         $str="order by  ";
         if(array_key_exists((int) $object->input->get("datetime_sort"),$order ) ){
@@ -59,7 +59,7 @@ class Export extends CI_Controller {
             return $str;
         }
     }
-     /* å¯¼å‡ºäº§å“ */
+     /* µ¼³ö²úÆ· */
     public function product(){
         global $login;
         $data['login']=$login;
@@ -181,36 +181,36 @@ class Export extends CI_Controller {
         // Create new PHPExcel object
         $objPHPExcel = new PHPExcel();
         // Set document properties
-        $objPHPExcel->getProperties()->setCreator("ä¼˜æ­£å“")
-                                     ->setLastModifiedBy("ä¼˜æ­£å“")
-                                     ->setTitle("ä¼˜æ­£å“æ–‡ä»¶")
-                                     ->setSubject("ä¼˜æ­£å“Excelæ–‡ä»¶")
-                                     ->setDescription("ä¼˜æ­£å“æ–‡ä»¶ï¼Œæ¥è‡ªç½‘ç«™ç³»ç»Ÿ")
-                                     ->setKeywords("ä¼˜æ­£å“")
-                                     ->setCategory("ä¼˜æ­£å“");
+        $objPHPExcel->getProperties()->setCreator("ÓÅÕıÆ·")
+                                     ->setLastModifiedBy("ÓÅÕıÆ·")
+                                     ->setTitle("ÓÅÕıÆ·ÎÄ¼ş")
+                                     ->setSubject("ÓÅÕıÆ·ExcelÎÄ¼ş")
+                                     ->setDescription("ÓÅÕıÆ·ÎÄ¼ş£¬À´×ÔÍøÕ¾ÏµÍ³")
+                                     ->setKeywords("ÓÅÕıÆ·")
+                                     ->setCategory("ÓÅÕıÆ·");
 
         // Add some data
         $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'æ ‡é¢˜')
-                    ->setCellValue('B1', 'è´§å·')
-                    ->setCellValue('C1', 'ç±»åˆ«')
-                    ->setCellValue('D1', 'è§„æ ¼')
-                    ->setCellValue('E1', 'å…¥åº“ç±»åˆ«')
-                    ->setCellValue('F1', 'ä»“åº“')
-                    ->setCellValue('G1', 'åŸå¸‚')
-                    ->setCellValue('H1', 'æˆæœ¬ä»·')
-                    ->setCellValue('I1', 'é”€å”®ä»·')
-                    ->setCellValue('J1', 'åŒè¡Œä»·')
-                    ->setCellValue('K1', 'ä¿ç•™ä»·')
-                    ->setCellValue('L1', 'å…¶ä»–è´¹ç”¨')
-                    ->setCellValue('M1', 'çŠ¶æ€')
-                    ->setCellValue('N1', 'ä»£ç†å•†')
-                    ->setCellValue('O1', 'æ”¶è´§äºº')
-                    ->setCellValue('P1', 'å®¢æˆ·')
-                    ->setCellValue('Q1', 'å…¥åº“æ—¥æœŸ')
-                    ->setCellValue('R1', 'æ˜¯å¦æ‹ç…§')
-                    ->setCellValue('S1', 'ä»˜æ¬¾æ–¹å¼')
-                    ->setCellValue('T1', 'å¤‡æ³¨');
+                    ->setCellValue('A1', '±êÌâ')
+                    ->setCellValue('B1', '»õºÅ')
+                    ->setCellValue('C1', 'Àà±ğ')
+                    ->setCellValue('D1', '¹æ¸ñ')
+                    ->setCellValue('E1', 'Èë¿âÀà±ğ')
+                    ->setCellValue('F1', '²Ö¿â')
+                    ->setCellValue('G1', '³ÇÊĞ')
+                    ->setCellValue('H1', '³É±¾¼Û')
+                    ->setCellValue('I1', 'ÏúÊÛ¼Û')
+                    ->setCellValue('J1', 'Í¬ĞĞ¼Û')
+                    ->setCellValue('K1', '±£Áô¼Û')
+                    ->setCellValue('L1', 'ÆäËû·ÑÓÃ')
+                    ->setCellValue('M1', '×´Ì¬')
+                    ->setCellValue('N1', '´úÀíÉÌ')
+                    ->setCellValue('O1', 'ÊÕ»õÈË')
+                    ->setCellValue('P1', '¿Í»§')
+                    ->setCellValue('Q1', 'Èë¿âÈÕÆÚ')
+                    ->setCellValue('R1', 'ÊÇ·ñÅÄÕÕ')
+                    ->setCellValue('S1', '¸¶¿î·½Ê½')
+                    ->setCellValue('T1', '±¸×¢');
                     
  
  
@@ -253,10 +253,10 @@ class Export extends CI_Controller {
 
     foreach ($arr as $key => $value) {
             if($value['havephoto']==1){
-                $arr[$key]['havephoto']='æ˜¯';
+                $arr[$key]['havephoto']='ÊÇ';
             }else
             {
-                 $arr[$key]['havephoto']='å¦';
+                 $arr[$key]['havephoto']='·ñ';
             }
              
         }
@@ -288,14 +288,14 @@ class Export extends CI_Controller {
            
         }
         
-    $filename = date('YmdHis').'.xlsx'; //è®¾ç½®æ–‡ä»¶å  
+    $filename = date('YmdHis').'.xlsx'; //ÉèÖÃÎÄ¼şÃû  
     $updir = './uploads/csv/';
 
     // Rename worksheet
     $objPHPExcel->getActiveSheet()->setTitle('Simple');
     // Set active sheet index to the first sheet, so Excel opens this as the first sheet
     $objPHPExcel->setActiveSheetIndex(0);
-    // Redirect output to a clientâ€™s web browser (Excel2007)
+    // Redirect output to a client¡¯s web browser (Excel2007)
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment;filename="'.$filename.'"');
     header('Cache-Control: max-age=0');
@@ -314,7 +314,7 @@ class Export extends CI_Controller {
     
 
 
-  /* å¯¼å‡ºäº§å“ */
+  /* µ¼³ö²úÆ· */
     public function care(){
         global $login;
         $data['login']=$login;
@@ -399,7 +399,7 @@ class Export extends CI_Controller {
 
         $sqlstr=$titlesql.$pidsql.$codesql.$orderfromsql.$mobilesql.$usernamesql.$statussql.$agentidsql.$getwaysql.$sentwaysql.$urgentsql.$startdaysql.$enddaysql;
 
-        // è®¡ç®—æ€»é¡µæ•°
+        // ¼ÆËã×ÜÒ³Êı
         $wd = $this->uri->segment(4, '0');
         
         $sql = 'select * from ' . PREFIX . 'care where siteid='.SITEID.' '.$sqlstr;
@@ -407,43 +407,43 @@ class Export extends CI_Controller {
         // Create new PHPExcel object
         $objPHPExcel = new PHPExcel();
         // Set document properties
-        $objPHPExcel->getProperties()->setCreator("ä¼˜æ­£å“")
-                                     ->setLastModifiedBy("ä¼˜æ­£å“")
-                                     ->setTitle("ä¼˜æ­£å“æ–‡ä»¶")
-                                     ->setSubject("ä¼˜æ­£å“Excelæ–‡ä»¶")
-                                     ->setDescription("ä¼˜æ­£å“æ–‡ä»¶ï¼Œæ¥è‡ªç½‘ç«™ç³»ç»Ÿ")
-                                     ->setKeywords("ä¼˜æ­£å“")
-                                     ->setCategory("ä¼˜æ­£å“");
+        $objPHPExcel->getProperties()->setCreator("ÓÅÕıÆ·")
+                                     ->setLastModifiedBy("ÓÅÕıÆ·")
+                                     ->setTitle("ÓÅÕıÆ·ÎÄ¼ş")
+                                     ->setSubject("ÓÅÕıÆ·ExcelÎÄ¼ş")
+                                     ->setDescription("ÓÅÕıÆ·ÎÄ¼ş£¬À´×ÔÍøÕ¾ÏµÍ³")
+                                     ->setKeywords("ÓÅÕıÆ·")
+                                     ->setCategory("ÓÅÕıÆ·");
 
         // Add some data
         $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'æ ‡é¢˜')
-                    ->setCellValue('B1', 'è´§å·')
-                    ->setCellValue('C1', 'ç¼–å·')
-                    ->setCellValue('D1', 'å®¢æˆ·å§“å')
-                    ->setCellValue('E1', 'æ‰‹æœºå·ç ')
-                    ->setCellValue('F1', 'å•†å“ç±»åˆ«')
-                    ->setCellValue('G1', 'å“ç‰Œ')
-                    ->setCellValue('H1', 'è®¢å•æ¥æº')
-                    ->setCellValue('I1', 'é…ä»¶')
-                    ->setCellValue('J1', 'æŠ¤ç†å†…å®¹')
-                    ->setCellValue('K1', 'æŠ¤ç†æˆæœ¬')
-                    ->setCellValue('L1', 'æŠ¤ç†è´¹')
-                    ->setCellValue('M1', 'å–ä»¶è´¹ç”¨')
-                    ->setCellValue('N1', 'å‘ä»¶è´¹ç”¨')
-                    ->setCellValue('O1', 'æ˜¯å¦åŠ æ€¥')
-                    ->setCellValue('P1', 'åŠ æ€¥åŸå› ')
-                    ->setCellValue('Q1', 'æ”¶ä»¶æ–¹å¼')
-                    ->setCellValue('R1', 'å–ä»¶å¿«é€’å…¬å¸')
-                    ->setCellValue('S1', 'å–ä»¶å¿«é€’å•å·')
-                    ->setCellValue('T1', 'é€ä»¶æ–¹å¼')
-                    ->setCellValue('U1', 'é€ä»¶å¿«é€’å…¬å¸')
-                    ->setCellValue('V1', 'é€ä»¶å¿«é€’å·')
-                    ->setCellValue('W1', 'å¤‡æ³¨')
-                    ->setCellValue('X1', 'ä»£ç†å•†')
-                    ->setCellValue('Y1', 'æŠ¤ç†çŠ¶æ€')
-                    ->setCellValue('Z1', 'ç»“æ¬¾çŠ¶æ€')
-                    ->setCellValue('AA1', 'è®¢å•æ—¥æœŸ');
+                    ->setCellValue('A1', '±êÌâ')
+                    ->setCellValue('B1', '»õºÅ')
+                    ->setCellValue('C1', '±àºÅ')
+                    ->setCellValue('D1', '¿Í»§ĞÕÃû')
+                    ->setCellValue('E1', 'ÊÖ»úºÅÂë')
+                    ->setCellValue('F1', 'ÉÌÆ·Àà±ğ')
+                    ->setCellValue('G1', 'Æ·ÅÆ')
+                    ->setCellValue('H1', '¶©µ¥À´Ô´')
+                    ->setCellValue('I1', 'Åä¼ş')
+                    ->setCellValue('J1', '»¤ÀíÄÚÈİ')
+                    ->setCellValue('K1', '»¤Àí³É±¾')
+                    ->setCellValue('L1', '»¤Àí·Ñ')
+                    ->setCellValue('M1', 'È¡¼ş·ÑÓÃ')
+                    ->setCellValue('N1', '·¢¼ş·ÑÓÃ')
+                    ->setCellValue('O1', 'ÊÇ·ñ¼Ó¼±')
+                    ->setCellValue('P1', '¼Ó¼±Ô­Òò')
+                    ->setCellValue('Q1', 'ÊÕ¼ş·½Ê½')
+                    ->setCellValue('R1', 'È¡¼ş¿ìµİ¹«Ë¾')
+                    ->setCellValue('S1', 'È¡¼ş¿ìµİµ¥ºÅ')
+                    ->setCellValue('T1', 'ËÍ¼ş·½Ê½')
+                    ->setCellValue('U1', 'ËÍ¼ş¿ìµİ¹«Ë¾')
+                    ->setCellValue('V1', 'ËÍ¼ş¿ìµİºÅ')
+                    ->setCellValue('W1', '±¸×¢')
+                    ->setCellValue('X1', '´úÀíÉÌ')
+                    ->setCellValue('Y1', '»¤Àí×´Ì¬')
+                    ->setCellValue('Z1', '½á¿î×´Ì¬')
+                    ->setCellValue('AA1', '¶©µ¥ÈÕÆÚ');
                     
   
 
@@ -474,10 +474,10 @@ class Export extends CI_Controller {
 
     foreach ($arr as $key => $value) {
             if($value['urgent']==1){
-                $arr[$key]['urgent']='æ˜¯';
+                $arr[$key]['urgent']='ÊÇ';
             }else
             {
-                 $arr[$key]['urgent']='å¦';
+                 $arr[$key]['urgent']='·ñ';
             }
              
         }
@@ -485,10 +485,10 @@ class Export extends CI_Controller {
 
             foreach ($arr as $key => $value) {
             if($value['ispayback']==1){
-                $arr[$key]['ispayback']='æ˜¯';
+                $arr[$key]['ispayback']='ÊÇ';
             }else
             {
-                 $arr[$key]['ispayback']='å¦';
+                 $arr[$key]['ispayback']='·ñ';
             }
              
         }
@@ -530,14 +530,14 @@ class Export extends CI_Controller {
            
         }
         
-    $filename = date('YmdHis').'.xlsx'; //è®¾ç½®æ–‡ä»¶å  
+    $filename = date('YmdHis').'.xlsx'; //ÉèÖÃÎÄ¼şÃû  
     $updir = './uploads/csv/';
 
     // Rename worksheet
     $objPHPExcel->getActiveSheet()->setTitle('Simple');
     // Set active sheet index to the first sheet, so Excel opens this as the first sheet
     $objPHPExcel->setActiveSheetIndex(0);
-    // Redirect output to a clientâ€™s web browser (Excel2007)
+    // Redirect output to a client¡¯s web browser (Excel2007)
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment;filename="'.$filename.'"');
     header('Cache-Control: max-age=0');
@@ -600,7 +600,9 @@ class Export extends CI_Controller {
         if($receiver){ $receiversql=" and  receiver = '".$receiver."' " ;}
         if($saleplatform){ $saleplatformsql=" and  saleplatform = '".$saleplatform."' " ;}
 
-         if($ispayback){ $ispaybacksql=" and  ispayback = ".$ispayback." " ;}
+        //if($ispayback){ $ispaybacksql=" and  ispayback = ".$ispayback." " ;}
+
+        if(is_numeric($ispayback)){ $ispaybacksql=" and ispayback= ".$ispayback." " ;}
 
         if($startday){
             $starttime=strtotime($startday);
@@ -634,38 +636,38 @@ class Export extends CI_Controller {
                 // Create new PHPExcel object
         $objPHPExcel = new PHPExcel();
         // Set document properties
-        $objPHPExcel->getProperties()->setCreator("ä¼˜æ­£å“")
-                                     ->setLastModifiedBy("ä¼˜æ­£å“")
-                                     ->setTitle("ä¼˜æ­£å“æ–‡ä»¶")
-                                     ->setSubject("ä¼˜æ­£å“Excelæ–‡ä»¶")
-                                     ->setDescription("ä¼˜æ­£å“æ–‡ä»¶ï¼Œæ¥è‡ªç½‘ç«™ç³»ç»Ÿ")
-                                     ->setKeywords("ä¼˜æ­£å“")
-                                     ->setCategory("ä¼˜æ­£å“");
+        $objPHPExcel->getProperties()->setCreator("ÓÅÕıÆ·")
+                                     ->setLastModifiedBy("ÓÅÕıÆ·")
+                                     ->setTitle("ÓÅÕıÆ·ÎÄ¼ş")
+                                     ->setSubject("ÓÅÕıÆ·ExcelÎÄ¼ş")
+                                     ->setDescription("ÓÅÕıÆ·ÎÄ¼ş£¬À´×ÔÍøÕ¾ÏµÍ³")
+                                     ->setKeywords("ÓÅÕıÆ·")
+                                     ->setCategory("ÓÅÕıÆ·");
 
         // Add some data
         $objPHPExcel->setActiveSheetIndex(0)
                    
-                    ->setCellValue('A1', 'æ ‡é¢˜')
-                    ->setCellValue('B1', 'è´§å·')
-                    ->setCellValue('C1', 'å®¢æˆ·ç¼–å·')
-                    ->setCellValue('D1', 'ä»£ç†å•†')
-                    ->setCellValue('E1', 'å‡ºå”®ç±»å‹')
-                    ->setCellValue('F1', 'å”®å‡ºå¹³å°')
-                    ->setCellValue('G1', 'å”®ä»·')
-                    ->setCellValue('H1', 'å®šé‡‘')
-                    ->setCellValue('I1', 'æˆæœ¬')
-                    ->setCellValue('J1', 'å…¶ä»–è´¹ç”¨')
-                    ->setCellValue('K1', 'æŠ¤ç†è´¹ç”¨')
-                    ->setCellValue('L1', 'å¹³å°æ‰‹ç»­è´¹')
-                    ->setCellValue('M1', 'å¿«é€’è´¹')
-                    ->setCellValue('N1', 'åˆ©æ¶¦')
-                    ->setCellValue('O1', 'é”€å”®å‘˜')
-                    ->setCellValue('P1', 'æ”¶è´§äºº')
-                    ->setCellValue('Q1', 'æ”¯ä»˜æ–¹å¼')
-                    ->setCellValue('R1', 'å¿«é€’å…¬å¸')
-                    ->setCellValue('S1', 'å¿«é€’å•å·')
-                    ->setCellValue('T1', 'ç»“æ¬¾çŠ¶æ€')
-                    ->setCellValue('U1', 'å”®å‡ºæ—¶é—´');
+                    ->setCellValue('A1', '±êÌâ')
+                    ->setCellValue('B1', '»õºÅ')
+                    ->setCellValue('C1', '¿Í»§±àºÅ')
+                    ->setCellValue('D1', '´úÀíÉÌ')
+                    ->setCellValue('E1', '³öÊÛÀàĞÍ')
+                    ->setCellValue('F1', 'ÊÛ³öÆ½Ì¨')
+                    ->setCellValue('G1', 'ÊÛ¼Û')
+                    ->setCellValue('H1', '¶¨½ğ')
+                    ->setCellValue('I1', '³É±¾')
+                    ->setCellValue('J1', 'ÆäËû·ÑÓÃ')
+                    ->setCellValue('K1', '»¤Àí·ÑÓÃ')
+                    ->setCellValue('L1', 'Æ½Ì¨ÊÖĞø·Ñ')
+                    ->setCellValue('M1', '¿ìµİ·Ñ')
+                    ->setCellValue('N1', 'ÀûÈó')
+                    ->setCellValue('O1', 'ÏúÊÛÔ±')
+                    ->setCellValue('P1', 'ÊÕ»õÈË')
+                    ->setCellValue('Q1', 'Ö§¸¶·½Ê½')
+                    ->setCellValue('R1', '¿ìµİ¹«Ë¾')
+                    ->setCellValue('S1', '¿ìµİµ¥ºÅ')
+                    ->setCellValue('T1', '½á¿î×´Ì¬')
+                    ->setCellValue('U1', 'ÊÛ³öÊ±¼ä');
         
         $rsobj=$this->db->query($sql);
         $arr=$rsobj->result_array();
@@ -690,10 +692,10 @@ class Export extends CI_Controller {
 
              foreach ($arr as $key => $value) {
             if($value['ispayback']==1){
-                $arr[$key]['ispayback']='æ˜¯';
+                $arr[$key]['ispayback']='ÊÇ';
             }else
             {
-                 $arr[$key]['ispayback']='å¦';
+                 $arr[$key]['ispayback']='·ñ';
             }
              
         }
@@ -729,14 +731,14 @@ class Export extends CI_Controller {
         }
 
     
-    $filename = date('YmdHis').'.xlsx'; //è®¾ç½®æ–‡ä»¶å  
+    $filename = date('YmdHis').'.xlsx'; //ÉèÖÃÎÄ¼şÃû  
     $updir = './uploads/csv/';
 
     // Rename worksheet
     $objPHPExcel->getActiveSheet()->setTitle('Simple');
     // Set active sheet index to the first sheet, so Excel opens this as the first sheet
     $objPHPExcel->setActiveSheetIndex(0);
-    // Redirect output to a clientâ€™s web browser (Excel2007)
+    // Redirect output to a client¡¯s web browser (Excel2007)
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment;filename="'.$filename.'"');
     header('Cache-Control: max-age=0');
@@ -755,7 +757,7 @@ class Export extends CI_Controller {
 
 
 
- /* å¯¼å‡ºäº§å“ */
+ /* µ¼³ö²úÆ· */
     public function customer(){
         global $login;
         $data['login']=$login;
@@ -794,30 +796,30 @@ class Export extends CI_Controller {
             // Create new PHPExcel object
         $objPHPExcel = new PHPExcel();
         // Set document properties
-        $objPHPExcel->getProperties()->setCreator("ä¼˜æ­£å“")
-                                     ->setLastModifiedBy("ä¼˜æ­£å“")
-                                     ->setTitle("ä¼˜æ­£å“æ–‡ä»¶")
-                                     ->setSubject("ä¼˜æ­£å“Excelæ–‡ä»¶")
-                                     ->setDescription("ä¼˜æ­£å“æ–‡ä»¶ï¼Œæ¥è‡ªç½‘ç«™ç³»ç»Ÿ")
-                                     ->setKeywords("ä¼˜æ­£å“")
-                                     ->setCategory("ä¼˜æ­£å“");
+        $objPHPExcel->getProperties()->setCreator("ÓÅÕıÆ·")
+                                     ->setLastModifiedBy("ÓÅÕıÆ·")
+                                     ->setTitle("ÓÅÕıÆ·ÎÄ¼ş")
+                                     ->setSubject("ÓÅÕıÆ·ExcelÎÄ¼ş")
+                                     ->setDescription("ÓÅÕıÆ·ÎÄ¼ş£¬À´×ÔÍøÕ¾ÏµÍ³")
+                                     ->setKeywords("ÓÅÕıÆ·")
+                                     ->setCategory("ÓÅÕıÆ·");
 
         // Add some data
         $objPHPExcel->setActiveSheetIndex(0)
                    
-                    ->setCellValue('A1', 'å®¢æˆ·ç¼–å·')
-                    ->setCellValue('B1', 'å§“å')
-                    ->setCellValue('C1', 'å¾®ä¿¡å')
-                    ->setCellValue('D1', 'å¾®ä¿¡å·')
-                    ->setCellValue('E1', 'æ‰‹æœºå·')
-                    ->setCellValue('F1', 'æ”¶è´§åœ°å€')
-                    ->setCellValue('G1', 'ä»˜æ¬¾è´¦æˆ·')
-                    ->setCellValue('H1', 'ä¸ªäººç‰¹å¾')
-                    ->setCellValue('I1', 'å®¶åº­æƒ…å†µ')
-                    ->setCellValue('J1', 'èŒä¸šä¿¡æ¯')
-                    ->setCellValue('K1', 'äº¤æ˜“ä¿¡æ¯')
-                    ->setCellValue('L1', 'æ¨èæ¥æº')
-                    ->setCellValue('M1', 'å¤‡æ³¨');
+                    ->setCellValue('A1', '¿Í»§±àºÅ')
+                    ->setCellValue('B1', 'ĞÕÃû')
+                    ->setCellValue('C1', 'Î¢ĞÅÃû')
+                    ->setCellValue('D1', 'Î¢ĞÅºÅ')
+                    ->setCellValue('E1', 'ÊÖ»úºÅ')
+                    ->setCellValue('F1', 'ÊÕ»õµØÖ·')
+                    ->setCellValue('G1', '¸¶¿îÕË»§')
+                    ->setCellValue('H1', '¸öÈËÌØÕ÷')
+                    ->setCellValue('I1', '¼ÒÍ¥Çé¿ö')
+                    ->setCellValue('J1', 'Ö°ÒµĞÅÏ¢')
+                    ->setCellValue('K1', '½»Ò×ĞÅÏ¢')
+                    ->setCellValue('L1', 'ÍÆ¼öÀ´Ô´')
+                    ->setCellValue('M1', '±¸×¢');
                    
 
         //$sql='select * from '.PREFIX.'product';
@@ -848,14 +850,14 @@ class Export extends CI_Controller {
 
         }
 
-    $filename = date('YmdHis').'.xlsx'; //è®¾ç½®æ–‡ä»¶å  
+    $filename = date('YmdHis').'.xlsx'; //ÉèÖÃÎÄ¼şÃû  
     $updir = './uploads/csv/';
 
     // Rename worksheet
     $objPHPExcel->getActiveSheet()->setTitle('Simple');
     // Set active sheet index to the first sheet, so Excel opens this as the first sheet
     $objPHPExcel->setActiveSheetIndex(0);
-    // Redirect output to a clientâ€™s web browser (Excel2007)
+    // Redirect output to a client¡¯s web browser (Excel2007)
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment;filename="'.$filename.'"');
     header('Cache-Control: max-age=0');

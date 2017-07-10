@@ -90,13 +90,13 @@
                                     <option  v-for="arr in search.city"  v-bind:value="[arr.id]">{{arr.name}}</option>
                                 </select>
                             </div>
-                            <div class="col-md-1"><input type="text" class="form-control" name="receiver" id="receiver" value="" placeholder="收货人"></div>
-                            <div class="col-md-1"><input type="text" class="form-control" name="owner" id="owner" value="" placeholder="客户来源" ></div>
+                            <div class="col-md-1"><input type="text" class="form-control" name="receiver"   value="" placeholder="收货人"></div>
+                            <div class="col-md-1"><input type="text" class="form-control" name="owner"  value="" placeholder="客户来源" ></div>
                         </div>
                             <div class="row"><div class="col-md-12">.</div></div>
                             <div class="row">
-                                <div class="col-md-1"><input type="text" class="form-control" name="startday" id="startday" value="日期"></div>
-                                 <div class="col-md-1"><input type="text" class="form-control" name="startday" id="startday" value="日期"></div>
+                                <div class="col-md-2"><input type="text" class="form-control" name="startday" placeholder="开始时间：<?php  echo date("Y-m-d",strtotime("-7 day"));?>"></div>
+                                 <div class="col-md-2"><input type="text" class="form-control" name="endday"  placeholder="结束时间：<?php  echo date("Y-m-d");?>"></div>
                                  <div class="col-md-1">
                                      <select name="havephoto" id="havephoto" class="form-control">
                                         <option value="">是否拍照</option>
@@ -133,13 +133,13 @@
                                                 <option value="2">从价格最低</option>
                                     </select>
                                  </div>
-                                 <div class="col-md-1"><input type="text" class="form-control" name="" id="receiver" value="" placeholder="备注"></div>
-                                <div class="col-md-2"><input type="submit" class="btn btn-success " value="搜索"> </div>
+                                 <div class="col-md-1"><input type="text" class="form-control" name="bz"  value="" placeholder="备注"></div>
+                                 <div class="col-md-2"><input type="submit" class="btn btn-success "  onclick="return GetData();" value="搜索"> </div>
                             </div>
                     </form>
                 </div>
                     <div class="panel-body">
-                        <div class="table-responsive">
+                        <div class="table-responsive" id="ajax-push">
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -168,17 +168,18 @@
                                             </div>
                                             <div v-else-if="key == 'storedate'">{{value | YmdHis}}</div>
                                                 <div v-else-if="key == 'key'">
-                                                    <a v-bind:href="'/home/product_edit_save/id/'+[value]" target="_blank">编辑</a>
+                                                    <a v-bind:href="'/home/TProductEditSave/id/'+[value]" target="_blank">编辑</a>
                                                 </div>
                                             <div v-else>{{value}} </div>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <?php   echo $pagelink;?>
                         </div>
                     </div>
                 </div>        
-                    <?php   echo $pagelink;?>
+                    
             </div>
         </div>
     </div>
@@ -206,6 +207,12 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
+    function GetData(){
+         $.get("/home/product_private_list",$("form").serializeArray(),function(data){ 
+               $("#ajax-push").html(data);
+        });
+        return false;
+    }
 $(function(){
     $('.imglist').on("mouseover mouseout",function(event){
         if(event.type == "mouseover"){

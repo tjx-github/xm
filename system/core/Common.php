@@ -332,7 +332,7 @@ if ( ! function_exists('get_mimes'))
 				$_mimes = array();
 			}
 		}
-
+                
 		return $_mimes;
 	}
 }

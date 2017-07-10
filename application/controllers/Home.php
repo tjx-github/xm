@@ -887,9 +887,8 @@ class Home  extends CI_Controller {
 
         global $login;
         $data['login']=$login;
-
         $pid=$this->input->post('pid', true);
-
+         
         $pidobj=$this->db->from(PREFIX.'product')->where(array('pid'=>$pid,'siteid'=>SITEID))->get()->result_array();
 
         
@@ -902,7 +901,15 @@ class Home  extends CI_Controller {
             }
 
         $myinput['pid'] = strtoupper($this->input->post('pid', true));
-        $myinput['siteid'] = SITEID;
+        
+        
+        
+        if($_POST["agentid"]){
+            $myinput['siteid'] = $this->input->post('agentid', true);
+        }else{
+            $myinput['siteid'] = SITEID;
+        }
+        
         $myinput['title'] = $this->input->post('title', true);
         $myinput['saletype'] = $this->input->post('saletype', true);
         $myinput['category'] = $this->input->post('category', true);
@@ -978,6 +985,7 @@ class Home  extends CI_Controller {
 
     //检查PID是否存在
     public function checkpid(){
+        header("Content-Type:text/html;charset=utf-8"); 
         $pid=$this->uri->segment(3,0);
         if($pid==''||$pid=='0')
         {
@@ -1023,26 +1031,69 @@ class Home  extends CI_Controller {
             $filename=time().".mp4";
             $config= [
                 "upload_path"=>"./uploads/video",
-                "allowed_types"=>"mp4|MOV",
-                "max_size"=>1024 * 1024 * 100 ,  #定义最多传100兆
+//                "allowed_types"=>"mp4|MOV|mov",
+                "allowed_types"=>["mp4","MOV","mov","quicktime"],
+                "max_size"=>10485760 * 100  ,  #定义最多传100兆
                 "file_name"=>$filename,
-                "detect_mime"=>true
+                "detect_mime"=>false
             ];
-            
+//            print_r($config);
 //            $this->load->library('upload',$config);
-            $this->upload->initialize($config);
+//            $this->upload->initialize($config);
 //            $this->upload->do_upload("file");
-            $p=$this->upload->data();
-            $data=[
-               "files"=> [
-                [
-                    "size"=>$p['file_size'],
-                    "type"=>$p['file_type'],
-                    "url"=>site_url("/")."uploads/video/".$filename,
-                    "name"=>$p['orig_name']
-                ]
-                ]
-            ];
+//            $p=$this->upload->data();
+            $s= explode("/", $_FILES['file']['type']);
+            if(! in_array( $s[1] , $config["allowed_types"]) ){
+                $data=[
+                   "files"=> [
+                    [
+                        "size"=>'',
+                        "type"=>'',
+                        "url"=>'',
+                        "name"=>"不允许的上传文件类型"
+                    ]
+                    ]
+                ];
+            }elseif($_FILES['file']['size']  > $config['max_size']    ){
+                $data=[
+                   "files"=> [
+                    [
+                        "size"=>0,
+                        "type"=>'',
+                        "url"=>'',
+                        "name"=>"文件超过100兆!"
+                    ]
+                    ]
+                ];
+            }else{
+               
+                $d= move_uploaded_file( $_FILES['file']['tmp_name'] , FCPATH."uploads/video/".$filename);
+                if($d){
+                    $data=[
+                        "files"=> [
+                            [
+                                "size"=>$_FILES['file']['size']  ,
+                                "type"=>$_FILES['file']['type'],
+                                "url"=>site_url("/")."uploads/video/".$filename,
+                                "name"=>$filename
+                            ]
+                         ]
+                     ];
+                }else{
+                    $data=[
+                            "files"=> [
+                             [
+                                 "size"=>0,
+                                 "type"=>'',
+                                 "url"=>'',
+                                 "name"=>"上传失败，错误未知!"
+                             ]
+                             ]
+                         ];
+                }
+            }
+            
+            
  
             $this->db->where('id', $this->input->post('id', true) );
             $this->db->update(PREFIX.'product',["video"=> "/uploads/video/" .$filename]);
@@ -1056,21 +1107,22 @@ class Home  extends CI_Controller {
 #编辑产品
     public function product_edit(){
         global $login;
-        
-        if($login['roleid'] == 3){
+        $this->updatevideo();
+        if($login['roleid'] == 3 and $this->input->is_ajax_request()  ){
             return $this->Factory("product_list","Product") ->showoneaview();
         }
-        
-//        die;
-        $this->updatevideo();
         $data['login']=$login;
         $id=$this->uri->segment(3);
-      if(SITEID == 0){
+        if(isset($_GET['pid'])){
+            $id=(int)$_GET['pid'];
+        }
+      if(SITEID == 0 ){
+      
           $proobj=$this->db->from(PREFIX.'product')->where(array('id'=>$id))->get()->result_array();
       }else{
           $proobj=$this->db->from(PREFIX.'product')->where(array('id'=>$id,'siteid'=>SITEID))->get()->result_array();
       }
-        
+
         if(count($proobj)<1)
         {
             exit('该产品不存在');
@@ -1137,9 +1189,11 @@ class Home  extends CI_Controller {
     //我的库存
     public function product_private_list(){
 
-        return $this->Factory("product_private_list","ProductPrivate") ->showpview();
+         
         global $login;
-
+        if($login['roleid'] == 1 ||  ($login['roleid'] == 3 and $login['username'] != "OIAM"  )){
+           return $this->Factory("product_private_list","ProductPrivate") ->showpview();
+        }
         
         $data=$this->home_model->product_list();
 
@@ -1185,11 +1239,45 @@ class Home  extends CI_Controller {
             return $this->Factory("product_private_list","ProductPrivate") ->showonepview();
 //        }
     }
+    public function product_agent_add(){
+        if(SITEID == 0){
+            
+            
+            $this->load->view("product_list/product_agent",[
+                'nav'=>$this->load->view('home/nav',["login"=>self::$login],true),
+                "agent"=>$this->db->query("select id,username as name from uz_user where roleid=3")->result_array()
+                ]);
+        }else{
+            header("location: /home/index");
+        }
+    }
+    public function product_agent_ajax_html(){
+        if(SITEID == 0  and isset($_POST['id']) and (int)$_POST['id'] ){
+            $prefix=$this->db->query("select prefix from " . PREFIX . "user   where  roleid=3 and id= ". (int)$_POST['id']  )->result_array();
+            if(empty($prefix)){
+                exit;
+            }
+            $prefix=$prefix[0]['prefix'];
+     
+            $this->load->view("product_list/product_agent_add",[
+                'nav'=>$this->load->view('home/nav',["login"=>self::$login],true),
+                "category"=>$this->db->query("select * from " . PREFIX . "category  order by ordernum asc")->result_array(),
+                "prefix"=>$prefix,
+                "store"=>$this->db->query("select * from " . PREFIX . "store where siteid=0 or siteid='". (int)$_POST['id'] ."'   order by ordernum asc")->result_array(),
+                "status"=>$this->db->query("select * from " . PREFIX . "product_status  order by ordernum asc")->result_array(),
+                "city"=>$this->db->query("select * from " . PREFIX . "city  order by ordernum asc")->result_array(),
+//                "payment"=> $this->db->query("select * from " . PREFIX . "sale_payment where siteid=0 or siteid=".  (int)$_POST['id']  .  "   order by ordernum asc")
+                "payment"=> $this->db->query("select * from " . PREFIX . "sale_payment where  siteid='". (int)$_POST['id']  ."' || siteid=0  order by ordernum asc")-> result_array()
+            ]);
+        }else{
+            header("location: /home/index");
+        }
+    }
 
     /* 产品列表   全网*/
     public function product_list(){
         global $login;
-        if($login['roleid'] == 3){
+        if($login['roleid'] == 3  and count($_GET) < 4){
             return $this->Factory("product_list","Product") ->showallview();
         }
 
@@ -1243,11 +1331,20 @@ class Home  extends CI_Controller {
         $data['login']=$login;
         $id=$this->uri->segment(3);
         $backurl = $_SERVER["HTTP_REFERER"];
-
-        $this->db->query('delete from '.PREFIX.'product where id='.$id.' and siteid='.SITEID);
+        if(SITEID == 0){
+            $this->db->query('delete from '.PREFIX.'product where id='.$id.'');
+        }else{
+            $this->db->query('delete from '.PREFIX.'product where id='.$id.' and siteid='.SITEID);
+        }
         header('location:'.$backurl);
     }
-
+    public function TProductEditSave(){
+        return $this->Factory("product_private_list","ProductPrivate") ->showonepview();
+        
+    }
+    public function TProductEditUpdate(){
+        return $this->Factory("product_private_list","ProductPrivate") ->updae_p();
+    }
 
      public function product_edit_save(){
         global $login;
