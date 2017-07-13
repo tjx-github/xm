@@ -140,8 +140,8 @@
                     </div>
 
                      <div class="form-group form-inline" id="piddiv">
-                        <label>同行价：</label>
-                        <input class="form-control" name="rivalprice" id="rivalprice"  value="0"  placeholder="请输入同行价">
+                        <label>代理价：</label>
+                        <input class="form-control" name="rivalprice" id="rivalprice"  value="0"  placeholder="请输入代理价">
                     </div>
 
                      <div class="form-group form-inline" id="piddiv">
@@ -186,10 +186,13 @@
 
                     <div class="form-group form-inline">
                                 <label>代理商ID：</label>
-                                <input type="text" name="agentid" id="agentid"> 
-                                <input type="text" name="agentsearch" id="agentsearch" placeholder="搜索名字" value="0" autocomplete="off" > 
-                                <div style="position:absolute;border:1px solid #000;margin-left:220px;margin-top:0px;height:auto;width:150px;z-index:999;float:left;display:none;background:#fff;list-style:none" id="suggestdiv" ></div>
-                                
+                                <?php   if($login['roleid'] == 5){?>
+                                    <input type="text" name="agentid"  id="agentid"> 
+                                    <input type="text" name="agentsearch" id="agentsearch" placeholder="搜索名字" value="0" autocomplete="off" > 
+                                    <div style="position:absolute;border:1px solid #000;margin-left:220px;margin-top:0px;height:auto;width:150px;z-index:999;float:left;display:none;background:#fff;list-style:none" id="suggestdiv" ></div>
+                                <?php }else{ ?>
+                                    <input type="text" name="agentid" value="<?php echo $login['id'] ?>" id="agentid"    readonly> 
+                                <?php }?>
                     </div>
 
 

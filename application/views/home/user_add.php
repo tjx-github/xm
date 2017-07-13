@@ -82,8 +82,14 @@
                                              <label>用户类别：</label>
                                               <select name="roleid" id="roleid" class="form-control">
                                                   <option value="">用户类别</option>
-                                                  <option value="3">代理商</option>
-                                                  <option value="0">用户</option>
+<!--                                                  <option value="3">代理商</option>
+                                                  <option value="0">用户</option>-->
+                                                  <?php
+                                                    foreach ($listrole as $value){
+                                                        echo "<option value='{$value['AdminRoleid']}'>{$value['AdminExplain']}</option>";
+                                                    }
+                                                    
+                                                  ?>
                                                    
                                               </select>
 

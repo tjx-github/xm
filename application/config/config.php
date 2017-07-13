@@ -528,10 +528,10 @@ $config['page_config']=[
     'page_query_string' => FALSE, #url 类型   ？xx&2 或  xx/2/dsd/2
     'reuse_query_string' => TRUE,
     'num_links'=> 5,
-    'next_link'=> '&gt;',
+    'next_link'=> '>',
     'next_tag_open'=> '<li>',
     'next_tag_close' => '</li>',
-    'prev_link' => '&lt;',
+    'prev_link' => '<',
     'prev_tag_open' => '<li>',
     'prev_tag_close' => '</li>',
     'cur_tag_open' => '<li class="active"><a href="#">',

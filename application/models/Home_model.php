@@ -978,7 +978,9 @@ class Home_model extends CI_Model
 
         if($title){ $titlesql=" and  title like '%".$title."%' ";}
         if($pid){ $pidsql=" and  pid  like '%".$pid."%' " ;}
-        if($agentid){ $agentidsql=" and  agentid = '".$agentid."' " ;}
+//        if($agentid){ $agentidsql=" and  agentid = '".$agentid."' " ;}
+        if($agentid){ $agentidsql=" and  siteid = '".$agentid."' " ;}
+
         if($saletype){ $saletypesql=" and  saletype= ".$saletype." " ;}
         if($payment){ $paymentsql=" and  payment= ".$payment." " ;}
         if($saleman){ $salemansql=" and  saleman = '".$saleman."' " ;}
@@ -1013,8 +1015,9 @@ class Home_model extends CI_Model
 
         $sqlstr=$titlesql.$pidsql.$agentidsql.$saletypesql.$salemansql.$receiversql.$cidsql.$saleplatformsql.$paymentsql.$startdaysql.$enddaysql.$checktimesql.$ispaybacksql;
         $orderstr=' order by id desc';
-        $sql = "select id from " . PREFIX . "sale  where siteid=".SITEID."  ".$sqlstr;
-     
+//        $sql = "select id from " . PREFIX . "sale  where siteid=".SITEID."  ".$sqlstr;
+        $sql = "select id from " . PREFIX . "sale  where  agentid=1  ".$sqlstr;
+
 
         $query = $this->db->query($sql);
         $total_rows = count($query->result());
@@ -1051,8 +1054,12 @@ class Home_model extends CI_Model
         $intpage = $this->get_page(3);
         $limitstr = ' limit ' . ($intpage - 1) * $config['per_page'] . ',' . $config['per_page'];
 
-        
-          $sql = "select * from " . PREFIX . "sale  where siteid=".SITEID." ".$sqlstr.$orderstr.$limitstr;
+        if(SITEID === 0){
+             $sql = "select * from " . PREFIX . "sale  where  agentid=1  ".$sqlstr.$orderstr.$limitstr;
+        }else{
+             $sql = "select * from " . PREFIX . "sale  where siteid=".SITEID." ".$sqlstr.$orderstr.$limitstr;
+        }
+         
         $query = $this->db->query($sql);
         //$query = $this->db->get(PREFIX.'consult', $config['per_page'],($intpage-1)*$config['per_page']);
         $rs = $query->result();

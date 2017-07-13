@@ -2,7 +2,6 @@
 
 class PowerModel extends CI_Model{
     public function IfPower($controller,$siteid){
-        
         return 
             $this->db->select("p.AdminRoleid")
                 ->from(PREFIX."power p")
@@ -15,6 +14,9 @@ class PowerModel extends CI_Model{
                 ->limit(1)
                 ->get()
                 ->result_array();
+    }
+    public function  IsExistence(){
+        return $this->db->select("MenuID")->from(PREFIX."menu")->where(["MenuController" => preg_filter("/^\//",""  ,$_SERVER['REQUEST_URI'])  ])->limit(1)->get()->result_array();
     }
 }
 

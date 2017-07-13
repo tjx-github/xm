@@ -37,6 +37,13 @@ class Home  extends CI_Controller {
             }
             self::$login=$login;
         }
+        if( ! empty($this->PowerModel->IsExistence() ) ){
+            $data=$this->PowerModel->IfPower( preg_filter("/^\//",""  ,$_SERVER['REQUEST_URI']) , self::$login['roleid'] );
+            if(empty($data)){
+                exit("无权限");
+            }
+        }
+            
         $this->load->model("UpdateSaleOrProductModel","TUpdate");
     }
     /*
@@ -46,7 +53,7 @@ class Home  extends CI_Controller {
     {
         global $login;
         
-        if($login['roleid'] == 3  || $login['roleid']==1){
+        if($login['roleid'] == 3  || $login['roleid']==1 || $login['roleid'] == 33){
            $data['nav']=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
         }else{
             $data['nav']=$this->load->view('home/nav',["login"=>$login],true);
@@ -839,11 +846,10 @@ class Home  extends CI_Controller {
     public function product_add()    {
         global $login;
         $data['login']=$login;
-        
-//        if($login['roleid'] == 3){
-//            return $this->Factory("user/logout","ProductAdd") ->showoneaview();
+//        if(SITEID !== 0 && SITEID !== 3 && $login['username'] != "OIAM" ) {
+//            exit("无权访问");
 //        }
-        
+
        
         $query = $this->db->query("select * from " . PREFIX . "category  order by ordernum asc");
         $category = $query->result_array();
@@ -869,7 +875,8 @@ class Home  extends CI_Controller {
         $query = $this->db->query("select * from " . PREFIX . "product_status  order by ordernum asc");
         $status = $query->result_array();
         $data['status'] = $status;
-        if($login['roleid'] == 3){
+        if($login['roleid'] == 3 || $login['roleid'] == 33 ){
+            
              $data['nav']=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
         }else{
             $data['nav']=$this->load->view('home/nav',$data,true);
@@ -1108,7 +1115,7 @@ class Home  extends CI_Controller {
     public function product_edit(){
         global $login;
         $this->updatevideo();
-        if($login['roleid'] == 3 and $this->input->is_ajax_request()  ){
+        if(($login['roleid'] == 3 || $login['roleid'] == 4 || $login['roleid'] == 33) and $this->input->is_ajax_request()  ){
             return $this->Factory("product_list","Product") ->showoneaview();
         }
         $data['login']=$login;
@@ -1180,10 +1187,10 @@ class Home  extends CI_Controller {
 
     }
     private function Factory($controller,$C_N){
-        $data=$this->PowerModel->IfPower("home/".$controller, self::$login['roleid'] );
-        if(empty($data)){
-            exit("无权访问！");
-        }
+//        $data=$this->PowerModel->IfPower("home/".$controller, self::$login['roleid'] );
+//        if(empty($data)){
+//            exit("无权访问！");
+//        }
         return  Factory::GetObject( $data[0]['AdminRoleid'] , $C_N  ,$this);
     }
     //我的库存
@@ -1191,10 +1198,15 @@ class Home  extends CI_Controller {
 
          
         global $login;
-        if($login['roleid'] == 1 ||  ($login['roleid'] == 3 and $login['username'] != "OIAM"  )){
+        
+
+        if($login['roleid'] == 1 ||  $login['roleid'] == 3 || $login['roleid'] == 4){
            return $this->Factory("product_private_list","ProductPrivate") ->showpview();
         }
+
         
+        
+        $menu=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
         $data=$this->home_model->product_list();
 
         $data['login']=$login;
@@ -1228,7 +1240,9 @@ class Home  extends CI_Controller {
         $this->session->prolisturl=$prolisturl;
         $this->session->sess_expiration=31536000;
 
-        $data['nav']=$this->load->view('N',$data,true);
+//        $data['nav']=$this->load->view('N',$data,true);
+        
+        $data['nav']=$menu;
 
         $this->load->view('home/product_list',$data);
     }
@@ -1241,11 +1255,9 @@ class Home  extends CI_Controller {
     }
     public function product_agent_add(){
         if(SITEID == 0){
-            
-            
             $this->load->view("product_list/product_agent",[
                 'nav'=>$this->load->view('home/nav',["login"=>self::$login],true),
-                "agent"=>$this->db->query("select id,username as name from uz_user where roleid=3")->result_array()
+                "agent"=>$this->db->query("select id,username as name from uz_user where roleid=3 || roleid=33")->result_array()
                 ]);
         }else{
             header("location: /home/index");
@@ -1253,7 +1265,7 @@ class Home  extends CI_Controller {
     }
     public function product_agent_ajax_html(){
         if(SITEID == 0  and isset($_POST['id']) and (int)$_POST['id'] ){
-            $prefix=$this->db->query("select prefix from " . PREFIX . "user   where  roleid=3 and id= ". (int)$_POST['id']  )->result_array();
+            $prefix=$this->db->query("select prefix from " . PREFIX . "user   where  roleid=3 || roleid=33 and id= ". (int)$_POST['id']  )->result_array();
             if(empty($prefix)){
                 exit;
             }
@@ -1277,11 +1289,15 @@ class Home  extends CI_Controller {
     /* 产品列表   全网*/
     public function product_list(){
         global $login;
-        if($login['roleid'] == 3  and count($_GET) < 4){
+
+        if(($login['roleid'] == 33 || $login['roleid'] == 3 ) and count($_GET) < 4){
             return $this->Factory("product_list","Product") ->showallview();
         }
+        if($login['roleid'] == 4){ #合作商
+             return $this->Factory("product_list","Product") ->showallview();
+        }
+        $menu=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
 
-        
         $data=$this->home_model->product_list();
 
         $data['login']=$login;
@@ -1305,7 +1321,7 @@ class Home  extends CI_Controller {
         $query = $this->db->query("select * from " . PREFIX . "product_status  order by ordernum asc");
         $status = $query->result_array();
         $data['status'] = $status;
-        $query = $this->db->query("select * from " . PREFIX . "user  where roleid=3 order by id asc");
+        $query = $this->db->query("select * from " . PREFIX . "user  where roleid=3 || roleid=33 order by id asc");
         $agent = $query->result_array();
         $data['agent'] = $agent;
         $query = $this->db->query("select * from " . PREFIX . "sale_payment  order by ordernum asc");
@@ -1318,7 +1334,7 @@ class Home  extends CI_Controller {
 
         $data['nav']=$this->load->view('home/nav',$data,true);
          if($login['roleid'] == 3){
-             $data['nav']=$this->load->view('N',$data,true);
+             $data['nav']=$menu;
          }else{
              $data['nav']=$this->load->view('home/nav',$data,true);
          }
@@ -1349,7 +1365,7 @@ class Home  extends CI_Controller {
      public function product_edit_save(){
         global $login;
         $data['login']=$login;
-    
+
         $id=$this->input->post('id', true);
 //        $myinput['siteid'] = SITEID;
         
@@ -1720,7 +1736,7 @@ class Home  extends CI_Controller {
     public function sale_platform_list(){
         global $login;
 
-        if($login['roleid'] == 3){
+        if($login['roleid'] == 3 || $login['roleid'] == 33){
             return $this->Factory("sale_platform_list","SalePlatformList")->showpview() ;
         }
         
@@ -1839,7 +1855,7 @@ class Home  extends CI_Controller {
 /*付款方式列表*/
     public function sale_payment_list(){
         global $login;
-        if($login['roleid'] == 3){
+        if($login['roleid'] == 3 || $login['roleid'] == 33){
             return $this->Factory("sale_payment_list","SalePaymentList")->showpview() ;
         }
         $data['login']=$login;
@@ -1986,10 +2002,12 @@ public function sale_add()
         $data['login']=$login;
       
         $myinput['siteid'] = SITEID;
+        
         $myinput['title'] = $this->input->post('title', true);
         $myinput['pid'] = $this->input->post('pid', true);
         $myinput['cid'] = $this->input->post('cid', true);
         $myinput['agentid'] = $this->input->post('agentid', true);
+//        $myinput['agentid'] = 1;
         $myinput['saletype'] = $this->input->post('saletype', true);
 
 
@@ -2068,24 +2086,30 @@ public function sale_add()
             }
 
         }
-        
-
-
+ 
+//print_r($myinput);die;
 
        // if($myinput['saletype']==4){
          /* 计算利润 */
-            $myinput['siteprofit']=$myinput['price']-$myinput['costprice']-$myinput['otherfee']-$myinput['platformfee']-$myinput['kuaidifee'];
+            $myinput['siteprofit']=(FLOAT)$myinput['price']-(FLOAT)$myinput['costprice']-(FLOAT)$myinput['otherfee']- (FLOAT) $myinput['platformfee']-(FLOAT)$myinput['kuaidifee'];
             if($myinput['agentid']>0)
             {
                 $agentfee = $this->home_model->getC($myinput['agentid'], 'id', 'fee', PREFIX . 'user');
+                $p=  $this->db->query("select * from  ".PREFIX . 'user   where id='.$this->input->post('agentid', true) ." and roleid=3 || roleid=33"  ) -> result_array();
+
+                $myinput['siteid'] = $this->input->post('agentid', true);
+                $myinput['HistoricalRate']=$agentfee;
+                $myinput['agentid'] = empty($p)? 0 : 1;
             }else
             {
+                $myinput['agentid'] =  1;
                 $agentfee=0;
             }
 
-            $myinput['agentprofit']=round(($myinput['siteprofit']*$agentfee)/100,2);
+            $myinput['agentprofit']=round($myinput['siteprofit'] *($agentfee/100),2);
         //}
-
+//print_r($myinput);
+//die;
 
 
         $myinput['datetime'] = time();
@@ -2110,7 +2134,7 @@ public function sale_add()
     /* 产品列表 */
       public function sale_list() {
         global $login;
-        if($login['roleid'] == 3){
+        if($login['roleid'] == 3 || $login['roleid'] == 33){
             return $this->Factory("sale_list","SaleList")->showpview() ;
         }
         
@@ -2155,7 +2179,13 @@ public function sale_edit(){
         global $login;
         $data['login']=$login;
        $id=$this->uri->segment(3);
-        $saleobj=$this->db->from(PREFIX.'sale')->where(array('id'=>$id,'siteid'=>SITEID))->get()->result_array();
+       if(SITEID === 0 ){
+           $where=['id'=>$id,'agentid'=>1];
+       }else{
+           $where=['id'=>$id,'siteid'=>SITEID];
+       }
+        $saleobj=$this->db->from(PREFIX.'sale')->where($where)->get()->result_array();
+        
         if(count($saleobj)<1)
         {
             exit('该订单不存在');
@@ -2200,17 +2230,23 @@ public function sale_edit(){
         global $login;
         $data['login']=$login;
         $id = $this->input->post('id', true);
-        $saleobj=$this->db->from(PREFIX.'sale')->where(array('id'=>$id,'siteid'=>SITEID))->get()->result_array();
+        if(SITEID === 0 ){
+           $where=['id'=>$id,'agentid'=>1];
+       }else{
+           $where=['id'=>$id,'siteid'=>SITEID];
+       }
+        $saleobj=$this->db->from(PREFIX.'sale')->where($where)->get()->result_array();
+//        print_r($saleobj);die;
         if(count($saleobj)<1){
             exit('该订单不存在');
         }else{
             $sale=$saleobj[0];
         }
-        $myinput['siteid'] = SITEID;
+//        $myinput['siteid'] = SITEID;
         $myinput['title'] = $this->input->post('title', true);
         $myinput['pid'] = $this->input->post('pid', true);
         $myinput['cid'] = $this->input->post('cid', true);
-        $myinput['agentid'] = $this->input->post('agentid', true);
+//        $myinput['agentid'] = $this->input->post('agentid', true);
         $myinput['saletype'] = $this->input->post('saletype', true);
         $price=$this->input->post('price', true);
         if(is_numeric($price)){
@@ -2282,20 +2318,37 @@ public function sale_edit(){
 
       // if($myinput['saletype']==4){
         /* 计算利润 */
-           $myinput['siteprofit']=$myinput['price']-$myinput['costprice']-$myinput['otherfee']-$myinput['platformfee']-$myinput['kuaidifee'];
-           if($myinput['agentid']>0)
-           {
-               $agentfee = $this->home_model->getC($myinput['agentid'], 'id', 'fee', PREFIX . 'user');
-           }else
-           {
-               $agentfee=0;
-           }
-
+//           $myinput['siteprofit']=$myinput['price']-$myinput['costprice']-$myinput['otherfee']-$myinput['platformfee']-$myinput['kuaidifee'];
+//           if($myinput['agentid']>0)
+//           {
+//               $agentfee = $this->home_model->getC($myinput['agentid'], 'id', 'fee', PREFIX . 'user');
+//           }else
+//           {
+//               $agentfee=0;
+//           }
+        $myinput['siteprofit']=(FLOAT)$myinput['price']-(FLOAT)$myinput['costprice']-(FLOAT)$myinput['otherfee']- (FLOAT) $myinput['platformfee']-(FLOAT)$myinput['kuaidifee'];
+            if($myinput['agentid']>0)
+            {
+                $agentfee = $this->home_model->getC($myinput['agentid'], 'id', 'fee', PREFIX . 'user');
+                $p=  $this->db->query("select * from  ".PREFIX . 'user   where id='.$this->input->post('agentid', true) ." and roleid=3"  ) -> result_array();
+                
+                $myinput['siteid'] = $this->input->post('agentid', true);
+                $myinput['HistoricalRate']=$agentfee;
+                $myinput['agentid'] = empty($p)? 0 : 1;
+            }else{
+                $myinput['agentid']=1;
+                $agentfee=0;
+            }
            $myinput['agentprofit']=round(($myinput['siteprofit']*$agentfee)/100,2);
        //}
        $this->db->where('id',$id);
-       $this->db->where('siteid',SITEID);
-       print_r($myinput);
+       if(SITEID === 0){
+           $this->db->where('agentid',1);
+       }else{
+           $this->db->where('siteid',SITEID);
+       }
+       
+
        
        
        $this->db->update(PREFIX.'sale',$myinput); #更新销售表
@@ -2333,8 +2386,12 @@ public function sale_edit(){
         global $login;
         $data['login']=$login;
         $id=$this->uri->segment(3);
+        if(SITEID === 0 ){
+            $this->db->query('delete from '.PREFIX.'sale where id='.$id.' and agentid=1');
+        } else {
+            $this->db->query('delete from '.PREFIX.'sale where id='.$id.' and siteid='.SITEID);
+        }
         
-        $this->db->query('delete from '.PREFIX.'sale where id='.$id.' and siteid='.SITEID);
         header('location:' . site_url('home/sale_list'));
     }
 
@@ -2360,6 +2417,8 @@ public function sale_edit(){
         $data['login']=$login;
 
         $data['nav']=$this->load->view('home/nav',$data,true);
+        $data['listrole']= $this->db->query("select AdminRoleid,AdminExplain from ". PREFIX."admin  "  ) ->result_array() ;
+        
         $this->load->view('home/user_add',$data);
 
     }
@@ -2408,7 +2467,7 @@ public function sale_edit(){
         {
             header('location:'.site_url('home/user_list'));
         }
-        
+        header('location:'.site_url('home/user_list'));
 
 
 

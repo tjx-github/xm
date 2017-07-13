@@ -39,7 +39,6 @@ class CExport {
                $obj->setCellValue( $key[$k2].($k1+2) ,$vv );
                $k2++;
             }
-//            $k2=0;
         }
         $filename =date('YmdHis')."_".md5(json_encode($data)) .".xlsx";
         self::$export->getActiveSheet()->setTitle('Simple');

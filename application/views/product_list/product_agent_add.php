@@ -88,8 +88,8 @@
                     </div>
 
                      <div class="form-group form-inline" id="piddiv">
-                        <label>同行价：</label>
-                        <input class="form-control" name="rivalprice" id="rivalprice"  value="0"  placeholder="请输入同行价">
+                        <label>代理价：</label>
+                        <input class="form-control" name="rivalprice" id="rivalprice"  value="0"  placeholder="请输入代理价">
                     </div>
 
                      <div class="form-group form-inline" id="piddiv">

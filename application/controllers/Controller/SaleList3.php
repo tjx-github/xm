@@ -17,7 +17,7 @@ class SaleList3 extends CAbstract{
     public function showpview() {
         self::$ci->load->model("SaleModel3");
         $this->Download();
-        $this->SearchHeader();
+
         $config=self::$ci->config->item("page_config");
         
         $data=self::$ci->SaleModel3->getdata($this->login['id'],(int) self::$ci->uri->segment(3),$config['per_page']);
@@ -25,7 +25,7 @@ class SaleList3 extends CAbstract{
             self::$ci->load->view(
                 "sale/sale3",
                 [
-                    "search"=> self::$searchdata,
+                    "search"=>  $this->SearchHeader(),
                     "body"=>json_encode($data),
                     "count"=>self::$ci->SaleModel3->getcount(),
                     "pagehtml"=> self::page_html("home/sale_list", self::$ci->SaleModel3->getcount()),
@@ -42,7 +42,6 @@ class SaleList3 extends CAbstract{
             ], 
                  self::$ci->SaleModel3->GetDownloadData($this->login['id'] )   
             );
-            die;
         }
     }
 }

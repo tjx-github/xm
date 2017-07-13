@@ -1,5 +1,5 @@
 <?php
-
+use Model\IsOrGet as OG;
 class GetProductAllModel999 extends CI_Model{
      private  $count=0;
     public function ProductAll($title,$pid,$cityid,$page,$z=20,$boo=false){

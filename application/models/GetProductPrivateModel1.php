@@ -20,8 +20,8 @@ class GetProductPrivateModel1 extends CI_Model{
         IG::get("cityid", self::$where['p.cityid'],"p.cityid" );
         IG::get("havephoto", self::$where['p.havephoto'],"p.havephoto" );
         IG::get("payment", self::$where['p.payment'],"p.payment" );
-        IG::get("receiver") && self::$where['p.receiver LIKE  '] = IG::get("receiver") ."%";
-        IG::get("owner") && self::$where['p.owner LIKE  '] = IG::get("owner") ."%";
+        IG::get("receiver") && self::$where['p.receiver LIKE  '] = "%".IG::get("receiver") ."%";
+        IG::get("owner") && self::$where['p.owner LIKE  '] = "%".IG::get("owner") ."%";
         IG::get("bz") && self::$where['p.content LIKE  '] = "%".IG::get("bz") ."%";
         IG::get("startday") && strtotime(IG::get("startday")) && self::$where['p.datetime >  '] = strtotime(IG::get("startday"));
         IG::get("endday") && strtotime(IG::get("endday")) && self::$where['p.datetime  <  '] = strtotime(IG::get("endday"));
@@ -70,7 +70,7 @@ class GetProductPrivateModel1 extends CI_Model{
                     ->get()
                     ->result_array();
     }
-    public function GetOne(int $id){
+    public function GetOne($id){
             return $this->boo($id );
     }
     public function UpdateOne($id){

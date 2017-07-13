@@ -138,7 +138,9 @@
                                         <th>销售员</th>
                                         <th>其他费用</th>
                                         <th>快递费</th>
-                                        <th>利润</th>
+                                        <th>总部利润</th>
+                                        <th>我的利润</th>
+                                        <th>历史利率</th>
                                         <th>日期</th>
                                     </tr>
                                 </thead>
@@ -161,6 +163,9 @@
                                         <td>{{value.otherfee}}</td>
                                         <td>{{value.kuaidifee}}</td>
                                         <td>{{value.siteprofit}}</td>
+                                        <td>{{value.agentprofit}}</td>
+                                        <td v-if="value.HistoricalRate > 0">{{value.HistoricalRate}}%</td>
+                                        <td v-else>0%</td>
                                         <td>{{value.saletime | YmdHis}}</td>
                                     </tr>
                                 </tbody>

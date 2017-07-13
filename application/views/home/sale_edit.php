@@ -257,7 +257,8 @@
           </div>  
 
  
-                                     <button type="button" class="btn btn-success" id="gobtn">提交</button>
+                                     <!--<button type="button" class="btn btn-success" id="gobtn">提交</button>-->
+                                     <input type="submit" id="gobtn" value="提交" />
                                          
                                     </form>
                                 </div>
@@ -340,7 +341,7 @@
           $('#price').focus();
           return false;
       }
-      
+    
       $('#addform').submit();
 
  });
