@@ -194,8 +194,8 @@
                     <td><i class="fa fa-1x fa-rmb"></i>{{arr.siteprofit}}</td>
                     <td>{{arr.saletime | YmdHis}}</td>
                     
-                    <th  class="row">
-                        <div class="col-xs-3"><a v-bind:href="'/home/sale_set_payback/'+[arr.id]" class="btn btn-default"  >未结款</a> </div>
+                  <th  class="row">
+                        <div class="col-xs-3"><a v-bind:hrefffff="'/home/sale_set_payback/'+[arr.id]" href="#"  v-bind:value="[arr.id]"  class="btn btn-default bbb"   >未结款</a> </div>
                         <div class="col-xs-3 col-md-offset-3"><a v-bind:href="'/home/sale_edit/'+[arr.id]" title="编辑" ><i class="fa fa-2x fa-pencil "></i></a> </div>
                        <div class="col-xs-3"><a href="#"  class="tc" v-bind:value="[arr.id]" title="删除" v-bind:tabindex="[arr.pid]"><i class="fa fa-2x fa-trash-o"></i></a></div>      
                    </th>
@@ -263,6 +263,31 @@
 	</div><!-- /.modal -->
 </div>
     
+<div class="modal " id="ff2" tabindex="12" role="dialog" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" >
+					&times;
+				</button>
+				<h4 class="modal-title">
+					请确定该笔订单已返点完毕？
+				</h4>
+			</div>
+			<div class="modal-body">
+                              请确定<i id="bianh" class="alert alert-success"></i> 订单已返点完毕？
+			</div>
+			<div class="modal-footer">
+                            <input type="hidden" id="myid2" value="">
+                            <button type="button" class="btn " id="delok">
+                                确认删除
+                            </button>
+				<button type="button" class="btn btnxxx">取消
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
 <script>
     function date(format, timestamp){ 
     var a, jsdate=((timestamp) ? new Date(timestamp*1000) : new Date());
@@ -391,18 +416,31 @@
         return false;
     }
     $(function(){
-        $(".tc").click(function(){
-            $("#myid").val($(this).attr("value"));
+        $(".bbb").click(function(){
+        $("#myid2").val($(this).attr("value"));
  
-            $("#bianh").html($(this).attr("tabindex"));
-            $("#ff").show(322);
-        });
-        $(".btn-default").click(function(){
-            $("#ff").hide(322);
-        });
-        $(".close").click(function(){
-            $("#ff").hide(322);
-        });
+        $("#bianh2").html($(this).attr("tabindex"));
+        $("#ff2").show(322);
+    });
+    
+    
+    $(".tc").click(function(){
+        $("#myid").val($(this).attr("value"));
+ 
+        $("#bianh").html($(this).attr("tabindex"));
+        $("#ff").show(322);
+    });
+    $(".btn-default").click(function(){
+        $("#ff").hide(322);
+       
+    });
+    $(".btnxxx").click(function(){
+         $("#ff2").hide(322);
+    });
+    $(".close").click(function(){
+        $("#ff").hide(322);
+        $("#ff2").hide(322);
+    });
         $(".btn-danger").click(function(){
             window.location.href="/home/sale_del/"+ $("#myid").val();
         });
