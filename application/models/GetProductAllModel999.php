@@ -12,32 +12,32 @@ class GetProductAllModel999 extends CI_Model{
             $cityid && $where["p.cityid"]=addslashes($cityid);
             isset($_GET['storeid']) and $_GET['storeid'] and $where['p.storeid']=(int)$_GET['storeid'] ;
             $this->count=
-                    $this->db->from("uz_product p")
+                    $this->db->from(PREFIX."product p")
                     ->select("count(p.id) as count")
-                    ->join("uz_store s","s.id=p.storeid","inner")
-                    ->join("uz_category ca","ca.id=p.category")
-                    ->join("uz_city  c","c.id=p.cityid","inner")
+                    ->join(PREFIX."store s","s.id=p.storeid","inner")
+                    ->join(PREFIX."category ca","ca.id=p.category")
+                    ->join(PREFIX."city  c","c.id=p.cityid","inner")
                     ->where($where)
                     ->get()
                     ->result_array();
             if($boo){
                 return 
-                    $this->db->from("uz_product p")
+                    $this->db->from(PREFIX."product p")
                             ->select("p.pid ,p.title ,ca.name as caname,p.rivalprice ,p.saleprice,c.name as cname,p.id")
-                            ->join("uz_store s","s.id=p.storeid","inner")
-                            ->join("uz_category ca","ca.id=p.category")
-                            ->join("uz_city  c","c.id=p.cityid","inner")
+                            ->join(PREFIX."store s","s.id=p.storeid","inner")
+                            ->join(PREFIX."category ca","ca.id=p.category")
+                            ->join(PREFIX."city  c","c.id=p.cityid","inner")
                             ->where($where)
                             ->order_by("p.id desc")
                             ->get()
                             ->result_array();
             }
         return
-            $this->db->from("uz_product p")
+            $this->db->from(PREFIX."product p")
                     ->select("p.pid ,p.title,p.facephoto,ca.name as caname,p.rivalprice ,p.saleprice,c.name as cname,p.id")
-                    ->join("uz_store s","s.id=p.storeid","inner")
-                    ->join("uz_category ca","ca.id=p.category")
-                    ->join("uz_city  c","c.id=p.cityid","inner")
+                    ->join(PREFIX."store s","s.id=p.storeid","inner")
+                    ->join(PREFIX."category ca","ca.id=p.category")
+                    ->join(PREFIX."city  c","c.id=p.cityid","inner")
                     ->where($where)
                     ->order_by("p.id desc")
                     ->limit($z, $page > 1 ? ($page-1) * $z:0 )
@@ -58,12 +58,12 @@ class GetProductAllModel999 extends CI_Model{
             "p.datetime  < "=>  strtotime("-1 day") , #发布时间超过24小时的
         ];
         return
-            $this->db->from("uz_product p")
+            $this->db->from(PREFIX."product p")
                     ->select("p.*,ca.name as caname,c.name as cname,pr.name as prname")
-                    ->join("uz_store s","s.id=p.storeid","inner")
-                    ->join("uz_category ca","ca.id=p.category","inner")
-                    ->join("uz_city  c","c.id=p.cityid","inner")
-                    ->join("uz_product_status pr","p.status=pr.id")
+                    ->join(PREFIX."store s","s.id=p.storeid","inner")
+                    ->join(PREFIX."category ca","ca.id=p.category","inner")
+                    ->join(PREFIX."city  c","c.id=p.cityid","inner")
+                    ->join(PREFIX."product_status pr","p.status=pr.id")
                     ->where($where)
                     ->get()
                     ->result_array();

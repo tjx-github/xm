@@ -10,24 +10,24 @@
     <title><?php echo SITENAME?></title>
     
     <!-- Bootstrap Core CSS -->
-    <link href="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootadmin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="<?php echo site_url('/')?>bootadmin/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="/bootadmin/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="<?php echo site_url('/')?>bootadmin/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/bootadmin/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
-    <link href="<?php echo site_url('/')?>bootadmin/vendor/morrisjs/morris.css" rel="stylesheet">
+    <link href="/bootadmin/vendor/morrisjs/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="<?php echo site_url('/')?>bootadmin/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/bootadmin/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
    
   
-    <link rel="stylesheet" type="text/css" href="<?php echo site_url('/')?>/static/baidufex/css/webuploader.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo site_url('/')?>/static/baidufex/css/demo.css">
+    <link rel="stylesheet" type="text/css" href="/static/baidufex/css/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/static/baidufex/css/demo.css">
 
   <!--
   <link rel="stylesheet" type="text/css" href="http://fex.baidu.com/webuploader/css/webuploader.css">
@@ -104,21 +104,21 @@
     </div>
     <!-- /#wrapper -->
 
-   <script src="<?php echo site_url('/')?>/bootadmin/vendor/jquery/jquery.min.js"></script>
+   <script src="/bootadmin/vendor/jquery/jquery.min.js"></script>
    
     <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/bootadmin/vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/metisMenu/metisMenu.min.js"></script>
+    <script src="/bootadmin/vendor/metisMenu/metisMenu.min.js"></script>
 
     <!-- Morris Charts JavaScript -->
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/raphael/raphael.min.js"></script>
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/morrisjs/morris.min.js"></script>
-    <script src="<?php echo site_url('/')?>bootadmin/data/morris-data.js"></script>
+    <script src="/bootadmin/vendor/raphael/raphael.min.js"></script>
+    <script src="/bootadmin/vendor/morrisjs/morris.min.js"></script>
+    <script src="/bootadmin/data/morris-data.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="<?php echo site_url('/')?>bootadmin/dist/js/sb-admin-2.js"></script>
+    <script src="/bootadmin/dist/js/sb-admin-2.js"></script>
 
 
 
@@ -128,10 +128,10 @@
     var BASE_URL = '/webuploader';
     </script>
    
-    <script type="text/javascript" src="<?php echo site_url('/')?>/static/baidufex/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<?php echo site_url('/')?>/static/baidufex/js/global.js"></script>
-    <script type="text/javascript" src="<?php echo site_url('/')?>/static/baidufex/js/webuploader.js"></script>
-    <script type="text/javascript" src="<?php echo site_url('/')?>/static/baidufex/js/demo.js"></script>
+    <script type="text/javascript" src="/static/baidufex/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/baidufex/js/global.js"></script>
+    <script type="text/javascript" src="/static/baidufex/js/webuploader.js"></script>
+    <script type="text/javascript" src="/static/baidufex/js/demo.js"></script>
  
 
 

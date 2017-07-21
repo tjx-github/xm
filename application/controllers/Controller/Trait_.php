@@ -2,11 +2,13 @@
 use Model\Menu;
 trait Trait_  {
     static protected $ci;
-    protected  $login;
+    private $login;
+    static private $PageNumber=0;
     public  function  ci(CI_Controller $objcet){
         global $login;
         $this->login=$login;
         self::$ci=$objcet;
+        self::$PageNumber=self::$ci->config->item("page_config")['per_page'];
     }
     public function CI_obj(){
         return self::$ci;

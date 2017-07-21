@@ -1,23 +1,23 @@
  
     <!-- Bootstrap Core CSS -->
-    <link href="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootadmin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="<?php echo site_url('/')?>bootadmin/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="/bootadmin/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="<?php echo site_url('/')?>bootadmin/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/bootadmin/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
-    <link href="<?php echo site_url('/')?>bootadmin/vendor/morrisjs/morris.css" rel="stylesheet">
+    <link href="/bootadmin/vendor/morrisjs/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="<?php echo site_url('/')?>bootadmin/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/bootadmin/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
    
   
-    <link rel="stylesheet" type="text/css" href="<?php echo site_url('/')?>/static/baidufex/css/webuploader.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo site_url('/')?>/static/baidufex/css/demo.css">
+    <link rel="stylesheet" type="text/css" href="/static/baidufex/css/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/static/baidufex/css/demo.css">
      <!--<div class=" col-lg-12">-->
 <form role="form" id="addform" method="post" action="<?php echo site_url('home/product_add_save')?>">
                                         
@@ -219,10 +219,10 @@
     var BASE_URL = '/webuploader';
     </script>
    
-    <script type="text/javascript" src="<?php echo site_url('/')?>/static/baidufex/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<?php echo site_url('/')?>/static/baidufex/js/global.js"></script>
-    <script type="text/javascript" src="<?php echo site_url('/')?>/static/baidufex/js/webuploader.js"></script>
-    <script type="text/javascript" src="<?php echo site_url('/')?>/static/baidufex/js/demo.js"></script>
+    <script type="text/javascript" src="/static/baidufex/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/baidufex/js/global.js"></script>
+    <script type="text/javascript" src="/static/baidufex/js/webuploader.js"></script>
+    <script type="text/javascript" src="/static/baidufex/js/demo.js"></script>
  
 <script type="text/javascript">
  
@@ -374,7 +374,7 @@ $('#agentsearch').focus(function(){
 
 
 function sendwords(){
-  $.get('<?php echo site_url('/')?>/home/searchagent/'+$('#agentsearch').val(), function(result){
+  $.get('//home/searchagent/'+$('#agentsearch').val(), function(result){
     $("#suggestdiv").html(result);
     //alert(result);
   });
@@ -398,7 +398,7 @@ $('.agentlist').on('click',function(){
 /*检查PID是否存在*/
 $('#pid').on('blur',function(){
     $('#checkpid').show();
-    $.get('<?php echo site_url('/')?>/home/checkpid/'+$('#pid').val(), function(result){
+    $.get('//home/checkpid/'+$('#pid').val(), function(result){
     $("#checkpid").html(result);
     //alert(result);
   });

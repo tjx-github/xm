@@ -1,7 +1,7 @@
 <?php
 use Model\IsOrGet as IG;
 class GetProductPrivateModel1 extends CI_Model{
-    use Trait_Img;
+    use \Model\Trait_Img;
     private $count=0;
     static private $where=[
         "p.siteid"=>0 , # 美工只允许修改属于总部的库存
@@ -29,20 +29,20 @@ class GetProductPrivateModel1 extends CI_Model{
     
 
     public function GetData($page,$z=20){
-        $this->count=$this->db->from("uz_product p")
+        $this->count=$this->db->from(PREFIX."product p")
                     ->select(" count(p.id) as count")
-                    ->join("uz_store s","s.id=p.storeid")
-                    ->join("uz_city c","c.id=p.cityid ")
-                    ->join("uz_product_status pr","pr.id=p.status")
+                    ->join(PREFIX."store s","s.id=p.storeid")
+                    ->join(PREFIX."city c","c.id=p.cityid ")
+                    ->join(PREFIX."product_status pr","pr.id=p.status")
                     ->where(self::$where)
                     ->get()
                     ->result_array();
         return
-            $this->db->from("uz_product p")
+            $this->db->from(PREFIX."product p")
                     ->select(" p.id,p.pid ,p.title,p.size,p.facephoto,p.saletype,p.costprice,c.name as cname,s.name as sname,p.storedate,pr.name as prname,p.id as key ")
-                    ->join("uz_store s","s.id=p.storeid")
-                    ->join("uz_city c","c.id=p.cityid ")
-                    ->join("uz_product_status pr","pr.id=p.status")
+                    ->join(PREFIX."store s","s.id=p.storeid")
+                    ->join(PREFIX."city c","c.id=p.cityid ")
+                    ->join(PREFIX."product_status pr","pr.id=p.status")
                     ->where(self::$where)
                     ->order_by(IG::date_sort( "get")? IG::date_sort( "get") : "p.id desc")
                     ->limit($z, $page > 1 ? ($page-1) * $z:0 )
@@ -60,11 +60,11 @@ class GetProductPrivateModel1 extends CI_Model{
         }
     }
     public  function boo($id){
-        return  $this->db->from("uz_product p")
+        return  $this->db->from(PREFIX."product p")
                     ->select(" c.name as cname,s.name as sname,pr.name as prname,p.* ")
-                    ->join("uz_store s","s.id=p.storeid")
-                    ->join("uz_city c","c.id=p.cityid ")
-                    ->join("uz_product_status pr","pr.id=p.status")
+                    ->join(PREFIX."store s","s.id=p.storeid")
+                    ->join(PREFIX."city c","c.id=p.cityid ")
+                    ->join(PREFIX."product_status pr","pr.id=p.status")
                     ->where("p.siteid=0 and p.id='{$id}'")
                     ->limit(1)
                     ->get()
@@ -79,8 +79,8 @@ class GetProductPrivateModel1 extends CI_Model{
             IG::set($data);
             IG::post("content",$data['content'],"content" );
             IG::post("facephoto") && $data['facephoto']=self::imgjson($_POST['facephoto']) ;
-            self::imgjson($_POST['img']);
             if(isset($_POST['img']) and !empty($_POST['img']) ){
+                self::imgjson($_POST['img']);
                 $data['photos']= json_encode($_POST['img']);
             }
             $this->db->where(['id'=>$id,"siteid"=>0]);

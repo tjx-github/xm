@@ -24,19 +24,19 @@ class SaleModel3 extends CI_Model{
             self::$where["s.datetime < "] =strtotime($_GET['enddate']); 
         }
         $this->count=
-            $this->db->from("uz_sale s")
+            $this->db->from(PREFIX."sale s")
                 ->select("count(*) as count")
-                ->join("uz_sale_platform pl ","s.saleplatform =pl.id","left")
-                ->join("uz_sale_payment pa " ,"pa.id=s.payment","left")
-                ->join("uz_product_status st ","st.id=s.saletype ","left")
+                ->join(PREFIX."sale_platform pl ","s.saleplatform =pl.id","left")
+                ->join(PREFIX."sale_payment pa " ,"pa.id=s.payment","left")
+                ->join(PREFIX."product_status st ","st.id=s.saletype ","left")
                 ->where(self::$where)
                 ->get()->result_array();
         return
-            $this->db->from("uz_sale s")
+            $this->db->from(PREFIX."sale s")
                 ->select("s.* ,pl.name as plname,pa.name as paname,st.name as stname")
-                ->join("uz_sale_platform pl ","s.saleplatform =pl.id","left")
-                ->join("uz_sale_payment pa " ,"pa.id=s.payment","left")
-                ->join("uz_product_status st ","st.id=s.saletype ","left")
+                ->join(PREFIX."sale_platform pl ","s.saleplatform =pl.id","left")
+                ->join(PREFIX."sale_payment pa " ,"pa.id=s.payment","left")
+                ->join(PREFIX."product_status st ","st.id=s.saletype ","left")
                 ->where(self::$where)
                 ->order_by("s.id desc")
                 ->limit($z, $page > 1 ? ($page-1) * $z:0 )
@@ -57,11 +57,11 @@ class SaleModel3 extends CI_Model{
             self::$where["s.datetime < "] =strtotime($_GET['enddate']);
         }
         return
-            $this->db->from("uz_sale s")
+            $this->db->from(PREFIX."sale s")
                 ->select("s.id,s.pid,s.title,st.name as stname,s.price,s.costprice,s.preprice,s.saleman,s.otherfee,s.kuaidifee,s.siteprofit,FROM_UNIXTIME(s.saletime) as saletime")
-                ->join("uz_sale_platform pl ","s.saleplatform =pl.id","left")
-                ->join("uz_sale_payment pa " ,"pa.id=s.payment","left")
-                ->join("uz_product_status st ","st.id=s.saletype ","left")
+                ->join(PREFIX."sale_platform pl ","s.saleplatform =pl.id","left")
+                ->join(PREFIX."sale_payment pa " ,"pa.id=s.payment","left")
+                ->join(PREFIX."product_status st ","st.id=s.saletype ","left")
                 ->where(self::$where)
                 ->order_by("s.id desc")
                 ->get()

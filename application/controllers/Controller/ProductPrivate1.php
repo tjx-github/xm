@@ -3,14 +3,14 @@
 class ProductPrivate1 extends CAbstract{
     use Trait_;
     protected $search=[
-        "product_status"=>  [ "column"=>[ "id","name" ],  "where"=>[],"order"=>"ordernum asc" ], #库存状态
+        "product_status"=>  ["column"=>[ "id","name" ],  "where"=>[],"order"=>"ordernum asc" ], #库存状态
         "category"=>        ["column"=>["id","name"] ,    "where"=>[],"order" =>"ordernum asc" ], #物品类别
         "city"=>            ["column"=>["id","name"] ,    "where"=>[],"order"=>"ordernum asc" ],#地址
         "store"=>           ["column"=>["id","name"] ,    "where"=>["siteid"=>0],"order" =>"ordernum asc" ] ,#厂库,美工只能修改总部库存。所以给0
-        "city"=>            ["column"=>["name","id"], "where"=>[]            ,"order"=>"ordernum asc" ], # 地点，城市
-        "sale_payment"=>    ["column"=>['id','name'] ,"where"=>["siteid"=>0  ],"order"=>"ordernum asc" ],
-        "saleman"=>         ["column"=>['id','name'] ,"where"=>[],"order"=>"ordernum asc" ],
-        "sale_platform"=>   ["column"=>['id','name'] ,"where"=>[],"order"=>"ordernum asc" ],
+        "city"=>            ["column"=>["name","id"],     "where"=>[]            ,"order"=>"ordernum asc" ], # 地点，城市
+        "sale_payment"=>    ["column"=>['id','name'] ,    "where"=>["siteid"=>0  ],"order"=>"ordernum asc" ],
+        "saleman"=>         ["column"=>['id','name'] ,    "where"=>[],"order"=>"ordernum asc" ],
+        "sale_platform"=>   ["column"=>['id','name'] ,   "where"=>[],"order"=>"ordernum asc" ],
         "user_role"=>       ["column"=>['roleid','rolename'] ,"where"=>[],"order"=>"" ],
     ];
     public function showpview() {
@@ -18,7 +18,7 @@ class ProductPrivate1 extends CAbstract{
         if(self::$ci->input->is_ajax_request()){
             return self::ajax_data();
         }
-        $dat=self::$ci->GetProductPrivateModel1->GetData((int) self::$ci->uri->segment(3),self::$ci->config->item("page_config")['per_page']);
+        $dat=self::$ci->GetProductPrivateModel1->GetData((int) self::$ci->uri->segment(3), self::$PageNumber );
         self::$ci->load->view(
              "product_list/GetProductPrivateView1",
              [

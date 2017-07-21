@@ -37,12 +37,12 @@ class Home  extends CI_Controller {
             }
             self::$login=$login;
         }
-        if( ! empty($this->PowerModel->IsExistence() ) ){
-            $data=$this->PowerModel->IfPower( preg_filter("/^\//",""  ,$_SERVER['REQUEST_URI']) , self::$login['roleid'] );
-            if(empty($data)){
-                exit("无权限");
-            }
-        }
+//        if( ! empty($this->PowerModel->IsExistence() ) ){
+//            $data=$this->PowerModel->IfPower( preg_filter("/^\//",""  ,$_SERVER['REQUEST_URI']) , self::$login['roleid'] );
+//            if(empty($data)){
+//                exit("无权限");
+//            }
+//        }
             
         $this->load->model("UpdateSaleOrProductModel","TUpdate");
     }
@@ -53,12 +53,12 @@ class Home  extends CI_Controller {
     {
         global $login;
         
-        if($login['roleid'] == 3  || $login['roleid']==1 || $login['roleid'] == 33){
-           $data['nav']=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
-        }else{
-            $data['nav']=$this->load->view('home/nav',["login"=>$login],true);
-        }
-        
+//        if($login['roleid'] == 3  || $login['roleid']==1 || $login['roleid'] == 33){
+//           $data['nav']=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
+//        }else{
+//            $data['nav']=$this->load->view('home/nav',["login"=>$login],true);
+//        }
+        $data['nav']=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
         $data['login']=$login;
         
 
@@ -863,24 +863,31 @@ class Home  extends CI_Controller {
         $query = $this->db->query("select * from " . PREFIX . "saleman  order by ordernum asc");
         $saleman = $query->result_array();
         $data['saleman'] = $saleman;
-
-         $query = $this->db->query("select * from " . PREFIX . "sale_payment  order by ordernum asc");
+        $bx=$this->db->query("select * from " . PREFIX . "user  where  id='". SITEID  ."' ")->result_array();
+        if(empty($bx )){
+            $data['prefix']=  "";
+        }else{
+            $data['prefix']=  $bx[0]['prefix'] ;
+        }
+        
+         $query = $this->db->query("select * from " . PREFIX . "sale_payment where siteid=0 || siteid='". SITEID  ."' order by ordernum asc");
         $payment = $query->result_array();
         $data['payment'] = $payment;
 
-        $query = $this->db->query("select * from " . PREFIX . "store  order by ordernum asc");
+        $query = $this->db->query("select * from " . PREFIX . "store  where siteid=0 || siteid='". SITEID  ."' order by ordernum asc");
         $store = $query->result_array();
         $data['store'] = $store;
 
         $query = $this->db->query("select * from " . PREFIX . "product_status  order by ordernum asc");
         $status = $query->result_array();
         $data['status'] = $status;
-        if($login['roleid'] == 3 || $login['roleid'] == 33 ){
-            
-             $data['nav']=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
-        }else{
-            $data['nav']=$this->load->view('home/nav',$data,true);
-        }
+//        if($login['roleid'] == 3 || $login['roleid'] == 33 ){
+//            
+//             $data['nav']=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
+//        }else{
+//            $data['nav']=$this->load->view('home/nav',$data,true);
+//        }
+         $data['nav']=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
 //echo $data['nav'];
 //die;
         $this->load->view('home/product_add',$data);
@@ -1110,12 +1117,12 @@ class Home  extends CI_Controller {
     }
 
 
-
-#编辑产品
+#编辑产品  【全网】
     public function product_edit(){
         global $login;
         $this->updatevideo();
-        if(($login['roleid'] == 3 || $login['roleid'] == 4 || $login['roleid'] == 33) and $this->input->is_ajax_request()  ){
+
+        if(($login['roleid'] == 3 || $login['roleid'] == 4 || $login['roleid'] == 33) || $this->input->is_ajax_request()  ){
             return $this->Factory("product_list","Product") ->showoneaview();
         }
         $data['login']=$login;
@@ -1187,25 +1194,18 @@ class Home  extends CI_Controller {
 
     }
     private function Factory($controller,$C_N){
-//        $data=$this->PowerModel->IfPower("home/".$controller, self::$login['roleid'] );
-//        if(empty($data)){
-//            exit("无权访问！");
-//        }
+        $data=$this->PowerModel->IfPower("home/".$controller, self::$login['roleid'] );
+        if(empty($data)){
+            exit("无权访问！");
+        }
         return  Factory::GetObject( $data[0]['AdminRoleid'] , $C_N  ,$this);
     }
     //我的库存
     public function product_private_list(){
-
-         
         global $login;
-        
-
         if($login['roleid'] == 1 ||  $login['roleid'] == 3 || $login['roleid'] == 4){
            return $this->Factory("product_private_list","ProductPrivate") ->showpview();
         }
-
-        
-        
         $menu=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
         $data=$this->home_model->product_list();
 
@@ -1246,17 +1246,16 @@ class Home  extends CI_Controller {
 
         $this->load->view('home/product_list',$data);
     }
+    
+    //编辑产品  【私有】
     public function product_private_edit(){   #（私有数据）显示要编辑数据详情 view
-        global $login;
-        
-//        if($login['roleid'] == 3){
             return $this->Factory("product_private_list","ProductPrivate") ->showonepview();
-//        }
     }
     public function product_agent_add(){
         if(SITEID == 0){
             $this->load->view("product_list/product_agent",[
-                'nav'=>$this->load->view('home/nav',["login"=>self::$login],true),
+//                'nav'=>$this->load->view('home/nav',["login"=>self::$login],true),
+                'nav'=>$this->Factory("set_my_pass","UserUpdatePassword")->MenuView(),
                 "agent"=>$this->db->query("select id,username as name from uz_user where roleid=3 || roleid=33")->result_array()
                 ]);
         }else{
@@ -1265,7 +1264,7 @@ class Home  extends CI_Controller {
     }
     public function product_agent_ajax_html(){
         if(SITEID == 0  and isset($_POST['id']) and (int)$_POST['id'] ){
-            $prefix=$this->db->query("select prefix from " . PREFIX . "user   where  roleid=3 || roleid=33 and id= ". (int)$_POST['id']  )->result_array();
+            $prefix=$this->db->query("select prefix from " . PREFIX . "user   where  roleid in(3,33) and id= ". (int)$_POST['id']  )->result_array();
             if(empty($prefix)){
                 exit;
             }
@@ -1297,7 +1296,7 @@ class Home  extends CI_Controller {
              return $this->Factory("product_list","Product") ->showallview();
         }
         $menu=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
-
+//echo $menu;die;
         $data=$this->home_model->product_list();
 
         $data['login']=$login;
@@ -1338,6 +1337,7 @@ class Home  extends CI_Controller {
          }else{
              $data['nav']=$this->load->view('home/nav',$data,true);
          }
+
         $this->load->view('home/product_list',$data);
     }
 
@@ -1736,7 +1736,7 @@ class Home  extends CI_Controller {
     public function sale_platform_list(){
         global $login;
 
-        if($login['roleid'] == 3 || $login['roleid'] == 33){
+        if($login['roleid'] == 3 || $login['roleid'] == 33 || $login['roleid'] == 4 ){
             return $this->Factory("sale_platform_list","SalePlatformList")->showpview() ;
         }
         
@@ -1855,7 +1855,7 @@ class Home  extends CI_Controller {
 /*付款方式列表*/
     public function sale_payment_list(){
         global $login;
-        if($login['roleid'] == 3 || $login['roleid'] == 33){
+        if($login['roleid'] == 3 || $login['roleid'] == 33 || $login['roleid'] == 4){
             return $this->Factory("sale_payment_list","SalePaymentList")->showpview() ;
         }
         $data['login']=$login;
@@ -1917,7 +1917,9 @@ public function sale_add()
     {
         global $login;
         $data['login']=$login;
-
+        if($login['roleid']  == 4){
+            return $this->Factory("product_private_list","SaleAdd")->showonepview() ;  
+        }
         $pid=$this->uri->segment(3,0);
 
 //        echo $pid= preg_replace("/（.+$/","",urldecode($pid));
@@ -1998,9 +2000,11 @@ public function sale_add()
     添加销售 入库
 */
  public function sale_add_save(){
-         global $login;
+        global $login;
         $data['login']=$login;
-      
+       if($login['roleid']  == 4){
+            return $this->Factory("product_private_list","SaleAdd")->updae_p() ;  
+        }
         $myinput['siteid'] = SITEID;
         
         $myinput['title'] = $this->input->post('title', true);
@@ -2134,7 +2138,7 @@ public function sale_add()
     /* 产品列表 */
       public function sale_list() {
         global $login;
-        if($login['roleid'] == 3 || $login['roleid'] == 33){
+        if($login['roleid'] == 3 || $login['roleid'] == 33 || $login['roleid'] == 4){
             return $this->Factory("sale_list","SaleList")->showpview() ;
         }
         

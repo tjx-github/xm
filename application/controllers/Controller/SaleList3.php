@@ -23,7 +23,7 @@ class SaleList3 extends CAbstract{
         $data=self::$ci->SaleModel3->getdata($this->login['id'],(int) self::$ci->uri->segment(3),$config['per_page']);
         return
             self::$ci->load->view(
-                "sale/sale3",
+                "sale/SaleListView3",
                 [
                     "search"=>  $this->SearchHeader(),
                     "body"=>json_encode($data),
@@ -35,7 +35,6 @@ class SaleList3 extends CAbstract{
         
     }
     private function Download(){
-        
         if(isset($_GET['download'])){
             \CExport::downloadxml([
                 "id","产品货号","产品名称","状态","售价","代理价","定金","销售员","其他费用","快递费","利润","日期"

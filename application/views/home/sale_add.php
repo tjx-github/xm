@@ -79,17 +79,17 @@
                                       <input type="hidden" name="agentid" value="<?php echo $product['agentid']?>">
                                       
                                         <div class="form-group form-inline" id="piddiv">
-                                            <label>产品名称：</label>
+                                            <label class="col-md-2">产品名称：</label>
                                             <input class="form-control" name="title" id="title" value="<?php echo $product['title']?>" placeholder="商品名称">
                                         </div>
 
                                          <div class="form-group form-inline" id="piddiv">
-                                            <label>产品货号：</label>
+                                            <label class="col-md-2">产品货号：</label>
                                             <input class="form-control" name="pid" id="pid" value="<?php echo $product['pid']?>" placeholder="请输入货号">
                                         </div>
                                   
                                   <div class="form-group form-inline">
-                                   <label>库存状态:</label>
+                                   <label class="col-md-2">库存状态:</label>
                                     <select name="saletype" id="saletype" class="form-control">
                                     <option value="">库存状态</option>
                                        <?php 
@@ -109,7 +109,7 @@
                                  </div>
 
                                      <div class="form-group form-inline">
-                                   <label>销售平台：</label>
+                                   <label class="col-md-2">销售平台：</label>
                                 <select name="saleplatform" id="saleplatform" class="form-control">
                                     <option value="">销售平台</option>
                                       <?php 
@@ -125,35 +125,35 @@
                              
     
                           <div class="form-group form-inline" id="codediv">
-                                <label>产品售价：￥</label>
+                                <label class="col-md-2">产品售价：<i class="fa fa-1x fa-rmb"></i></label>
                                 <input class="form-control" name="price"  id="price" placeholder="产品售价">
                           </div>  
 
                       <div class="form-group form-inline" id="codediv">
-                                <label>平台手续：￥</label>
+                                <label class="col-md-2">平台手续：<i class="fa fa-1x fa-rmb"></i></label>
                                 <input class="form-control" name="platformfee"  id="platformfee" placeholder="平台手续">
                                 <input type="button" class="btn btn-default" value="计算" id="getfeebtn"> 
                           </div>
 
                            <div class="form-group form-inline" id="codediv">
-                                <label>支付定金：￥</label>
+                                <label class="col-md-2">支付定金：<i class="fa fa-1x fa-rmb"></i></label>
                                 <input class="form-control" name="preprice"  id="preprice" placeholder="支付定金">
                           </div>  
 
 
                           <div class="form-group form-inline" id="codediv">
-                                <label>成本价格：￥</label>
+                                <label class="col-md-2">成本价格：<i class="fa fa-1x fa-rmb"></i></label>
                                 <input class="form-control" name="costprice" value="<?php echo $product['costprice']?>" id="costprice" placeholder="成本价格">
                           </div>
 
                           <div class="form-group form-inline" id="codediv">
-                                <label>护理费用：￥</label>
+                                <label class="col-md-2">护理费用：<i class="fa fa-1x fa-rmb"></i></label>
                                 <input class="form-control" name="carefee" value="<?php echo $product['carefee']?>" id="carefee" placeholder="护理费用">
                           </div>
 
 
                            <div class="form-group form-inline" id="codediv">
-                                <label>其他费用：￥</label>
+                                <label class="col-md-2">其他费用：<i class="fa fa-1x fa-rmb"></i></label>
                                 <input class="form-control" name="otherfee" value="<?php echo $product['otherfee']?>" id="otherfee" placeholder="其他费用">
                           </div>
 
@@ -166,13 +166,13 @@
                 
 
                           <div class="form-group form-inline" id="codediv">
-                                <label>客户编号：</label>
+                                <label class="col-md-2">客户编号：</label>
                                 <input class="form-control" name="cid"  id="cid" placeholder="客户编号">
                           </div>
 
                     
                     <div class="form-group form-inline">
-                     <label>销 售 员：</label>
+                     <label class="col-md-2">销 售 员：</label>
                         <select class="form-group" name="saleman" id="saleman">
                           <option value="">请选择</option>
                              <?php 
@@ -185,7 +185,7 @@
                       
 
                        <div class="form-group form-inline">
-                     <label>收 货 人：</label>
+                     <label class="col-md-2">收 货 人：</label>
                       <input class="form-control" name="receiver" id="receiver"  placeholder="收货人" value="<?php echo $product['receiver']?>">
                          
                       </div>
@@ -193,7 +193,7 @@
                             
 
                                  <div class="form-group form-inline">
-                                   <label>付款方式：</label>
+                                   <label class="col-md-2">付款方式：</label>
                                 <select name="payment" id="payment" class="form-control">
                                     <option value="">付款方式：</option>
                                      <?php 
@@ -206,7 +206,7 @@
 
 
                                 <div class="form-group form-inline">
-                                   <label>快递公司：</label>
+                                   <label class="col-md-2">快递公司：</label>
                                 <select name="kuaidicompany" id="kuaidicompany" class="form-control">
                                     <option value="">快递公司：</option>
                                      <?php 
@@ -218,22 +218,22 @@
                                  </div>
  
                       <div class="form-group form-inline" id="codediv">
-                                <label>快递单号：</label>
+                                <label class="col-md-2">快递单号：</label>
                                 <input class="form-control" name="kuaidinum"  id="kuaidinum" placeholder="快递单号">
                           </div>
 
                            <div class="form-group form-inline" id="codediv">
-                                <label>快递费：</label>
+                                <label class="col-md-2">快递费：</label>
                                 <input class="form-control" name="kuaidifee"  id="kuaidifee" placeholder="快递费">
                           </div>
  
                           <div class="form-group form-inline" id="codediv">
-                                        <label>售出日期：</label>
+                                        <label class="col-md-2">售出日期：</label>
                                         <input class="form-control" name="saletime"  id="saletime" value="<?php echo date('Y-m-d', time())?>" placeholder="售出日期">
                        </div>    
 
                       <div class="form-group form-inline" id="codediv">
-                                    <label>封面照片</label>
+                                    <label class="col-md-2">封面照片</label>
                                     
                                     <img src="<?php echo $product['facephoto']?>" id="myimg" height="80" width="80" ><br>
 
@@ -244,7 +244,7 @@
 
 
                        <div class="form-group" id="codediv">
-                                      <label>备注信息：</label>
+                                      <label class="col-md-2">备注信息：</label>
                                       <textarea class="form-control" name="content" id="content" rows="3"></textarea>
                        </div>
 

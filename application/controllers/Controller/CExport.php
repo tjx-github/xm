@@ -1,6 +1,6 @@
 <?php
 class CExport {
-    static private $export=[];
+    static private $export="";
     static private $Key="A1,B1,C1,D1,E1,F1,G1,H1,I1,J1,K1,L1,M1,O1,P1,Q1,R1,S1,T1,U1,V1,W1,S1,Y1,Z1";
     static private $Key2="A,B,C,D,E,F,G,H,I,J,K,L,M,O,P,Q,R,S,T,U,V,W,S,Y,Z";
     static function downloadxml($key,$data,$delkey=[]){
@@ -9,18 +9,21 @@ class CExport {
         if(empty($data)){
             exit("没有数据，无需下载");
         }
+        if(self::$export === ""){
             include_once dirname(__FILE__) . '/../../libraries/PHPExcel.php';
             self::$export=new \PHPExcel();
+        }
+            
         $arr= explode(",", self::$Key);
         $key=array_combine(array_values(array_slice( $arr ,0 , count($key) )) , $key);
-        self::$export->getProperties()
-                ->setCreator("优正品")
-                ->setLastModifiedBy("优正品")
-                ->setTitle("优正品文件")
-                ->setSubject("优正品Excel文件")
-                ->setDescription("优正品文件，来自网站系统")
-                ->setKeywords("优正品")
-                ->setCategory("优正品");
+        self::$export->getProperties();
+//                ->setCreator("优正品")
+//                ->setLastModifiedBy("优正品")
+//                ->setTitle("优正品文件")
+//                ->setSubject("优正品Excel文件")
+//                ->setDescription("优正品文件，来自网站系统")
+//                ->setKeywords("优正品")
+//                ->setCategory("优正品");
         $obj=self::$export->setActiveSheetIndex(0);
         
         foreach($key as $k =>$v){

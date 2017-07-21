@@ -13,7 +13,12 @@ abstract class CAbstract   implements InterfaceProductListShow  {
         $this->CI_obj() -> load->model("QuerySearchBlock","obj");
 //        $obj = new QuerySearchBlock();
         foreach ($this->search as $TableName =>$data){
-            self::$searchdata[$TableName]=  $this->CI_obj()->obj ->searchquery(PREFIX.$TableName, $data['column'] ,$data['where'],$data['order']  );
+            if(isset($data['or_where'])){
+                self::$searchdata[$TableName]=  $this->CI_obj()->obj ->searchquery(PREFIX.$TableName, $data['column'] ,$data['where'],$data['order'] ,$data['or_where'] );
+            }else{
+                self::$searchdata[$TableName]=  $this->CI_obj()->obj ->searchquery(PREFIX.$TableName, $data['column'] ,$data['where'],$data['order'] );
+            }
+            
 //            self::$searchdata[$TableName]= $obj ->searchquery(PREFIX.$TableName, $data['column'] ,$data['where'],$data['order']  );
         }
      

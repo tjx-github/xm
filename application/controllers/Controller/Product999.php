@@ -6,12 +6,11 @@ class Product999 extends CAbstract{
         "city"=>            ["column"=>["name","id"], "where"=>[] ,"order"=>"ordernum asc" ], # 地点，城市
     ];
  
-    public function showallview() {  
+    public function showallview() {
         $this->CI_obj()->load->model("GetProductAllModel999","all");
         if(isset($_GET["download"])){
             \ CExport::downloadxml([
                 "商品编号","产品名称","产品类别","销售价","代理价","地点"
-                
                 ], $this->getdata(TRUE),['id']);
         }
 
@@ -33,7 +32,7 @@ class Product999 extends CAbstract{
             $data=$this->CI_obj()->all->ProductAll(
                self::$ci->input->get("title") ,
                self::$ci->input->get("pid") ,
-               self::$ci->input->get("cityid") ,(int) self::$ci->uri->segment(3),20,1
+               self::$ci->input->get("cityid") ,(int) self::$ci->uri->segment(3),self::$PageNumber,1
               );
            return $data;
        }

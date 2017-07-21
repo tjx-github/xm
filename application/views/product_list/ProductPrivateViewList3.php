@@ -8,25 +8,25 @@
     <meta name="author" content="">
 
     <title>我的库存</title>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/datatables/js/jquery.js"></script>
+
+    <script src="/bootadmin/vendor/datatables/js/jquery.js"></script>
     <!-- Bootstrap Core CSS -->
-    <link href="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootadmin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="<?php echo site_url('/')?>bootadmin/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="/bootadmin/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
     <!-- DataTables CSS -->
-    <link href="<?php echo site_url('/')?>bootadmin/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="/bootadmin/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
 
     <!-- DataTables Responsive CSS -->
-    <link href="<?php echo site_url('/')?>bootadmin/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+    <link href="/bootadmin/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="<?php echo site_url('/')?>bootadmin/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/bootadmin/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="<?php echo site_url('/')?>bootadmin/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/bootadmin/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -82,7 +82,7 @@
                                         }
                                         
                                         
-                                        ;?>"  target="_blank">导出EXCEL格式 </a></div>
+                                        ?>"  target="_blank" title="导出EXCEL格式"> <i class="fa fa-2x fa-download"></i></a></div>
                             </div>
                     </div>
                     <div class="panel-body">
@@ -180,21 +180,21 @@
         }
     })
     </script>
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/jquery/jquery.min.js"></script>
+    <script src="/bootadmin/vendor/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/bootadmin/vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/metisMenu/metisMenu.min.js"></script>
+    <script src="/bootadmin/vendor/metisMenu/metisMenu.min.js"></script>
 
     <!-- DataTables JavaScript -->
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/datatables/js/jquery.dataTables.min.js"></script>
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/datatables-responsive/dataTables.responsive.js"></script>
+    <script src="/bootadmin/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="/bootadmin/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="/bootadmin/vendor/datatables-responsive/dataTables.responsive.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="<?php echo site_url('/')?>bootadmin/dist/js/sb-admin-2.js"></script>
+    <script src="/bootadmin/dist/js/sb-admin-2.js"></script>
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>

@@ -273,8 +273,8 @@
                                         </td>
 
                                             <!--<td><?php // echo $value->saletype?></td>-->
-                                            <td><?php echo $value->costprice?></td>
-                                            <td><?php echo $value->saleprice;?></td>
+                                            <td><i class="fa fa-1x fa-rmb"></i><?php echo $value->costprice?></td>
+                                            <td><i class="fa fa-1x fa-rmb"></i><?php echo $value->saleprice;?> </td>
                                             <td><?php echo $value->city?></td>
                                             <td><?php echo $value->storename?></td>
                                             <td><?php echo date('Y-m-d',$value->storedate)?></td>

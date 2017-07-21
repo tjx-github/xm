@@ -8,6 +8,7 @@ class MY_Upload extends CI_Upload {
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image, $result)){
             //匹配成功
             $file_name=date('YmdHis').rand(1,9999);
+            
             if($result[2] == 'jpeg'){
                 $image_name = $file_name.'.jpg';
                 //纯粹是看jpeg不爽才替换的
@@ -22,7 +23,8 @@ class MY_Upload extends CI_Upload {
                 return false;
             }
         }else{
-            return false;
+            file_put_contents( $updir. md5(substr($base64_image,9)) .".jpg" , base64_decode(substr($base64_image,9)) )   ;
+            return md5(substr($base64_image,9)) .".jpg";
         }
     }
 }

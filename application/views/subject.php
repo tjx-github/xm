@@ -7,9 +7,17 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <title>我的库存</title>
+    <script src="/bootadmin/vue.js"></script>
+    <script src="<?php echo site_url('/')?>bootadmin/vendor/jquery/jquery.min.js"></script>
+    <link href="<?php echo site_url('/')?>bootadmin/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <script src="<?php echo site_url('/')?>bootadmin/bootstrap/dist/js/bootstrap.js"></script>
+    
+    <link rel="stylesheet" href="<?php echo site_url('/')?>bootadmin/layer2/skin/layer.css">
+<script src="<?php echo site_url('/')?>bootadmin/layer2/layer.js"></script>
+    
     <!-- Bootstrap Core CSS -->
+    
     <link href="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
@@ -44,7 +52,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Tables</h1>
+                <h1 class="page-header">产品列表</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -85,7 +93,7 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/jquery/jquery.min.js"></script>
+
 
     <!-- Bootstrap Core JavaScript -->
     <script src="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/js/bootstrap.min.js"></script>
