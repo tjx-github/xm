@@ -3,7 +3,6 @@ use Model\IsOrGet as IG;
 class GetProductPrivateModel4 extends CI_Model{
     use \Model\Trait_Count,  \Model\Trait_Img;
     static private $where=[];
-    static private $count=0;
     
     public function ProductOne($UserCode,$id){
         return

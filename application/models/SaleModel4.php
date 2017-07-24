@@ -4,6 +4,14 @@ class SaleModel4 extends CI_Model{
     use \Model\Trait_Img, \Model\Trait_Count;
     static $where;
     static protected $admin=1; //admin账号是否有修改权   1有
+//        static private $count=0;
+//    public static function GetCount(){
+//        if(is_array(self::$count)){
+//            return self::$count[0]['count'];
+//        } else {
+//            return self::$count;
+//        }
+//    }
     public function PUpdate($agentid){
         IG::addslashes($_POST);
         if($agentid != IG::post("agentid")   ||  ! IG::post("pid")){
@@ -28,8 +36,13 @@ class SaleModel4 extends CI_Model{
             
         }
         unset($_POST['productface']);
+
+//        die;
         $bool= $this->db-> insert(PREFIX."sale",$_POST);
         if($bool){
+            $this->db->set('status',$_POST['saletype']);
+            $this->db->where('pid',$_POST['pid']);
+            $this->db->update(PREFIX.'product');
             exit("OK");
         } else {
             exit("错误！请联系程序员");

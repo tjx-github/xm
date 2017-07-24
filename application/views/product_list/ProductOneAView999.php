@@ -28,19 +28,19 @@
                 </tr>
                 <tr>
                     <td> 销售价 </td>
-                    <td> {{v.saleprice}} </td>
+                    <td> <i class="fa fa-1x fa-rmb"></i>{{v.saleprice}} </td>
                 </tr>
                 <tr>
                     <td> 代理价 </td>
-                    <td> {{v.rivalprice}} </td>
+                    <td><i class="fa fa-1x fa-rmb"></i> {{v.rivalprice}} </td>
                 </tr>
                 <tr>
                     <td> 保留价 </td>
-                    <td> {{v.holdprice}} </td>
+                    <td> <i class="fa fa-1x fa-rmb"></i>{{v.holdprice}} </td>
                 </tr>
                 <tr>
                     <td> 其他费用 </td>
-                    <td> {{v.otherfee}} </td>
+                    <td><i class="fa fa-1x fa-rmb"></i> {{v.otherfee}} </td>
                 </tr>
                 <tr>
                     <td> 库存状态 </td>

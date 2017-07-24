@@ -340,8 +340,9 @@
       }
 
         $.post("/home/sale_add_save/",$("form").serializeArray(),function(data){
-            alert(data);
+            
             if(data == 'OK'){
+                alert(data);
                 //跳转
                 window.location.href ='/home/sale_list/';
             }

@@ -22,7 +22,7 @@ class ProductPrivate4 extends CAbstract{
         $this->search['sale_platform']['or_where']['siteid']= $login['id'];
     }
     public function showpview(){
-        self::$ci->load->model("GetProductPrivateModel4");   
+        self::$ci->load->model("GetProductPrivateModel4"); 
         self::DownloadXml($this->login['id']);
         if(self::$ci->input->is_ajax_request()){
             return self::PushAjaxView($this->login['id']);
@@ -34,9 +34,9 @@ class ProductPrivate4 extends CAbstract{
                                 (int) self::$ci->uri->segment(3)  , 
                                 self::$PageNumber )),
                 "menu"=>$this->MenuView(),
-                "page"=> self::page_html("/home/product_private_list", self::$ci->GetProductPrivateModel4::GetCount() ),
+                "page"=> self::page_html("/home/product_private_list", self::$ci->GetProductPrivateModel4->GetCount() ),
                 "search"=> $this->SearchHeader(),
-                "count"=> self::$ci->GetProductPrivateModel4::GetCount()
+                "count"=> self::$ci->GetProductPrivateModel4->GetCount()
         ]);
     }
     private static function PushAjaxView($loginid){
@@ -45,8 +45,8 @@ class ProductPrivate4 extends CAbstract{
                 "data"=> json_encode(self::$ci->GetProductPrivateModel4->ProductAll( $loginid , 
                                 (int) self::$ci->uri->segment(3)  , 
                                 self::$PageNumber ) ,true),
-                "page"=> self::page_html("/home/product_private_list", self::$ci->GetProductPrivateModel4::GetCount()),
-                "count"=> self::$ci->GetProductPrivateModel4::GetCount()
+                "page"=> self::page_html("/home/product_private_list", self::$ci->GetProductPrivateModel4->GetCount()),
+                "count"=> self::$ci->GetProductPrivateModel4->GetCount()
             ]);
     }
     private static function DownloadXml($id){

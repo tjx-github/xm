@@ -34,9 +34,9 @@ class SaleList4 extends CAbstract{
                                 self::$PageNumber )
                         ),
                 "menu"=>$this->MenuView(),
-                "page"=> self::page_html("/home/sale_list", self::$ci->SaleModel4::GetCount() ),
+                "page"=> self::page_html("/home/sale_list", self::$ci->SaleModel4->GetCount() ),
                 "search"=> $this->SearchHeader(),
-                "count"=> self::$ci->SaleModel4::GetCount()
+                "count"=> self::$ci->SaleModel4->GetCount()
             ]);
     }
     private static function NIUNIU($id){
@@ -47,8 +47,8 @@ class SaleList4 extends CAbstract{
                                 (int) self::$ci->uri->segment(3), 
                                 self::$PageNumber )
                         ),
-            "count"=> self::$ci->SaleModel4::GetCount(),
-            "page"=> self::page_html("/home/sale_list", self::$ci->SaleModel4::GetCount() ),
+            "count"=> self::$ci->SaleModel4->GetCount(),
+            "page"=> self::page_html("/home/sale_list", self::$ci->SaleModel4->GetCount() ),
         ]);
     }
     static private function DownloadXml($id){

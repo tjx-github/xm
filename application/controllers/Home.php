@@ -1296,6 +1296,7 @@ class Home  extends CI_Controller {
              return $this->Factory("product_list","Product") ->showallview();
         }
         $menu=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
+  
 //echo $menu;die;
         $data=$this->home_model->product_list();
 
@@ -1331,13 +1332,13 @@ class Home  extends CI_Controller {
         $this->session->sess_expiration=31536000;
         
 
-        $data['nav']=$this->load->view('home/nav',$data,true);
-         if($login['roleid'] == 3){
-             $data['nav']=$menu;
-         }else{
-             $data['nav']=$this->load->view('home/nav',$data,true);
-         }
-
+//        $data['nav']=$this->load->view('home/nav',$data,true);
+//         if($login['roleid'] == 3){
+//             $data['nav']=$menu;
+//         }else{
+//             $data['nav']=$this->load->view('home/nav',$data,true);
+//         }
+         $data['nav']=$menu;
         $this->load->view('home/product_list',$data);
     }
 
@@ -2098,8 +2099,9 @@ public function sale_add()
             $myinput['siteprofit']=(FLOAT)$myinput['price']-(FLOAT)$myinput['costprice']-(FLOAT)$myinput['otherfee']- (FLOAT) $myinput['platformfee']-(FLOAT)$myinput['kuaidifee'];
             if($myinput['agentid']>0)
             {
+               
                 $agentfee = $this->home_model->getC($myinput['agentid'], 'id', 'fee', PREFIX . 'user');
-                $p=  $this->db->query("select * from  ".PREFIX . 'user   where id='.$this->input->post('agentid', true) ." and roleid=3 || roleid=33"  ) -> result_array();
+                $p=  $this->db->query("select * from  ".PREFIX . 'user   where id='.$this->input->post('agentid', true) ." and roleid in(3,33,4)"  ) -> result_array();
 
                 $myinput['siteid'] = $this->input->post('agentid', true);
                 $myinput['HistoricalRate']=$agentfee;
