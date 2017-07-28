@@ -390,7 +390,7 @@ class Home_model extends CI_Model
         } else {
              $sql = "select * from " . PREFIX . "cert  where id>0 ".$order_by.$limitstr;
          
-            }
+        }
 
 
         $query = $this->db->query($sql);

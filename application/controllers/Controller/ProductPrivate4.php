@@ -3,7 +3,6 @@ global $login;
 #合作商  
 class ProductPrivate4 extends CAbstract{
     use Trait_;
-
     protected $search=[
         "product_status"=>  ["column"=>[ "id","name" ],  "where"=>[],"order"=>"ordernum asc" ], #库存状态
         "category"=>        ["column"=>["id","name"] ,    "where"=>[],"order" =>"ordernum asc" ], #物品类别
@@ -74,7 +73,6 @@ class ProductPrivate4 extends CAbstract{
     public function updae_p(){
         self::$ci->load->model("GetProductPrivateModel4");   
         self::$ci-> GetProductPrivateModel4 ->update_p($this->login['id']);
-
     }
 }
 

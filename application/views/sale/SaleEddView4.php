@@ -56,7 +56,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">添加销售订单</h1>
+                    <h1 class="page-header">修改销售订单</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -69,14 +69,14 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                           添加销售订单
+                           修改销售订单
                         </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <form role="form" id="addform" method="post" action="">
                                        
-                                      <input type="hidden" name="agentid" value="<?php echo $product['agentid']?>">
+                                      <input type="hidden" name="id" value="<?php echo $product['id']?>">
                                       
                                         <div class="form-group form-inline" id="piddiv">
                                             <label class="col-md-2">产品名称：</label>
@@ -95,7 +95,7 @@
                                        <?php 
                                     foreach ($product_status as $key => $value) {
 
-                                      if($product['status']==$value['id']){
+                                      if($product['saletype'] == $value['id']){
                                           echo '<option value="'.$value['id'].'" selected>'.$value['name'].'</option>';
                                       }else{
                                           echo '<option value="'.$value['id'].'">'.$value['name'].'</option>';
@@ -114,7 +114,12 @@
                                     <option value="">销售平台</option>
                                       <?php 
                                     foreach ($sale_platform as $key => $value) {
-                                      echo '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+                                       if($value['name'] == $product['saleplatform']){
+                                               echo '<option value="'.$value['name'].'" selected>'.$value['name'].'</option>';
+                                        }else{
+
+                                               echo '<option value="'.$value['name'].'">'. $value['name'] .'</option>';
+                                        }
                                     }
                                   ?> 
                                   </select>
@@ -126,18 +131,18 @@
     
                           <div class="form-group form-inline" id="codediv">
                                 <label class="col-md-2">产品售价：<i class="fa fa-1x fa-rmb"></i></label>
-                                <input class="form-control" name="price"   id="price" placeholder="产品售价">
+                                <input class="form-control" name="price"  id="price" value="<?php echo $product['price'];?>" placeholder="产品售价">
                           </div>  
 
                       <div class="form-group form-inline" id="codediv">
                                 <label class="col-md-2">平台手续：<i class="fa fa-1x fa-rmb"></i></label>
-                                <input class="form-control" name="platformfee"  id="platformfee" placeholder="平台手续">
+                                <input class="form-control" name="platformfee"  value="<?php echo $product['platformfee'];?>" id="platformfee" placeholder="平台手续">
                                 <input type="button" class="btn btn-default" value="计算" id="getfeebtn"> 
                           </div>
 
                            <div class="form-group form-inline" id="codediv">
                                 <label class="col-md-2">支付定金：<i class="fa fa-1x fa-rmb"></i></label>
-                                <input class="form-control" name="preprice"  id="preprice" placeholder="支付定金">
+                                <input class="form-control" name="preprice" value="<?php echo $product['preprice'];?>"  id="preprice" placeholder="支付定金">
                           </div>  
 
 
@@ -177,7 +182,12 @@
                           <option value="">请选择</option>
                              <?php 
                                         foreach ($saleman as $key => $value) {
-                                          echo '<option value="'.$value['name'].'">'.$value['name'].'</option>';
+                                            if($value['name'] == $product['saleman']){
+                                                echo '<option value="'.$value['name'].'" selected>'.$value['name'].'</option>';
+                                            }else{
+                                                
+                                                echo '<option value="'.$value['name'].'">'.$value['name'] .'</option>';
+                                            }
                                         }
                               ?> 
                         </select>
@@ -198,7 +208,13 @@
                                     <option value="">付款方式：</option>
                                      <?php 
                                       foreach ($sale_payment as $key => $value) {
-                                      echo '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+//                                      echo '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+                                        if($key == $product['payment']){
+                                               echo '<option value="'.$value['name'].'" selected>'.$value['name'].'</option>';
+                                           }else{
+
+                                               echo '<option value="'.$value['name'].'">'.$value['name'] .'</option>';
+                                           }
                                     }
                                     ?>
                                   </select>
@@ -211,7 +227,12 @@
                                     <option value="">快递公司：</option>
                                      <?php 
                                       foreach ($kuaidi_company as $key => $value) {
-                                      echo '<option value="'.$value['name'].'">'.$value['name'].'</option>';
+                                        if($value['name'] == $product['kuaidicompany']){
+                                               echo '<option value="'.$value['name'].'" selected>'.$value['name'].'</option>';
+                                        }else{
+
+                                               echo '<option value="'.$value['name'].'">'. $value['name'] .'</option>';
+                                        }
                                     }
                                     ?>
                                   </select>
@@ -219,7 +240,7 @@
  
                       <div class="form-group form-inline" id="codediv">
                                 <label class="col-md-2">快递单号：</label>
-                                <input class="form-control" name="kuaidinum"  id="kuaidinum" placeholder="快递单号">
+                                <input class="form-control" name="kuaidinum" value="<?php echo $product['kuaidinum'];?>"  id="kuaidinum" placeholder="快递单号">
                           </div>
 
                            <div class="form-group form-inline" id="codediv">
@@ -245,8 +266,7 @@
 
                        <div class="form-group" id="codediv">
                                       <label class="col-md-2">备注信息：</label>
-                                      <!--<textarea class="form-control" name="content" value="<?php // echo $product['content']; ?>" id="content" rows="3"><?php // echo $product['content']; ?></textarea>-->
-                                      <textarea class="form-control" name="content"  id="content" rows="3"></textarea>
+                                      <textarea class="form-control" name="content" value="<?php echo $product['content']; ?>" id="content" rows="3"><?php echo $product['content']; ?></textarea>
                        </div>
 
 
@@ -339,12 +359,11 @@
           return false;
       }
 
-        $.post("/home/sale_add_save/",$("form").serializeArray(),function(data){
-                   alert(data);        
+        $.post("/home/sale_edit_save/",$("form").serializeArray(),function(data){
+            alert(data);
             if(data == 'OK'){
-
                 //跳转
-                window.location.href ='/home/sale_list/';
+//                window.location.href ='/home/sale_list/';
             }
         });
  });

@@ -62,7 +62,7 @@
                     <td>{{arr.saletime | YmdHis}}</td>
                     
                     <th  class="row">
-                        <div class="col-xs-3"><a v-bind:hrefffff="'/home/sale_set_payback/'+[arr.id]" href="#"  v-bind:value="[arr.id]"  class="btn btn-default bbb"   >未结款</a> </div>
+                        <div class="col-xs-3"><a v-bind:href="'/home/sale_set_payback/'+[arr.id]"   v-bind:value="[arr.id]"  class="btn btn-default bbb" v-bind:tabindex="[arr.pid]"  v-if="arr.ispayback == 0" >未结款</a> </div>
                         <div class="col-xs-3 col-md-offset-3"><a v-bind:href="'/home/sale_edit/'+[arr.id]" title="编辑" ><i class="fa fa-2x fa-pencil "></i></a> </div>
                        <div class="col-xs-3"><a href="#"  class="tc" v-bind:value="[arr.id]" title="删除" v-bind:tabindex="[arr.pid]"><i class="fa fa-2x fa-trash-o"></i></a></div>      
                    </th>
@@ -119,13 +119,14 @@
 				</h4>
 			</div>
 			<div class="modal-body">
-                              请确定<i id="bianh" class="alert alert-success"></i> 订单已返点完毕？
+                              请确定<i id="bianh2" class="alert alert-success"></i> 订单已返点完毕？
 			</div>
 			<div class="modal-footer">
                             <input type="hidden" id="myid2" value="">
-                            <button type="button" class="btn " id="delok">
-                                确认删除
-                            </button>
+<!--                            <button type="button" class="btn btn-success btn-successq  " >
+                                确认完成
+                            </button>-->
+                                    <a href="" class="btn btn-success btn-successq  " >   确认完成  </a>
 				<button type="button" class="btn btnxxx">取消
 				</button>
 			</div>
@@ -155,8 +156,11 @@ $(function(){
  
         $("#bianh2").html($(this).attr("tabindex"));
         $("#ff2").show(322);
+        console.log($(this).attr("href"))
+        $(".btn-successq").attr({href:$(this).attr("href") });
+        return false;
     });
-    
+
     
     $(".tc").click(function(){
         $("#myid").val($(this).attr("value"));

@@ -104,9 +104,8 @@ class GetProductPrivateModel4 extends CI_Model{
             "datetime  >" => strtotime("-1 day")
         ])->get()-> result_array();
         if(empty($b)){
-            exit("不可修改！发布已超24小时！");
+//            exit("不可修改！发布已超24小时！");
         }
-
         IG::set($data);
         IG::post("facephoto") and  $data["facephoto"]=self::imgjson($_POST['facephoto']);
         if(isset($_POST['img']) and !empty($_POST['img']) ){

@@ -72,6 +72,9 @@ class Home  extends CI_Controller {
     public function cert_list()
     {
         global $login;
+        if(SITEID !== 0){
+            return $this->Factory("cert_list","CertList")->showallview();
+        }
         $data=$this->home_model->cert_list();
         $data['login']=$login;
          $data['nav']=$this->load->view('home/nav',$data,true);
@@ -485,6 +488,7 @@ class Home  extends CI_Controller {
     {
         global $login;
         $data['login']=$login;
+          $menu=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
           $query = $this->db->query("select * from " . PREFIX . "category  order by ordernum asc");
         $category = $query->result_array();
         $data['category'] = $category;
@@ -497,7 +501,8 @@ class Home  extends CI_Controller {
         $payment = $query->result_array();
         $data['payment'] = $payment;
 
-        $data['nav']=$this->load->view('home/nav',$data,true);
+//        $data['nav']=$this->load->view('home/nav',$data,true);
+         $data['nav'] =$menu;
         $this->load->view('home/care_add',$data);
 
     }
@@ -767,24 +772,14 @@ class Home  extends CI_Controller {
         public function care_list()
     {
         global $login;
-        $data=$this->home_model->care_list();
         $data['login']=$login;
-//        for($i=9;$i <= 37;$i++ ){
-//            $this->db->insert(PREFIX."power",[
-//                "MenuID"=>$i,
-//                "BelongAdminRoleid"=>2,
-//                "AdminRoleid"=>2
-//            ]);
-//        }
-// $query = $this->db->query("select p.MenuID,p.BelongAdminRoleid,p.AdminRoleid ,m.FromMenuId,m.MenuController, a.AdminExplain  ,k.MenuName as TMenuName,m.MenuName
-//    from uz_power p
-//    inner join uz_menu m on m.MenuID=p.MenuID 
-//    inner join uz_admin a on a.AdminRoleid=p.BelongAdminRoleid 
-//    left  join   (select MenuName,MenuId from uz_menu where frommenuid is null) k on k.MenuId=m.FromMenuId
-//    where p.PowerEffective=1 and  p.BelongAdminRoleid=5");
-//        $category = $query->result_array();
-//        print_r($category);
-//        die;
+        $menu=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
+        $data=$this->home_model->care_list();
+        
+        
+        
+        
+      
        
         $query = $this->db->query("select * from " . PREFIX . "category  order by ordernum asc");
         $category = $query->result_array();
@@ -808,7 +803,8 @@ class Home  extends CI_Controller {
         $this->session->sess_expiration=31536000;
 
 
-        $data['nav']=$this->load->view('home/nav',$data,true);
+//        $data['nav']=$this->load->view('home/nav',$data,true);
+        $data['menu'] =$menu;
         $this->load->view('home/care_list',$data);
 
     }
@@ -951,9 +947,11 @@ class Home  extends CI_Controller {
         $havephoto= $this->input->post('havephoto', true);
         if($havephoto)
         {
+            $myinput['havephoto']=(int)$havephoto;
+        }else{
             $havephoto=0;
         }
-         $myinput['havephoto']=$havephoto;
+         
 
         $myinput['adminid']=$login['id'];
        
@@ -1203,7 +1201,7 @@ class Home  extends CI_Controller {
     //我的库存
     public function product_private_list(){
         global $login;
-        if($login['roleid'] == 1 ||  $login['roleid'] == 3 || $login['roleid'] == 4){
+        if($login['roleid'] != 5){
            return $this->Factory("product_private_list","ProductPrivate") ->showpview();
         }
         $menu=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
@@ -1289,10 +1287,13 @@ class Home  extends CI_Controller {
     public function product_list(){
         global $login;
 
-        if(($login['roleid'] == 33 || $login['roleid'] == 3 ) and count($_GET) < 4){
-            return $this->Factory("product_list","Product") ->showallview();
-        }
-        if($login['roleid'] == 4){ #合作商
+//        if(($login['roleid'] == 33 || $login['roleid'] == 3 ) and count($_GET) < 4){
+//            return $this->Factory("product_list","Product") ->showallview();
+//        }
+//        if($login['roleid'] == 4){ #合作商
+//             return $this->Factory("product_list","Product") ->showallview();
+//        }
+        if($login['roleid'] != 5){ 
              return $this->Factory("product_list","Product") ->showallview();
         }
         $menu=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
@@ -1735,25 +1736,23 @@ class Home  extends CI_Controller {
 
      /*销售平台列表*/
     public function sale_platform_list(){
-        global $login;
+//        global $login;
 
-        if($login['roleid'] == 3 || $login['roleid'] == 33 || $login['roleid'] == 4 ){
+//        if( $login['roleid'] !== 5){
             return $this->Factory("sale_platform_list","SalePlatformList")->showpview() ;
-        }
+//        }
         
         
-        $data['login']=$login;
-        $query = $this->db->query("select * from " . PREFIX . "sale_platform  order by ordernum asc");
-        $platform = $query->result();
-        $data['platform'] = $platform;
-
-        $query = $this->db->query("select max(ordernum) as t from " . PREFIX . "sale_platform ");
-        $maxarr = $query->result_array();
-        $data['maxnum'] = $maxarr[0]['t']+1;
-
-
-        $data['nav']=$this->load->view('home/nav',$data,true);
-        $this->load->view('home/sale_platform_list',$data);
+//        $data['login']=$login;
+//        $query = $this->db->query("select * from " . PREFIX . "sale_platform  order by ordernum asc");
+//        $platform = $query->result();
+//        $data['platform'] = $platform;
+//
+//        $query = $this->db->query("select max(ordernum) as t from " . PREFIX . "sale_platform ");
+//        $maxarr = $query->result_array();
+//        $data['maxnum'] = $maxarr[0]['t']+1;
+//        $data['nav']=$this->load->view('home/nav',$data,true);
+//        $this->load->view('home/sale_platform_list',$data);
     }
 
 /*增加销售平台*/
@@ -1855,22 +1854,20 @@ class Home  extends CI_Controller {
 
 /*付款方式列表*/
     public function sale_payment_list(){
-        global $login;
-        if($login['roleid'] == 3 || $login['roleid'] == 33 || $login['roleid'] == 4){
+//        global $login;
+//        if($login['roleid'] !== 5){
             return $this->Factory("sale_payment_list","SalePaymentList")->showpview() ;
-        }
-        $data['login']=$login;
-        $query = $this->db->query("select * from " . PREFIX . "sale_payment  order by ordernum asc");
-        $payment = $query->result();
-        $data['payment'] = $payment;
-
-        $query = $this->db->query("select max(ordernum) as t from " . PREFIX . "sale_payment ");
-        $maxarr = $query->result_array();
-        $data['maxnum'] = $maxarr[0]['t']+1;
-
-
-        $data['nav']=$this->load->view('home/nav',$data,true);
-        $this->load->view('home/sale_payment_list',$data);
+//        }
+//        $data['login']=$login;
+//        $query = $this->db->query("select * from " . PREFIX . "sale_payment  order by ordernum asc");
+//        $payment = $query->result();
+//        $data['payment'] = $payment;
+//
+//        $query = $this->db->query("select max(ordernum) as t from " . PREFIX . "sale_payment ");
+//        $maxarr = $query->result_array();
+//        $data['maxnum'] = $maxarr[0]['t']+1;
+//        $data['nav']=$this->load->view('home/nav',$data,true);
+//        $this->load->view('home/sale_payment_list',$data);
     }
 
 /*增加付款方式*/
@@ -1918,7 +1915,7 @@ public function sale_add()
     {
         global $login;
         $data['login']=$login;
-        if($login['roleid']  == 4){
+        if($login['roleid']  == 4  || $login['roleid'] == 6){
             return $this->Factory("product_private_list","SaleAdd")->showonepview() ;  
         }
         $pid=$this->uri->segment(3,0);
@@ -2003,7 +2000,7 @@ public function sale_add()
  public function sale_add_save(){
         global $login;
         $data['login']=$login;
-       if($login['roleid']  == 4){
+       if($login['roleid']  == 4  || $login['roleid']==6){
             return $this->Factory("product_private_list","SaleAdd")->updae_p() ;  
         }
         $myinput['siteid'] = SITEID;
@@ -2140,7 +2137,7 @@ public function sale_add()
     /* 产品列表 */
       public function sale_list() {
         global $login;
-        if($login['roleid'] == 3 || $login['roleid'] == 33 || $login['roleid'] == 4){
+        if( $login['roleid'] != 5){
             return $this->Factory("sale_list","SaleList")->showpview() ;
         }
         
@@ -2183,6 +2180,12 @@ public function sale_add()
 /* 修改销售订单 */
 public function sale_edit(){
         global $login;
+        
+        if($login['roleid']  == 4  || $login['roleid']  == 6){
+            return $this->Factory("sale_list","SaleEdd")->showonepview() ;  
+        }
+        
+        
         $data['login']=$login;
        $id=$this->uri->segment(3);
        if(SITEID === 0 ){
@@ -2234,6 +2237,9 @@ public function sale_edit(){
 */
  public function sale_edit_save(){
         global $login;
+        if($login['roleid']  == 4 || $login['roleid']  == 6){
+            return $this->Factory("sale_list","SaleEdd")->updae_p() ;  
+        }
         $data['login']=$login;
         $id = $this->input->post('id', true);
         if(SITEID === 0 ){
@@ -2336,7 +2342,7 @@ public function sale_edit(){
             if($myinput['agentid']>0)
             {
                 $agentfee = $this->home_model->getC($myinput['agentid'], 'id', 'fee', PREFIX . 'user');
-                $p=  $this->db->query("select * from  ".PREFIX . 'user   where id='.$this->input->post('agentid', true) ." and roleid=3"  ) -> result_array();
+                $p=  $this->db->query("select * from  ".PREFIX . 'user   where id='.$this->input->post('agentid', true) ." and roleid in (3,33,4)"  ) -> result_array();
                 
                 $myinput['siteid'] = $this->input->post('agentid', true);
                 $myinput['HistoricalRate']=$agentfee;
@@ -2407,7 +2413,7 @@ public function sale_edit(){
         $data['login']=$login;
         $id=$this->uri->segment(3);
         
-        $this->db->query('update  '.PREFIX.'sale set ispayback=1 where id='.$id);
+        $this->db->query('update  '.PREFIX.'sale set ispayback=1 where id='.(int) $id);
         //header('location:' . site_url('home/sale_list'));
         header('location:'.$_SERVER["HTTP_REFERER"]);
     }

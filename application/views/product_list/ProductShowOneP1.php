@@ -85,25 +85,25 @@
                                     <form role="form" id="addform" method="post" action="<?php echo site_url('home/TProductEditUpdate')?>" enctype="multipart/form-data">
                                         <input type="hidden" name="id" value="<?php echo $product['id']?>" >
                                           <div class="form-group form-inline" id="codediv">
-                                            <label>产品名称：</label>
+                                            <label class="col-md-2">产品名称：</label>
                                             <input class="form-control" style="width:300px;"   id="title" value="<?php echo $product['title']?>" placeholder="输入产品名称" disabled>
                                         </div>
 
                                         <div class="form-group form-inline" id="piddiv">
-                                            <label>产品货号：</label>
+                                            <label class="col-md-2">产品货号：</label>
                                             <input class="form-control "  id="pid" value="<?php echo $product['pid']?>"   placeholder="请输入货号" disabled>
                                              
                                         </div>
                                       
                                       
                                <div class="form-group form-inline" id="codediv">
-                                        <label>规格款式：</label>
+                                        <label class="col-md-2">规格款式：</label>
                                         <input class="form-control"   id="size"   value="<?php echo $product['size']?>" placeholder="规格款式" disabled>
                        </div>   
  
                                     
                                  <div class="form-group form-inline">
-                                   <label>产品类别：</label>
+                                   <label class="col-md-2">产品类别：</label>
                                 <select  id="category" class="form-control">
                                     <option value="">选择类别</option>
                                   <?php 
@@ -124,7 +124,7 @@
 
 
                     <div class="form-group form-inline">
-                                <label>入库类别：</label>
+                                <label class="col-md-2">入库类别：</label>
                                 <select  id="saletype" class="form-control">
                                     <option value="">选择类别</option>
                                     <option value="回收" <?php if($product['saletype']=='回收'){echo 'selected';}?> disabled>回收</option>
@@ -134,7 +134,7 @@
 
 
                     <div class="form-group form-inline">
-                                <label>所属仓库：</label>
+                                <label class="col-md-2">所属仓库：</label>
                                   <select  id="storeid" class="form-control">
                                     <option value="" disabled>选择仓库</option>
                                   <?php 
@@ -154,34 +154,34 @@
 
 
                     <div class="form-group form-inline" id="piddiv">
-                        <label>成本价：</label>
+                        <label class="col-md-2">成本价：</label>
                         <input class="form-control"  id="costprice" value="<?php echo $product['costprice']?>" placeholder="请输入成本价" disabled>
                     </div>
 
                      <div class="form-group form-inline" id="piddiv">
-                        <label>销售价：</label>
+                        <label class="col-md-2">销售价：</label>
                         <input class="form-control"  id="saleprice"  value="<?php echo $product['saleprice']?>"  placeholder="请输入销售价" disabled>
                     </div>
 
                      <div class="form-group form-inline" id="piddiv">
-                        <label>同行价：</label>
+                        <label class="col-md-2">同行价：</label>
                         <input class="form-control"  id="rivalprice"  value="<?php echo $product['rivalprice']?>"  placeholder="请输入同行价" disabled>
                     </div>
 
                      <div class="form-group form-inline" id="piddiv">
-                        <label>保留价：</label>
+                        <label class="col-md-2">保留价：</label>
                         <input class="form-control"  id="holdprice"  value="<?php echo $product['holdprice']?>"  placeholder="请输入保留价" disabled>
                     </div>
 
                     <div class="form-group form-inline" id="piddiv">
-                        <label>其他费用：</label>
+                        <label class="col-md-2">其他费用：</label>
                         <input class="form-control"  id="otherfee" value="<?php echo $product['otherfee']?>"  placeholder="其他费用" disabled>
                     </div>
 
 
 
                       <div class="form-group form-inline">
-                                <label>所属城市：</label>
+                                <label class="col-md-2">所属城市：</label>
                                <select  id="cityid" class="form-control"> 
                                     <option value="">选择城市</option>
                                   <?php 
@@ -202,13 +202,13 @@
 
 
                      <div class="form-group form-inline">
-                     <label>收 货 人：</label>
+                     <label class="col-md-2">收 货 人：</label>
                       <input class="form-control"  id="receiver"  placeholder="收货人" value="<?php echo $product['receiver']?>" disabled>
                          
                       </div>
 
                       <div class="form-group form-inline" id="piddiv">
-                        <label>来源客户：</label>
+                        <label class="col-md-2">来源客户：</label>
                         <input class="form-control"  id="owner" value="<?php echo $product['owner']?>"  placeholder="来源客户" disabled>
                     </div>
 
@@ -217,20 +217,20 @@
                                 
 
                      <div class="form-group form-inline" id="codediv">
-                                        <label>入库时间：</label>
+                                        <label class="col-md-2">入库时间：</label>
                                         <input class="form-control"   id="storedate" value="<?php echo date('Y-m-d',$product['storedate'])?>" placeholder="款式" disabled>
                        </div>      
  
 
                
                <div class="form-group" id="codediv">
-                                        <label>备注信息：</label>
+                                        <label class="col-md-2">备注信息：</label>
                                        <textarea class="form-control" name="content" id="content" rows="3"><?php echo $product['content']?></textarea>
                        </div>
 
 
     <div class="form-group form-inline" id="codediv">
-                                    <label>封面照片</label>
+                                    <label class="col-md-2">封面照片</label>
                                     <img src="<?php echo $product['facephoto']?>" id="myimg" height="120" width="120"  ><br>
                                     <input type="file" name="pic" id="pic" multiple="multiple" />
                                     <input type="hidden" id="facephoto" name="facephoto" >
@@ -259,7 +259,7 @@
 
  
  <div class="form-group" id="updiv">
-        <label>更换图片（如果新上传图片，会覆盖以前的）</label>                                     
+        <label class="col-md-2">更换图片（如果新上传图片，会覆盖以前的）</label>                                     
 <div id="uploader" class="wu-example">
     <div class="queueList">
         <div id="dndArea" class="placeholder">

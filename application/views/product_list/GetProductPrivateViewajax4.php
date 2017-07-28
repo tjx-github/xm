@@ -54,7 +54,8 @@
                     <th  class="row">
                         <div class="col-xs-4"><a v-bind:href="'/home/sale_add/'+[arr.pid]"  class="btn btn-default" v-if="arr.status < 4">转为售出</a> </div>
                        <!--<div class="col-xs-3  col-md-offset-2"><a href="" title="编辑"><i class="fa fa-2x fa-pencil "></i></a> </div>-->
-                                            <div class="col-xs-3  col-md-offset-2"><a v-bind:href="'/home/product_private_edit/'+[arr.id]" title="编辑" v-if="arr.datetime > <?php echo strtotime("-1 day");?>"><i class="fa fa-2x fa-pencil "></i></a> </div>
+                                            <!--<div class="col-xs-3  col-md-offset-2"><a v-bind:href="'/home/product_private_edit/'+[arr.id]" title="编辑" v-if="arr.datetime > <?php echo strtotime("-1 day");?>"><i class="fa fa-2x fa-pencil "></i></a> </div>-->
+                                            <div class="col-xs-3  col-md-offset-2"><a v-bind:href="'/home/product_private_edit/'+[arr.id]" title="编辑" ><i class="fa fa-2x fa-pencil "></i></a> </div>
                        <div class="col-xs-3"><a href="#"  class="tc" v-bind:value="[arr.id]" title="删除" v-bind:tabindex="[arr.pid]"><i class="fa fa-2x fa-trash-o"></i></a></div>      
                    </th>
 <!--                     <th  class="row">

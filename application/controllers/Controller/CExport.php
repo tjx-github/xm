@@ -10,7 +10,7 @@ class CExport {
             exit("没有数据，无需下载");
         }
         if(self::$export === ""){
-            include_once dirname(__FILE__) . '/../../libraries/PHPExcel.php';
+            include_once WEBDIR."/application/libraries/PHPExcel.php";
             self::$export=new \PHPExcel();
         }
             

@@ -1,6 +1,6 @@
 <?php
 
-class SaleAdd4 extends CAbstract{
+class SaleEdd4 extends CAbstract{
     use Trait_;
     protected $search=[
         "product_status"=>  ["column"=>[ "id","name" ],  "where"=>[],"order"=>"ordernum asc" ], #库存状态
@@ -21,10 +21,13 @@ class SaleAdd4 extends CAbstract{
         $this->search['sale_payment']['or_where']['siteid']= $login['id'];
         $this->search['sale_platform']['or_where']['siteid']= $login['id'];
     }
+    
     public function showonepview() {
-        $proobj= self::$ci->db->from(PREFIX.'product')->where(['pid'=>addslashes(self::$ci->uri->segment(3)) ,"siteid"=> $this->login['id'] ])->get()->result_array();
+        $proobj= self::$ci->db->from(PREFIX.'sale')->where([
+            'id'=>addslashes(self::$ci->uri->segment(3)) ,
+            "siteid"=> $this->login['id'] ])->get()->result_array();
         if(empty($proobj)){
-            header("Location:/home/product_private_list/");exit;
+            header("Location:/home/sale_list/");exit;
         }
         $carefee=self::$ci->db->from(PREFIX.'care')->where(['pid'=>addslashes(self::$ci->uri->segment(3))    ,"siteid"=> $this->login['id']      ] )->get()->result_array();
         if(empty($carefee)){
@@ -32,8 +35,9 @@ class SaleAdd4 extends CAbstract{
         } else {
             $carefee=$carefee[0];
         }
+        
         return 
-            self::$ci->load->view("sale/SaleAddView4",array_merge ([
+            self::$ci->load->view("sale/SaleEddView4",array_merge ([
                 "menu"=>$this->MenuView(),
                 "product"=>$proobj[0],
                 "carefee"=>$carefee,
@@ -41,8 +45,8 @@ class SaleAdd4 extends CAbstract{
 
     }
     public function updae_p() {
-       self::$ci->load->model("SaleModel4");
-       self::$ci->SaleModel4->insertinto($this->login['id']);
+        self::$ci->load->model("SaleModel4");
+        self::$ci->SaleModel4->PUpdate($this->login['id']);
     }
 }
 

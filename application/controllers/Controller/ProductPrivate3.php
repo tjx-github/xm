@@ -19,8 +19,8 @@ class ProductPrivate3 extends CAbstract{
 //         $this->MenuView();
     }
     public function download(){
-    if(isset($_GET['download'])){
-        \CExport::downloadxml([  "商品编号","产品名称","产品类别","销售价","代理价","地点"], 
+        if(isset($_GET['download'])){
+            \CExport::downloadxml([  "商品编号","产品名称","产品类别","销售价","代理价","地点"], 
             $this->CI_obj()->GetProductPrivateModel3->GetDownloadData(
                self::$ci->input->get("title") ,
                self::$ci->input->get("pid") ,
