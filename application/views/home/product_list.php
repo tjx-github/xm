@@ -371,6 +371,16 @@
 
 
     <script type="text/javascript">
+    $(".tclass").click(function(){
+            b=$(this).attr("href");
+        if(b.indexOf("?") > 0)    {
+            b+="&dfas=sdds";
+        }else{
+            b+="?dfas=sdds";
+        }
+        window.location=b;
+        return false;
+    });
     function getid(id){
          $('#myid').val(id);
     }

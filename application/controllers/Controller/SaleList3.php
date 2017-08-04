@@ -2,18 +2,18 @@
 
 class SaleList3 extends CAbstract{
     use Trait_;
-    protected $search=[
-        "product_status"=>  [ "column"=>[ "id","name" ],  "where"=>[],"order"=>"ordernum asc" ], #库存状态
-        "category"=>        ["column"=>["id","name"] ,    "where"=>[],"order" =>"ordernum asc" ], #物品类别
-        "city"=>            ["column"=>["id","name"] ,    "where"=>[],"order"=>"ordernum asc" ],#地址
-        "store"=>           ["column"=>["id","name"] ,    "where"=>["siteid"=>SITEID],"order" =>"ordernum asc" ] ,#厂库
-        "city"=>            ["column"=>["name","id"], "where"=>[]            ,"order"=>"ordernum asc" ], # 地点，城市
-        "sale_payment"=>["column"=>['id','name'] ,"where"=>["siteid"=>SITEID  ],"order"=>"ordernum asc" ],
-        "saleman"=>["column"=>['id','name'] ,"where"=>[],"order"=>"ordernum asc" ],
-        "sale_platform"=>["column"=>['id','name'] ,"where"=>[],"order"=>"ordernum asc" ],
-        "user_role"=>["column"=>['roleid','rolename'] ,"where"=>[],"order"=>"" ],
-        
-    ];
+//    protected $search=[
+//        "product_status"=>  [ "column"=>[ "id","name" ],  "where"=>[],"order"=>"ordernum asc" ], #库存状态
+//        "category"=>        ["column"=>["id","name"] ,    "where"=>[],"order" =>"ordernum asc" ], #物品类别
+//        "city"=>            ["column"=>["id","name"] ,    "where"=>[],"order"=>"ordernum asc" ],#地址
+//        "store"=>           ["column"=>["id","name"] ,    "where"=>["siteid"=>SITEID],"order" =>"ordernum asc" ] ,#厂库
+//        "city"=>            ["column"=>["name","id"], "where"=>[]            ,"order"=>"ordernum asc" ], # 地点，城市
+//        "sale_payment"=>["column"=>['id','name'] ,"where"=>["siteid"=>SITEID  ],"order"=>"ordernum asc" ],
+//        "saleman"=>["column"=>['id','name'] ,"where"=>[],"order"=>"ordernum asc" ],
+//        "sale_platform"=>["column"=>['id','name'] ,"where"=>[],"order"=>"ordernum asc" ],
+//        "user_role"=>["column"=>['roleid','rolename'] ,"where"=>[],"order"=>"" ],
+//        
+//    ];
     public function showpview() {
         self::$ci->load->model("SaleModel3");
         $this->Download();

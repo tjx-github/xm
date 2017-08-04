@@ -89,7 +89,15 @@
                                <div class="form-group form-inline" id="codediv">
                                         <label class="col-md-2">配件：</label>
                                         <input class="form-control" name="size"  id="size"   placeholder="配件">
-                       </div>   
+                       </div>  
+                        <?php
+                            if(SITEID === 0){
+                        ?>
+                               <div class="form-group form-inline" id="codediv">
+                                        <label class="col-md-2">预售日期：</label>
+                                        <input class="form-control" name="ScheduledTime" value="<?php  echo date("Y-m-d");?>"  id="ScheduledTime"   placeholder="配件">
+                                </div>   
+                        <?php  }?>
  
                                     
                                  <div class="form-group form-inline">

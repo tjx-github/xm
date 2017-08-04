@@ -48,7 +48,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">代理商列表</h1>
+                    <h1 class="page-header">合作伙伴列表</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -67,13 +67,21 @@
                         <div class="panel-body">
 
                           <div class="form-group input-group col-lg-12  ">
-                               
-                                <p><input type="text" class="form-control" name="fullname" id="fullname" value="<?php echo $search['fullname']?>" placeholder="姓名" style="width:100px;">
-                                <input type="text" class="form-control" name="mobile" id="mobile" value="<?php echo $search['mobile']?>" placeholder="手机号" style="width:100px;">
+                              <form>
+                              <p><div class="col-md-1"><input type="text" class="form-control" name="fullname" id="fullname" value="<?php echo $search['fullname']?>" placeholder="姓名" style="width:100px;"></div>
+                                <div class="col-md-1"><input type="text" class="form-control" name="mobile" id="mobile" value="<?php echo $search['mobile']?>" placeholder="手机号" style="width:100px;"></div> 
                                      
-                                   
+                                   <div class="col-md-2">
+                                       <select name="roleid" class="form-control">
+                                           <option value="">用户类型</option> 
+                                           <option value="3">代理商</option>
+                                           <option value="4">合作商</option>
+                                           <option value="6">加盟商</option>
+                                       </select>
+                                   </div>
                                   
                 <button class="btn btn-success " type="button" id="searchbtn">搜索 </button>
+                </form>
             </div>
 
  
@@ -84,6 +92,7 @@
                                             <th>ID</th>
                                             <th>姓名</th>
                                              <th>用户名</th>
+                                             <th>用户类别</th>
                                             <th>性别</th>
                                             <th>头像</th>
                                             <th>手机号</th>
@@ -104,7 +113,23 @@
                                            
                                             <td><?php echo $value->fullname?></td>
                                              <td><?php echo $value->username?></td>
-                                             <td><?php echo $value->sex?></td>
+                                             <td><?php 
+                                                 switch ($value->roleid){
+                                                    case 3:
+                                                        echo "代理商";
+                                                        break;
+                                                    case 4:
+                                                        echo "合作商";
+                                                        break;
+                                                    case 6:
+                                                        echo "加盟商";
+                                                        break;
+                                                    default :
+                                                        echo "未知";
+                                                 }
+                                             
+                                             ?></td>
+                                              <td><?php echo $value->sex?></td>
                                               <td><img src="<?php echo $value->facepic?>" width="50" height="50"></td>
                                                <td><?php echo $value->mobile?></td>
                                                 <td><?php echo $value->province?></td>
@@ -208,11 +233,11 @@
     });
         
 
-    $('#searchbtn').on('click',function(){
-        wd=$('#wd').val();
-        window.location='<?php echo site_url("home/agent_list/1")?>/'+wd;
-       // alert($('#wd').val());
-    });  
+//    $('#searchbtn').on('click',function(){
+//        wd=$('#wd').val();
+//        window.location='<?php echo site_url("home/agent_list/1")?>/'+wd;
+//       // alert($('#wd').val());
+//    });  
 
    $('.imglist').on("mouseover mouseout",function(event){
  if(event.type == "mouseover"){
@@ -242,18 +267,18 @@ $('.agentid').on('blur',function(){
 
 
  $('#searchbtn').on('click',function(){
-        fullname=$('#fullname').val();
-        
-        mobile=$('#mobile').val();
-         
-        query='?';
-        query=query+'fullname='+fullname;
-       
-        query=query+'&mobile='+mobile;
-         
+//        fullname=$('#fullname').val();
+//        
+//        mobile=$('#mobile').val();
+//         
+//        query='?';
+//        query=query+'fullname='+fullname;
+//       
+//        query=query+'&mobile='+mobile;
 
 
-        window.location='<?php echo site_url("home/agent_list/1")?>/'+query;
+
+        window.location='<?php echo site_url("home/agent_list/1")?>/?'+$("form").serialize();
        // alert($('#wd').val());
     });  
 

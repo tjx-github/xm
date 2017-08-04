@@ -1,0 +1,3 @@
+<?php
+
+new Imagick("45a5e6403c19b9555c1c7a6b6e8ae21f.jpg");

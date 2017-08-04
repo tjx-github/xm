@@ -1,6 +1,7 @@
 <?php
 class Home_model extends CI_Model 
 {
+    static $set=[];
     function __construct()
     {
         parent::__construct();
@@ -856,6 +857,7 @@ class Home_model extends CI_Model
         $config['total_rows'] = $total_rows;
         $config['per_page'] = 20;
         $config['query_string_segment'] = 'per_page';
+        $config['attributes'] = array('class' => 'tclass');
         $config['uri_segment'] = 3;
         $config['full_tag_open'] = '<ul class="pagination">';
         $config['full_tag_close'] = ' </ul>';
@@ -1018,10 +1020,14 @@ class Home_model extends CI_Model
 //        $sql = "select id from " . PREFIX . "sale  where siteid=".SITEID."  ".$sqlstr;
         $sql = "select id from " . PREFIX . "sale  where  agentid=1  ".$sqlstr;
 
-
+     
         $query = $this->db->query($sql);
         $total_rows = count($query->result());
-         $config['base_url'] = site_url('home/sale_list');
+        if(isset($_GET['owner'])){
+            return $this->search_($search);
+        }
+
+        $config['base_url'] = site_url('home/sale_list');
         $config['total_rows'] = $total_rows;
         $config['per_page'] = 20;
         $config['uri_segment'] = 3;
@@ -1083,7 +1089,98 @@ class Home_model extends CI_Model
         $data = array('salelist' => $rs, 'pagelink' => $pagelink, 'search' => $search, 'searchstr'=>$searchstr,'count' => $total_rows);
         return $data;
     }
+    static function get($varname,&$get=false,$key=false){
+//        if(isset($_GET[$varname]) && ! empty($_GET[$varname]) ) {
+        if(isset($_GET[$varname]) && $_GET[$varname] !== "" ) {
+            is_array($_GET[$varname]) and exit("不允许 array 类型");
+            if($get !== false){
+                $get= addslashes( strip_tags($_GET[$varname]));
+            }
+            return addslashes( strip_tags($_GET[$varname]));
+        }else{
+            if($key !== FALSE){
+                unset(self::$set[$key]);
+            }
+            return FALSE;
+        }
+    }
+    
+    private function search_($search){
+      
+        $where=[];
+        self::$set=&$where;
+        self::get("title") && $where['s.title like'] = "%". self::get("title") ."%";
+        self::get("pid") && $where['s.pid like'] = "%". self::get("pid") ."%";
+        
+        self::get("receiver",$where['s.receiver'],"s.receiver");
+        self::get("saleman",$where['s.saleman'],"s.saleman");
+        self::get("cid",$where['s.cid'],"s.cid" );
+        self::get("saletype",$where['s.saletype'] ,"s.saletype");
+        self::get("saleplatform",$where['s.saleplatform'],"s.saleplatform");
+        self::get("agentid",$where['s.agentid'],"s.agentid");
+        self::get("payment",$where['s.payment'],"s.payment");
+        self::get("ispayback",$where['s.ispayback'],"s.ispayback");
+        if(isset($_GET['startday']) and strtotime($_GET['startday']) and isset($_GET['endday']) and strtotime($_GET['endday'])){
+            self::$where["s.datetime > "] =strtotime($_GET['startday']);
+            self::$where["s.datetime < "] =strtotime($_GET['enddate']);
+        }
+        self::get("owner",$where['p.owner'],"p.owner" );
 
+            $total_rows=$this->db->from("uz_sale s")
+                ->select("count(*) as count")
+                ->join("uz_product p","s.pid=p.pid")
+                ->where($where)
+                ->get()
+                ->result_array();
+            if(is_array($total_rows)){
+                $total_rows =$total_rows[0]["count"];
+            }else{
+                $total_rows=0;
+            }
+
+        $config['base_url'] = site_url('home/sale_list');
+        $config['total_rows'] = $total_rows;
+        $config['per_page'] = 20;
+        $config['uri_segment'] = 3;
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = ' </ul>';
+        $config['use_page_numbers'] = TRUE;
+        $config['page_query_string'] = FALSE;
+        $config['reuse_query_string'] = TRUE;
+        $config['num_links'] = 3;
+        $config['next_link'] = '&gt;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&lt;';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['first_link'] = '首页';
+        $config['first_tag_open'] = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['last_link'] = '尾页';
+        $config['last_tag_open'] = '<li>';
+        $config['last_tag_close'] = '</li>';
+        $this->pagination->initialize($config);
+        $pagelink = $this->pagination->create_links();
+        
+        
+        $rs=$this->db->from("uz_sale s")
+                ->select("s.*")
+                ->join("uz_product p","s.pid=p.pid")
+                ->where($where)
+                ->order_by("s.id")
+                ->limit(20, $this->uri->segment(3) > 1 ? ($this->uri->segment(3)-1) * 20:0 )
+                ->get()
+                ->result_object();
+
+        
+        
+         return ['salelist' => $rs, 'pagelink' => $pagelink, 'search' =>  $search, 'searchstr'=> http_build_query($_GET),'count' => $total_rows] ;
+    }
 
 
 
@@ -1309,8 +1406,13 @@ class Home_model extends CI_Model
         if($fullname){ $fullnamesql=" and  fullname like '%".$fullname."%' ";}
        
         if($mobile){ $mobilesql=" and  mobile= '".$mobile."' " ;}
-
-        $sqlstr=$fullnamesql.$mobilesql;
+        $roleid= $this->input->get('roleid', true);
+        if($roleid){
+            $x= "  and roleid= $roleid  ";
+        }else{
+            $x='';
+        }
+        $sqlstr=$fullnamesql.$mobilesql.$x;
 
         // 计算总页数
         $wd = $this->uri->segment(4, '0');
@@ -1349,7 +1451,7 @@ class Home_model extends CI_Model
         $intpage = $this->get_page(3);
         $limitstr = ' limit ' . ($intpage - 1) * $config['per_page'] . ',' . $config['per_page'];
 
-        $sql = "select * from " . PREFIX . "user  where roleid=3 ".$sqlstr.$order_by.$limitstr;
+        $sql = "select * from " . PREFIX . "user  where roleid in (3,4,6) ".$sqlstr.$order_by.$limitstr;
 
         $query = $this->db->query($sql);
         $rs = $query->result();

@@ -10,7 +10,6 @@
     <meta name="author" content="">
 
     <title><?php echo SITENAME?></title>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 

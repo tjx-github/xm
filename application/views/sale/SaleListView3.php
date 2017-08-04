@@ -8,7 +8,7 @@
     <meta name="author" content="">
 
     <title>全部订单</title>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -142,6 +142,7 @@
                                         <th>返点</th>
                                         <!--<th>历史利率</th>-->
                                         <!--<th>日期</th>-->
+                                        <th>结款状态</th>
                                     </tr>
                                 </thead>
                                 <tbody id="body">
@@ -167,6 +168,8 @@
 <!--                                        <td v-if="value.HistoricalRate > 0">{{value.HistoricalRate}}%</td>
                                         <td v-else>0%</td>-->
                                         <!--<td>{{value.saletime | YmdHis}}</td>-->
+                                        <td v-if="value.ispayback == 1">已结款</td>
+                                        <td v-else>未结款</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -209,12 +212,12 @@ $(function(){
         }
     });
 });
-new Vue({
-  el: '#search',
-  data: {
-    search: <?php  echo $search;   ?>
-  }
-});
+//new Vue({
+//  el: '#search',
+//  data: {
+//    search: <?php  echo $search;   ?>
+//  }
+//});
 function date(format, timestamp){ 
     var a, jsdate=((timestamp) ? new Date(timestamp*1000) : new Date());
     var pad = function(n, c){

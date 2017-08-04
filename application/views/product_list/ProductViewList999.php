@@ -8,6 +8,9 @@
     <meta name="author" content="">
 
     <title>全网库存</title>
+        <!--二维码-->
+    <script type="text/javascript" src="/bootadmin/qrcode/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootadmin/qrcode/qrcode.js"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
 <!--<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
 
@@ -41,6 +44,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 
 </head>
 
@@ -110,6 +114,9 @@
                                     <tr v-for="k in body">
                                         <td v-for="(va,key) in k">
                                             <button class="btn btn-outline btn-success" v-bind:value="[va]" v-if="key === 'id'" data-toggle="modal" data-target="#myModal">查看</button>
+                                            <i  v-if="key === 'id'"  class="fa fa-2x fa-qrcode col-md-offset-4"></i>
+                                            
+                                            <input type="hidden" v-bind:id="'code'+[va]" v-bind:value="'<?php  echo site_url("Share/GetData")  ;?>?pid='+[va]"  v-if="key === 'id'" />
                                             <div v-else-if="key === 'facephoto'" class="imglist">
                                                     <img v-bind:src="[va]" height="50" width="50">
                                                     <div style="position:absolute;margin-top:-150px;height:400px;width:400px;z-index:999;float:left;display:none;"> 
@@ -155,6 +162,11 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
+<!--<div id="qrcode" style="float: left; width:100px; height:100px; "></div>-->
+<!--<div id="qrcode" style="float: left;  "></div>-->
+
+<!--<div id="qrcode" style="float: right;width:100px; height:100px;line-height:100px;"></div>-->
+
 <script>
     $(function(){
         $('.imglist').on("mouseover mouseout",function(event){
@@ -201,14 +213,31 @@
     <!-- Custom Theme JavaScript -->
     <script src="/bootadmin/dist/js/sb-admin-2.js"></script>
 
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
-//    $(document).ready(function() {
-//        $('#dataTables-example').DataTable({
-//            responsive: true
-//        });
-//    });
-    </script>
+
+<div id="qrcode" style="width:100px; height:100px;z-index:200;position: fixed;top: 54%;left:85%;"></div>
+
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	width : 150,
+	height : 150
+});
+function makeCode (id) {		
+	var elText = document.getElementById(id);
+	
+	if (!elText.value) {
+		alert("Input a text");
+		elText.focus();
+		return;
+	}
+	qrcode.makeCode(elText.value);
+}
+$(".fa-qrcode").mouseover(function(){
+    makeCode($(this).nextAll("input").attr("id"));
+    $("#qrcode").show();
+}).mouseout(function(){
+    $("#qrcode").hide();
+});
+</script>
 
 </body>
 

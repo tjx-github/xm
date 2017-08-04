@@ -71,7 +71,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="form-group form-inline col-lg-5">
-                                    <label >代理商：</label>
+                                    <label class="col-md-2">代理商</label>
                                         <select name="agentid" id="agentid" class="form-control  ">
                                             <option value="">选择代理商</option>
                                                 <?php 

@@ -1,0 +1,10 @@
+RewriteEngine on  
+RewriteCond $1 !^(index\.php|sui|css|bootadmin|static|images|uploads|js|MP_verify_P2ektoR9BwqyZwS1.txt)  
+RewriteRule ^(.*)$ /index.php/$1 [L]
+
+
+<FilesMatch ".(flv|gif|jpg|jpeg|png|ico|swf|js|css)$">
+Header set Cache-Control "max-age=2592000"
+</FilesMatch>
+
+

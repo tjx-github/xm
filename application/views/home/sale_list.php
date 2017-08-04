@@ -49,6 +49,7 @@
                             switch ($search['saletype']) {
                                 case '4':
                                     $titlestr='售出订单';
+                                    echo "";
                                     break;
 
                                     case '5':
@@ -65,7 +66,7 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            
+            <!--<input type="hidden" name="saletype" id="saletype" value="" />-->
       
 
 
@@ -79,34 +80,35 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
 
-                             <div class="form-group input-group col-lg-12  ">
-                               
-                                    <p><input type="text" class="form-control" name="title" id="title" value="<?php echo $search['title']?>" placeholder="关键词" style="width:100px;">
-                                    <input type="text" class="form-control" name="pid" id="pid" value="<?php echo $search['pid']?>" placeholder="货号" style="width:100px;">
-                                    <input type="text" class="form-control" name="receiver" id="receiver" value="<?php echo $search['receiver']?>" placeholder="收货人" style="width:100px;">
-                            
-                            <select name="saleman" id="saleman" class="form-control" style="width:120px;">
-                                     <option value="">销售员</option>
-                                     <?php 
-                                    foreach ($saleman as $key => $value) {
-                                     
-                                      if($search['saleman']==$value['name']){
-                                          echo '<option value="'.$value['name'].'" selected>'.$value['name'].'</option>';
-                                      }else{
-                                          echo '<option value="'.$value['name'].'">'.$value['name'].'</option>';
-                                      }
-                                       
-                                    }
-                                  ?> 
-                                  </select> 
+                             <div class="form-group input-group row  ">
+                                    <div class="col-md-2" ><input type="text" class="form-control" name="title" id="title" value="<?php echo $search['title']?>" placeholder="关键词" ></div>
+                                    <div class="col-md-2" ><input type="text" class="form-control" name="pid" id="pid" value="<?php echo $search['pid']?>" placeholder="货号" ></div>
+                                    <div class="col-md-2" ><input type="text" class="form-control" name="receiver" id="receiver" value="<?php echo $search['receiver']?>" placeholder="收货人" ></div>
+                                <div class="col-md-2" >
+                                    <select name="saleman" id="saleman" class="form-control" >
+                                             <option value="">销售员</option>
+                                             <?php 
+                                            foreach ($saleman as $key => $value) {
 
-                                    <input type="text" class="form-control" name="cid" id="cid" value="<?php echo $search['cid']?>" placeholder="客户编号" style="width:100px;">
-                                     <select name="saletype" id="saletype" class="form-control" style="width:120px;">
-                                        <option value="">全部状态</option>
+                                              if($search['saleman']==$value['name']){
+                                                  echo '<option value="'.$value['name'].'" selected>'.$value['name'].'</option>';
+                                              }else{
+                                                  echo '<option value="'.$value['name'].'">'.$value['name'].'</option>';
+                                              }
+
+                                            }
+                                          ?> 
+                                    </select>
+                                </div>
+                                    <div class="col-md-2" ><input type="text" class="form-control" name="cid" id="cid" value="<?php echo $search['cid']?>" placeholder="客户编号" ></div>
+                                    
+                                    <div class="col-md-2" >
+                                        <select name="saletype" id="saletype" class="form-control" >
+                                        <option value="">全部状态OO</option>
                                         <?php 
                                     foreach ($status as $key => $value) {
                                      
-                                      if($search['saletype']==$value['name']){
+                                      if($search['saletype']== $value['id']){
                                           echo '<option value="'.$value['id'].'" selected>'.$value['name'].'</option>';
                                       }else{
                                           echo '<option value="'.$value['id'].'">'.$value['name'].'</option>';
@@ -115,7 +117,10 @@
                                     }
                                   ?> 
                                      </select> 
-                                    <select name="saleplatform" id="saleplatform" class="form-control" style="width:120px;">
+                                </div>
+                            <!--</div>-->
+                            <div class="col-md-12  ">&nbsp;</div>
+                                   <div class="col-md-2" > <select name="saleplatform" id="saleplatform" class="form-control">
                                      
                                     <option value="">全部平台</option>
                                      <?php 
@@ -130,8 +135,8 @@
                                     }
                                   ?> 
                                   </select> 
-
-                                         <select class="form-control" name="agentid" id="agentid" style="width:120px;">
+                                   </div>
+                                    <div class="col-md-2" >     <select class="form-control" name="agentid" id="agentid">
                                         <option value="">代理商</option>
                              <?php 
                                         foreach ($agent as $key => $value) {
@@ -146,39 +151,48 @@
 
                                         }
                               ?> 
-                        </select>
-                                   </div>
-    <div class="form-group input-group col-lg-12  form-inline">
+                                        </select></div>
 
-           <select name="payment" id="payment" class="form-control" style="width:120px;">
-                                     <option value="">付款方式</option>
-                                     <?php 
-                                    foreach ($payment as $key => $value) {
-                                     
-                                      if($search['payment']==$value['id']){
-                                          echo '<option value="'.$value['id'].'" selected>'.$value['name'].'</option>';
-                                      }else{
-                                          echo '<option value="'.$value['id'].'">'.$value['name'].'</option>';
-                                      }
-                                       
-                                    }
-                                  ?> 
-                                  </select> 
+    <!--<div class="form-group input-group col-lg-12  form-inline">-->
+         <div class="col-md-2" >  
+            <select name="payment" id="payment" class="form-control" >
+                     <option value="">付款方式</option>
+                 <?php 
+                    foreach ($payment as $key => $value) {
 
-   <select name="ispayback" id="ispayback" class="form-control" style="width:120px;">
-                                     <option value="">结款状态</option>
-                                     <option value="0" <?php if($search['ispayback']=='0'){echo 'selected';}?>>未结款</option>
-                                     <option value="1" <?php if($search['ispayback']=='1'){echo 'selected';}?>>已结款</option>
+                      if($search['payment']==$value['id']){
+                          echo '<option value="'.$value['id'].'" selected>'.$value['name'].'</option>';
+                      }else{
+                          echo '<option value="'.$value['id'].'">'.$value['name'].'</option>';
+                      }
+
+                    }
+                 ?> 
+             </select> 
+        </div>
+    <div class="col-md-2" >  
+            <select name="ispayback" id="ispayback" class="form-control">
+                <option value="">结款状态</option>
+                <option value="0" <?php if($search['ispayback']=='0'){echo 'selected';}?>>未结款</option>
+                <option value="1" <?php if($search['ispayback']=='1'){echo 'selected';}?>>已结款</option>
+             </select> 
+    </div>
+    <div class="col-md-2" >  
+            <input type="text" class="form-control" name="startday" id="startday" value="<?php echo $search['startday']?>" placeholder="开始日期 如：<?php echo date('Y-m-d',time())?>" >
+    </div>
+    <div class="col-md-2" >  
+            <input type="text" class="form-control" name="endday" id="endday" value="<?php echo $search['endday']?>" placeholder="结束日期 如：<?php echo date('Y-m-d',time())?>" >
+    </div>
+       <div class="col-md-12  ">&nbsp;</div>
+    <div class="col-md-10" > 
+        <input type="text" class="form-control" name="owner" id="owner"  placeholder="来源客户" > 
+    </div>
+    <div class="col-md-2" >   
+        <button class="btn btn-success " type="button" id="searchbtn">搜索 </button>
+    </div>
                                       
-                                    
-                                  </select> 
-
-    <input type="text" class="form-control" name="startday" id="startday" value="<?php echo $search['startday']?>" placeholder="开始日期 如：<?php echo date('Y-m-d',time())?>" style="width:200px;">
-    <input type="text" class="form-control" name="endday" id="endday" value="<?php echo $search['endday']?>" placeholder="结束日期 如：<?php echo date('Y-m-d',time())?>" style="width:200px;">
-         
-            <button class="btn btn-success " type="button" id="searchbtn">搜索 </button>
-                                      
-                            </div>
+                            <!--</div>-->
+                </div>
 
 <div class="alert alert-success" role="alert">
     查询总记录：<?php echo $count?>  <a href="<?php echo site_url('export/sale').'?id>0'.$searchstr?>" target="_blank">导出EXCEL格式</a>
@@ -408,7 +422,8 @@
         query=query+'&agentid='+agentid;
         query=query+'&payment='+payment;
         query=query+'&ispayback='+ispayback;
-
+        query=query+'&owner='+$("#owner").val();
+        
 
         window.location='<?php echo site_url("home/sale_list/1")?>/'+query;
        // alert($('#wd').val());

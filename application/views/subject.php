@@ -8,7 +8,6 @@
     <meta name="author" content="">
 
     <title>我的库存</title>
-    <script src="/bootadmin/vue.js"></script>
     <script src="<?php echo site_url('/')?>bootadmin/vendor/jquery/jquery.min.js"></script>
     <link href="<?php echo site_url('/')?>bootadmin/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
     <script src="<?php echo site_url('/')?>bootadmin/bootstrap/dist/js/bootstrap.js"></script>

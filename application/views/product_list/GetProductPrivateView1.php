@@ -8,7 +8,7 @@
     <meta name="author" content="">
 
     <title>美工-总部库存管理</title>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  
     <!-- Bootstrap Core CSS -->
     <link href="/bootadmin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 

@@ -52,7 +52,6 @@ class Home  extends CI_Controller {
     public function index()
     {
         global $login;
-        
 //        if($login['roleid'] == 3  || $login['roleid']==1 || $login['roleid'] == 33){
 //           $data['nav']=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
 //        }else{
@@ -60,7 +59,7 @@ class Home  extends CI_Controller {
 //        }
         $data['nav']=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
         $data['login']=$login;
-        
+
 
         $this->load->view('home/index',$data);
     }
@@ -919,7 +918,10 @@ class Home  extends CI_Controller {
         }else{
             $myinput['siteid'] = SITEID;
         }
-        
+       if($this->input->post('ScheduledTime', true) and strtotime($this->input->post('ScheduledTime', true)) ){
+            $myinput['ScheduledTime'] = $this->input->post('ScheduledTime', true);
+       }
+       
         $myinput['title'] = $this->input->post('title', true);
         $myinput['saletype'] = $this->input->post('saletype', true);
         $myinput['category'] = $this->input->post('category', true);
@@ -1286,14 +1288,10 @@ class Home  extends CI_Controller {
     /* 产品列表   全网*/
     public function product_list(){
         global $login;
+//print_r($_SERVER);
+//die;
 
-//        if(($login['roleid'] == 33 || $login['roleid'] == 3 ) and count($_GET) < 4){
-//            return $this->Factory("product_list","Product") ->showallview();
-//        }
-//        if($login['roleid'] == 4){ #合作商
-//             return $this->Factory("product_list","Product") ->showallview();
-//        }
-        if($login['roleid'] != 5){ 
+        if(count($_GET) < 4  and ! isset($_GET['dfas'])) { 
              return $this->Factory("product_list","Product") ->showallview();
         }
         $menu=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
@@ -1370,7 +1368,10 @@ class Home  extends CI_Controller {
 
         $id=$this->input->post('id', true);
 //        $myinput['siteid'] = SITEID;
-        
+        if($this->input->post('ScheduledTime', true) and strtotime($this->input->post('ScheduledTime', true)) ){
+            $myinput['ScheduledTime'] = $this->input->post('ScheduledTime', true);
+       }
+//       print_r($myinput);die;
         $myinput['pid'] = $this->input->post('pid', true);
         $myinput['title'] = $this->input->post('title', true);
         $myinput['saletype'] = $this->input->post('saletype', true);
@@ -1439,7 +1440,9 @@ class Home  extends CI_Controller {
         
  
         $this->db->where('id',$id);
-        $this->db->update(PREFIX.'product',$myinput);
+ 
+       $x= $this->db->update(PREFIX.'product',$myinput);
+ 
 //        print_r($myinput);
         $this->TUpdate->UpdateSale([
             "pid"=>$myinput["pid"]
@@ -1449,7 +1452,7 @@ class Home  extends CI_Controller {
         ] );
         
         if( $this->session->prolisturl){
-         header('location:' .$this->session->prolisturl);
+            header('location:' .$this->session->prolisturl);
          }else
         {
          header('location:' . site_url('home/product_list'));
@@ -2674,9 +2677,11 @@ public function sale_edit(){
       public function agent_list()
     {
         global $login;
+        $bv=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
         $data=$this->home_model->agent_list();
         $data['login']=$login;
-        $data['nav']=$this->load->view('home/nav',$data,true);
+//        $data['nav']=$this->load->view('home/nav',$data,true);
+         $data['nav']=$bv;
         $this->load->view('home/agent_list',$data);
 
     }

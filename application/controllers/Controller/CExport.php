@@ -9,10 +9,10 @@ class CExport {
         if(empty($data)){
             exit("没有数据，无需下载");
         }
-        if(self::$export === ""){
+//        if(self::$export === ""){
             include_once WEBDIR."/application/libraries/PHPExcel.php";
             self::$export=new \PHPExcel();
-        }
+//        }
             
         $arr= explode(",", self::$Key);
         $key=array_combine(array_values(array_slice( $arr ,0 , count($key) )) , $key);

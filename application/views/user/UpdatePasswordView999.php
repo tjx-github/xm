@@ -6,7 +6,6 @@
 
     <title>修改我的密码</title>
     <script src="<?php echo site_url('/')?>bootadmin/layui/jquery-3.2.1.min.js"></script>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <!-- Bootstrap Core CSS -->
     
     <link href="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
