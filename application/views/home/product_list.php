@@ -35,11 +35,22 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+        <!-- jQuery -->
+    <script src="<?php echo site_url('/')?>bootadmin/vendor/jquery/jquery.min.js"></script>
 
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/js/bootstrap.min.js"></script>
+    
+    
+    <link href="/bootadmin/bootstrap-switch-master/docs/css/highlight.css" rel="stylesheet">
+    <link href="/bootadmin/bootstrap-switch-master/docs/css/bootstrap-switch.css" rel="stylesheet">
+    
 </head>
 
 <body>
 
+
+    
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -66,20 +77,19 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
 
-                          <div class="form-group input-group col-lg-12  ">
+                          <div class="form-group input-group  row">
                                
-                                    <p><input type="text" class="form-control" name="title" id="title" value="<?php echo $search['title']?>" placeholder="关键词" style="width:100px;">
-                                    <input type="text" class="form-control" name="pid" id="pid" value="<?php echo $search['pid']?>" placeholder="货号" style="width:100px;">
-                                          <input type="text" class="form-control" name="size" id="size" value="<?php echo $search['size']?>" placeholder="配件" style="width:100px;">
- 
-  
-                                        <select name="saletype" id="saletype" class="form-control" style="width:120px;">
+                              <div class="col-lg-2"><input type="text" class="form-control" name="title" id="title" value="<?php echo $search['title']?>" placeholder="关键词"></div>
+                              <div class="col-lg-2">   <input type="text" class="form-control" name="pid" id="pid" value="<?php echo $search['pid']?>" placeholder="货号"></div> 
+                              <div class="col-lg-2">          <input type="text" class="form-control" name="size" id="size" value="<?php echo $search['size']?>" placeholder="配件"> </div>
+                               <div class="col-lg-2"> 
+                                    <select name="saletype" id="saletype" class="form-control" >
                                         <option value="">入库类别</option>
                                         <option value="回收" <?php if($search['saletype']=='回收'){echo 'selected';} ?>>回收</option>
                                         <option value="寄售" <?php if($search['saletype']=='寄售'){echo 'selected';} ?>>寄售</option>
-                                     </select> 
-
-                                   <select name="category" id="category"  class="form-control" style="width:120px;">
+                                    </select> 
+                               </div>
+                                 <div class="col-lg-2">    <select name="category" id="category"  class="form-control" >
                                     <option value="">产品类别</option>
                                   <?php 
                                     foreach ($category as $key => $value) {
@@ -94,10 +104,10 @@
                                     }
                                   ?> 
                                   </select>
-
-
-                                   <select name="storeid" id="storeid" class="form-control" style="width:120px;">
-                                    <option value="">所属仓库</option>
+                                 </div>
+ <div class="col-lg-2"> 
+                                   <select name="storeid" id="storeid" class="form-control" >
+                                    <option value="">参拍场次</option>
                                   <?php 
                                     foreach ($store as $key => $value) {
 
@@ -111,8 +121,10 @@
                                     }
                                   ?> 
                                   </select>
-
-                                  <select name="status" id="status" class="form-control" style="width:120px;">
+ </div>
+                              <div class="col-lg-12"> &nbsp;</div>
+                            <div class="col-lg-2"> 
+                                  <select name="status" id="status" class="form-control" >
                                   <option value="">库存状态</option>
                                   <?php 
                                     foreach ($status as $key => $value) {
@@ -127,10 +139,10 @@
                                     }
                                   ?> 
                                   </select>
-
-
-                                   <select name="cityid" id="cityid" class="form-control" style="width:120px;">
-                                    <option value="">所在城市</option>
+                            </div>
+ <div class="col-lg-2"> 
+                                   <select name="cityid" id="cityid" class="form-control" >
+                                    <option value="">所属门店</option>
                                   <?php 
                                     foreach ($city as $key => $value) {
 
@@ -145,14 +157,15 @@
                                   ?> 
                                   </select>
 
-                                     </div>
+</div>
+                                     <!--</div>-->
 
-                                    <div class="form-group input-group col-lg-12  ">
+                                    <div class=" col-lg-2  ">
 
- <input type="text" class="form-control" name="receiver" id="receiver" value="<?php echo $search['receiver']?>" placeholder="收货人" style="width:100px;">
-
-                                   
-                                       <select class="form-control" name="agentid" id="agentid" style="width:120px;">
+ <input type="text" class="form-control" name="receiver" id="receiver" value="<?php echo $search['receiver']?>" placeholder="销售">
+                                    </div>
+                              <div class="col-lg-2">       
+                                       <select class="form-control" name="agentid" id="agentid" >
                                         <option value="">代理商</option>
                              <?php 
                                         foreach ($agent as $key => $value) {
@@ -168,31 +181,38 @@
                                         }
                               ?> 
                         </select>
-
-
-   <input type="text" class="form-control" name="owner" id="owner" value="<?php echo $search['owner']?>" placeholder="客户来源" style="width:100px;">
-   <input type="text" class="form-control" name="startday" id="startday" value="<?php echo $search['startday']?>" placeholder="开始日期 如：<?php echo date('Y-m-d',time())?>" style="width:200px;">
-   <input type="text" class="form-control" name="endday" id="endday" value="<?php echo $search['endday']?>" placeholder="结束日期 如：<?php echo date('Y-m-d',time())?>" style="width:200px;">
-     
-
-         <select name="havephoto" id="havephoto" class="form-control" style="width:120px;">
+                              </div>
+ <div class="col-lg-2"> 
+   <input type="text" class="form-control" name="owner" id="owner" value="<?php echo $search['owner']?>" placeholder="客户来源">
+ </div>
+<div class="col-lg-2"> 
+   <input type="text" class="form-control" name="startday" id="startday" value="<?php echo $search['startday']?>" placeholder="开始日期 如：<?php echo date('Y-m-d',time())?>" >
+</div>
+                                     <div class="col-lg-12">&nbsp;</div>
+<div class="col-lg-2"> 
+   <input type="text" class="form-control" name="endday" id="endday" value="<?php echo $search['endday']?>" placeholder="结束日期 如：<?php echo date('Y-m-d',time())?>" >
+</div>
+ <div class="col-lg-2"> 
+         <select name="havephoto" id="havephoto" class="form-control" >
             <option value="">是否拍照</option>
              <option value="">全部</option>
             <option value="1" <?php if($search['havephoto']=='1'){echo 'selected';} ?>>是</option>
             <option value="0" <?php if($search['havephoto']=='0'){echo 'selected';} ?>>否</option>
          </select> 
-         <select name="video" id="video" class="form-control" style="width:120px;">
+ </div>
+ <div class="col-lg-2"> 
+         <select name="video" id="video" class="form-control" >
             <option value="">是否拍视频</option>
              <option value="">全部</option>
             <option value="1" >是</option>
             <option value="2" >否</option>
          </select> 
 
-  </div>
+ </div>
 
- <div class="form-group input-group col-lg-12  ">
+ <div class="col-lg-2"> 
 
-   <select name="payment" id="payment" class="form-control" style="width:120px;">
+   <select name="payment" id="payment" class="form-control" >
                                      <option value="">付款方式</option>
                                      <?php 
                                     foreach ($payment as $key => $value) {
@@ -206,24 +226,44 @@
                                     }
                                   ?> 
                                   </select> 
+ </div>
     <!--===================-->
-    <select name="datetime_sort" id="datetime_sort" class="form-control" style="width:150px;">
+ <div class="col-lg-2"> 
+    <select name="datetime_sort" id="datetime_sort" class="form-control" >
                 <option value="">按入库日期排序</option>
                 <option value="1">从最近</option>
                 <option value="2">从最早</option>
     </select>
-    <select name="costprice_sort" id="costprice_sort" class="form-control" style="width:150px;">
+ </div>
+ <div class="col-lg-2"> 
+    <select name="costprice_sort" id="costprice_sort" class="form-control" >
                 <option value="">按成本价排序</option>
                 <option value="1">从价格最高</option>
                 <option value="2">从价格最低</option>
     </select>
-     <!--==================-->
+ </div>
+    <div class="col-lg-12"> &nbsp;</div>
+
+<!--<div class="switch col-md-offset-8  col-lg-2" data-on="primary" data-off="info">
+    <input type="checkbox" checked />
+</div>-->
+<div class=" col-md-offset-6  col-lg-3" id='ri' >
+    <input type="checkbox" id='tj'  data-on-text='所有库存' data-off-text='总部库存'     <?php 
+            if(isset($_GET['admin']) and $_GET["admin"] == "false" ){}else{ echo "checked"; }
+    
+    ?>  />
+</div>
+
+      <div  class="col-md-offset-1 col-lg-2"> 
             <button class="btn btn-success " type="button" id="searchbtn">搜索 </button>
                                       
                             </div>
+                            </div>
 
 <div class="alert alert-success" role="alert">
-    查询总记录：<?php echo $count?>  <a href="<?php echo site_url('export/product').'?id>0'.$searchstr?>" target="_blank">导出EXCEL格式</a>
+    <!--查询总记录：<?php echo $count?>  <a href="<?php echo site_url('export/product').'?id>0'.$searchstr?>" target="_blank">导出EXCEL格式</a>-->
+    查询总记录：<?php echo $count?>  <a href="<?php echo site_url('export/product').'?id>0'. http_build_query($_GET)  ;?>" target="_blank">导出EXCEL格式</a>
+
 </div>
 
  
@@ -240,8 +280,10 @@
                                             <!--<th>销售类型</th>-->
                                              <th>成本价</th>
                                              <th>销售价</th>
-                                            <th>所在城市</th>
-                                            <th>所属仓库</th>
+                                             <th>总部统一销售价</th>
+                                             
+                                            <th>所属门店</th>
+                                            <th>参拍场次</th>
                                             <th>入库日期</th>
                                              <th>状态</th>
                                            
@@ -275,7 +317,11 @@
                                             <!--<td><?php // echo $value->saletype?></td>-->
                                             <td><i class="fa fa-1x fa-rmb"></i><?php echo $value->costprice?></td>
                                             <td><i class="fa fa-1x fa-rmb"></i><?php echo $value->saleprice;?> </td>
+                                            
+                                            <td><?php echo $value->AdminSellingPrice?></td>
                                             <td><?php echo $value->city?></td>
+                                           
+                                            
                                             <td><?php echo $value->storename?></td>
                                             <td><?php echo date('Y-m-d',$value->storedate)?></td>
                                            <td><?php echo $value->statusname?></td>
@@ -352,11 +398,7 @@
 
 
 
-    <!-- jQuery -->
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/jquery/jquery.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="<?php echo site_url('/')?>bootadmin/vendor/metisMenu/metisMenu.min.js"></script>
@@ -369,7 +411,10 @@
     <!-- Custom Theme JavaScript -->
     <script src="<?php echo site_url('/')?>bootadmin/dist/js/sb-admin-2.js"></script>
 
-
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <script src="/bootadmin/bootstrap-switch-master/docs/js/highlight.js"></script>
+    <script src="/bootadmin/bootstrap-switch-master/newjavascript.js"></script>
+    <script src="/bootadmin/bootstrap-switch-master/docs/js/main.js"></script>
     <script type="text/javascript">
     $(".tclass").click(function(){
             b=$(this).attr("href");
@@ -393,7 +438,7 @@
 
     $('#searchbtn').on('click',function(){
         wd=$('#wd').val();
-        window.location='<?php echo site_url("home/product_list/1")?>/'+wd;
+        window.location='<?php // echo site_url("home/product_list/1")?>/'+wd;
        // alert($('#wd').val());
     });  
 
@@ -437,7 +482,7 @@
         
         query=query+'&datetime_sort='+$("#datetime_sort").val();
         query=query+'&costprice_sort='+$("#costprice_sort").val();
-
+        query=query+"&admin="+$("#tj").is(":checked");
         
  
         window.location='<?php echo site_url("home/product_list/1")?>/'+query;

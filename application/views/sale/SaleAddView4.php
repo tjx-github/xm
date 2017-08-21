@@ -85,7 +85,7 @@
 
                                          <div class="form-group form-inline" id="piddiv">
                                             <label class="col-md-2">产品货号：</label>
-                                            <input class="form-control" name="pid" id="pid" value="<?php echo $product['pid']?>" placeholder="请输入货号">
+                                            <input class="form-control" name="pid" id="pid" value="<?php echo $product['pid']?>" placeholder="请输入货号" readonly>
                                         </div>
                                   
                                   <div class="form-group form-inline">

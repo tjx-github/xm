@@ -77,7 +77,13 @@
                                     <form role="form" id="addform" method="post" action="<?php echo site_url('home/sale_add_save')?>">
                                        
                                       <input type="hidden" name="agentid" value="<?php echo $product['agentid']?>">
-                                      
+                                      <?php 
+                                            if(isset($_GET['type'])){
+                                      ?>
+                                        <input type="hidden" name="type" value="1">
+                                      <?php
+                                            }
+                                      ?>
                                         <div class="form-group form-inline" id="piddiv">
                                             <label class="col-md-2">产品名称：</label>
                                             <input class="form-control" name="title" id="title" value="<?php echo $product['title']?>" placeholder="商品名称">
@@ -92,7 +98,7 @@
                                    <label class="col-md-2">库存状态:</label>
                                     <select name="saletype" id="saletype" class="form-control">
                                     <option value="">库存状态</option>
-                                       <?php 
+                                <?php 
                                     foreach ($status as $key => $value) {
 
                                       if($product['status']==$value['id']){
@@ -103,7 +109,7 @@
                                       
 
                                     }
-                                  ?> 
+                                ?> 
                                       
                                   </select>
                                  </div>
@@ -185,8 +191,8 @@
                       
 
                        <div class="form-group form-inline">
-                     <label class="col-md-2">收 货 人：</label>
-                      <input class="form-control" name="receiver" id="receiver"  placeholder="收货人" value="<?php echo $product['receiver']?>">
+                     <label class="col-md-2">货品来源：</label>
+                      <input class="form-control" name="receiver" id="receiver"  placeholder="货品来源" value="<?php echo $product['receiver']?>">
                          
                       </div>
 

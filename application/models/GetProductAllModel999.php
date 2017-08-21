@@ -7,10 +7,23 @@ class GetProductAllModel999 extends CI_Model{
             "p.status"=>1, #在库
             "p.datetime  < "=>  strtotime("-1 day") , #发布时间超过24小时的
         ];
+            
             $title && $where["p.title  like "]="%" . addslashes($title) . "%";
             $pid && $where['p.pid']=addslashes($pid);
             $cityid && $where["p.cityid"]=addslashes($cityid);
-            isset($_GET['storeid']) and $_GET['storeid'] and $where['p.storeid']=(int)$_GET['storeid'] ;
+//            isset($_GET['storeid']) and $_GET['storeid'] and $where['p.storeid']=(int)$_GET['storeid'] ;
+            B::set($where);
+            B::get("storeid",$where['p.storeid'],"p.storeid") ;
+            B::get("category",$where['p.category'],"p.category");
+            if(B::get("desc")){
+                if(B::get("desc") == 1){
+                    $or="p.saleprice desc";
+                }else{
+                    $or="p.saleprice asc";
+                }
+            }else{
+                $or="p.id desc";
+            }
             $this->count=
                     $this->db->from(PREFIX."product p")
                     ->select("count(p.id) as count")
@@ -28,7 +41,7 @@ class GetProductAllModel999 extends CI_Model{
                             ->join(PREFIX."category ca","ca.id=p.category")
                             ->join(PREFIX."city  c","c.id=p.cityid","inner")
                             ->where($where)
-                            ->order_by("p.id desc")
+                            ->order_by($or)
                             ->get()
                             ->result_array();
             }
@@ -39,7 +52,7 @@ class GetProductAllModel999 extends CI_Model{
                     ->join(PREFIX."category ca","ca.id=p.category")
                     ->join(PREFIX."city  c","c.id=p.cityid","inner")
                     ->where($where)
-                    ->order_by("p.id desc")
+                    ->order_by($or)
                     ->limit($z, $page > 1 ? ($page-1) * $z:0 )
                     ->get()
                     ->result_array();

@@ -713,7 +713,7 @@ class Home_model extends CI_Model
         $order=[1=>"desc","asc"];
         $str="order by  ";
         if(array_key_exists((int) $object->input->get("datetime_sort"),$order ) ){
-            $str .="  datetime ".$order[(int) $object->input->get("datetime_sort")];
+            $str .="  storedate ".$order[(int) $object->input->get("datetime_sort")];
         }
         if(array_key_exists((int) $object->input->get("costprice_sort"),$order ) ){
             if(mb_strlen($str) == 10){
@@ -736,7 +736,7 @@ class Home_model extends CI_Model
     function product_list(){
         //引入登录信息
         global $login;
-        self::str_sort($this) ? $order_by=self::str_sort($this) : $order_by = 'order by id desc';
+         self::str_sort($this) ? $order_by=self::str_sort($this) : $order_by = 'order by id desc';
 //        exit($order_by);
         $titlesql='';
         $pidsql='';
@@ -839,8 +839,9 @@ class Home_model extends CI_Model
         $wd = $this->uri->segment(4, '0');
         
 
-       if(SITEID === 0){
+       if(SITEID === 0 and ! (isset($_GET["admin"]) and $_GET['admin'] == "false")){
            if($sqlstr){
+
                $sql = 'select id from ' . PREFIX . 'product where  1'. $sqlstr;
            }else{
                $sql = 'select id from ' . PREFIX . 'product';
@@ -889,7 +890,7 @@ class Home_model extends CI_Model
         $limitstr = ' limit ' . ($intpage - 1) * $config['per_page'] . ',' . $config['per_page'];
 
 //        $sql = "select * from " . PREFIX . "product  where siteid=".SITEID." ".$sqlstr.$order_by.$limitstr;
-        if(SITEID === 0){
+        if(SITEID === 0  and ! (isset($_GET["admin"]) and $_GET['admin'] == "false")){
            if($sqlstr){
                $sql = "select * from " . PREFIX . "product  where  1 ".$sqlstr.$order_by.$limitstr;
            }else{
@@ -970,9 +971,11 @@ class Home_model extends CI_Model
         $agentid = $this->input->get('agentid', true);
         $payment = $this->input->get('payment', true);
         $ispayback = $this->input->get('ispayback', true);
-
+        $admin=$this->input->get("admin",TRUE);
         $searchstr='';
-        $search=array('title'=>$title,'pid'=>$pid,'agentid'=>$agentid,'saletype'=>$saletype,'cid'=>$cid,'saleman'=>$saleman,'receiver'=>$receiver,'payment'=>$payment,'saleplatform'=>$saleplatform,'startday'=>$startday,'endday'=>$endday,'checktime'=>$checktime,'ispayback'=>$ispayback);
+        $search=array('title'=>$title,
+            'pid'=>$pid,'agentid'=>$agentid,"admin"=>$admin,
+            'saletype'=>$saletype,'cid'=>$cid,'saleman'=>$saleman,'receiver'=>$receiver,'payment'=>$payment,'saleplatform'=>$saleplatform,'startday'=>$startday,'endday'=>$endday,'checktime'=>$checktime,'ispayback'=>$ispayback);
         foreach ($search as $key => $value) {
             $searchstr=$searchstr.'&'.$key.'='.$value;
         }
@@ -990,12 +993,13 @@ class Home_model extends CI_Model
 //        if($ispayback){ $ispaybacksql=" and  ispayback = ".$ispayback." " ;}
         if(is_numeric($ispayback)){ $ispaybacksql=" and ispayback= ".$ispayback." " ;}
         if($saleplatform){ $saleplatformsql=" and  saleplatform = '".$saleplatform."' " ;}
-        if($startday){
+   
+        if($startday and strtotime($startday)){
             $starttime=strtotime($startday);
             $startdaysql=" and  saletime >=".$starttime." ";
         }
 
-        if($endday){
+        if($endday and strtotime($endday)){
             $endtime=strtotime($endday);
             $enddaysql=" and  saletime <=".$endtime." ";
         }
@@ -1017,14 +1021,20 @@ class Home_model extends CI_Model
 
         $sqlstr=$titlesql.$pidsql.$agentidsql.$saletypesql.$salemansql.$receiversql.$cidsql.$saleplatformsql.$paymentsql.$startdaysql.$enddaysql.$checktimesql.$ispaybacksql;
         $orderstr=' order by id desc';
-//        $sql = "select id from " . PREFIX . "sale  where siteid=".SITEID."  ".$sqlstr;
-        $sql = "select id from " . PREFIX . "sale  where  agentid=1  ".$sqlstr;
-
+        
+        
+        if($admin == "false"){
+            $sql = "select id from " . PREFIX . "sale  where siteid=".SITEID."  ".$sqlstr;
+        } else {
+            $sql = "select id from " . PREFIX . "sale  where  agentid=1  ".$sqlstr;
+        }
      
-        $query = $this->db->query($sql);
-        $total_rows = count($query->result());
-        if(isset($_GET['owner'])){
+        
+        if(isset($_GET['owner']) and ! empty($_GET['owner']) ){
             return $this->search_($search);
+        }else{
+            $query = $this->db->query($sql);
+            $total_rows = count($query->result());
         }
 
         $config['base_url'] = site_url('home/sale_list');
@@ -1060,7 +1070,7 @@ class Home_model extends CI_Model
         $intpage = $this->get_page(3);
         $limitstr = ' limit ' . ($intpage - 1) * $config['per_page'] . ',' . $config['per_page'];
 
-        if(SITEID === 0){
+        if(SITEID === 0 and  $admin == "true"){
              $sql = "select * from " . PREFIX . "sale  where  agentid=1  ".$sqlstr.$orderstr.$limitstr;
         }else{
              $sql = "select * from " . PREFIX . "sale  where siteid=".SITEID." ".$sqlstr.$orderstr.$limitstr;
@@ -1106,7 +1116,7 @@ class Home_model extends CI_Model
     }
     
     private function search_($search){
-      
+    
         $where=[];
         self::$set=&$where;
         self::get("title") && $where['s.title like'] = "%". self::get("title") ."%";
@@ -1120,10 +1130,13 @@ class Home_model extends CI_Model
         self::get("agentid",$where['s.agentid'],"s.agentid");
         self::get("payment",$where['s.payment'],"s.payment");
         self::get("ispayback",$where['s.ispayback'],"s.ispayback");
-        if(isset($_GET['startday']) and strtotime($_GET['startday']) and isset($_GET['endday']) and strtotime($_GET['endday'])){
-            self::$where["s.datetime > "] =strtotime($_GET['startday']);
-            self::$where["s.datetime < "] =strtotime($_GET['enddate']);
+        if(isset($_GET['startday']) and strtotime($_GET['startday'])){
+             $where["s.datetime > "] =strtotime($_GET['startday']);
         }
+        if(isset($_GET['endday']) and strtotime($_GET['endday'])){
+             $where["s.datetime < "] =strtotime($_GET['enddate']);
+        }
+        
         self::get("owner",$where['p.owner'],"p.owner" );
 
             $total_rows=$this->db->from("uz_sale s")

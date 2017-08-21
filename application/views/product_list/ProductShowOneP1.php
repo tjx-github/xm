@@ -123,7 +123,7 @@
                                  </div>
 
 
-                    <div class="form-group form-inline">
+<!--                    <div class="form-group form-inline">
                                 <label class="col-md-2">入库类别：</label>
                                 <select  id="saletype" class="form-control">
                                     <option value="">选择类别</option>
@@ -210,7 +210,7 @@
                       <div class="form-group form-inline" id="piddiv">
                         <label class="col-md-2">来源客户：</label>
                         <input class="form-control"  id="owner" value="<?php echo $product['owner']?>"  placeholder="来源客户" disabled>
-                    </div>
+                    </div>-->
 
 
 

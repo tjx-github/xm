@@ -62,6 +62,8 @@ class Export extends CI_Controller {
      /* 导出产品 */
     public function product(){
         global $login;
+
+        
         $data['login']=$login;
         $titlesql='';
         $pidsql='';
@@ -164,7 +166,7 @@ class Export extends CI_Controller {
 
         
 //        $sql = "select * from " . PREFIX . "product  where siteid=".SITEID." ".$sqlstr.$orderstr;
-        if(SITEID === 0 ){
+        if(SITEID === 0  and ! (isset($_GET["admin"]) and $_GET['admin'] == "false") ){
             
             if($sqlstr){
 //               $sql = 'select id from ' . PREFIX . 'product where  1'. $sqlstr;
@@ -560,8 +562,15 @@ class Export extends CI_Controller {
 
      	global $login;
         $data['login']=$login;
-
-     	
+        if(isset($_GET['owner'])){
+            $this->load->model("OwnerSearchDownload");
+            include  __DIR__.'/Controller/CExport.php';
+            \CExport::downloadxml([
+                "货号","标题","客户编号","代理商","售出类型","售出平台","售价","定金","成本","其他费用","护理费"
+                ,"平台手续费","快递费","利润","销售员","收货人","支付方式","快递公司","快递单号","结款状态","售出时间"
+            ],$this->OwnerSearchDownload->DownloadData());
+        }
+        
         $titlesql='';
         $pidsql='';
         $saletypesql='';
@@ -626,13 +635,13 @@ class Export extends CI_Controller {
             $time2=strtotime("+1 days",$time1);
             $checktimesql="and (saletime >=".$time1." and saletime <".$time2.")";
         }
-
+        $admin=$this->input->get("admin",TRUE);
 
         $sqlstr=$titlesql.$pidsql.$saletypesql.$salemansql.$receiversql.$cidsql.$saleplatformsql.$startdaysql.$enddaysql.$checktimesql.$ispaybacksql;
         $orderstr=' order by id desc';
 //       echo $sql = "select * from " . PREFIX . "sale  where siteid=".SITEID." ".$sqlstr.$orderstr;
 //        die;
-        if(SITEID === 0){
+        if(SITEID ===  0  and $admin == "true"){
             $sql = "select * from " . PREFIX . "sale  where agentid=1 ".$sqlstr.$orderstr;
         }else{
             $sql = "select * from " . PREFIX . "sale  where siteid=".SITEID." ".$sqlstr.$orderstr;
@@ -704,7 +713,6 @@ class Export extends CI_Controller {
             }
              
         }
-
 
 
         foreach ($arr as $key => $value) {

@@ -5,10 +5,17 @@ class SaleModel4 extends CI_Model{
     static $where;
     static protected $admin=1; //admin账号是否有修改权   1有
     public function insertinto($agentid){
+        $xx=0;
         IG::addslashes($_POST);
         if($agentid != IG::post("agentid")   ||  ! IG::post("pid")){
-            exit("错误！！非法提交");
+            if(! isset($_POST['type'])){
+                exit("错误！！非法提交");
+            }else{
+                $xx=1;
+                unset($_POST['type']);
+            }
         }
+       
         $_POST['agentid'] = self::$admin;
         $_POST['siteid']=$agentid;
         $_POST['HistoricalRate'] =$this->GetHistoricalRate($agentid);
@@ -30,12 +37,19 @@ class SaleModel4 extends CI_Model{
         unset($_POST['productface']);
 
 //        die;
+        if(isset($_POST['pic'])){unset($_POST['pic']) ;  }
         $bool= $this->db-> insert(PREFIX."sale",$_POST);
+ 
         if($bool){
             $this->db->set('status',$_POST['saletype']);
             $this->db->where('pid',$_POST['pid']);
             $this->db->update(PREFIX.'product');
-            exit("OK");
+            if($xx){
+                 header("location: /home/sale_list");
+            }else{
+                exit("OK");
+            }
+            
         } else {
             exit("错误！请联系程序员");
         }
@@ -76,6 +90,9 @@ class SaleModel4 extends CI_Model{
        if(empty($d)){
            exit("严重错误！，不存在的用户");
        }
+       if(isset($_POST['rate'])){
+           unset($_POST['rate']);
+       }
        return $d[0]['fee'];
     }
     public function GetSalePList($id,$page,$z=20){
@@ -94,7 +111,8 @@ class SaleModel4 extends CI_Model{
                 ->result_array();
         return
             $this->db->from(PREFIX."sale s") 
-                ->select("s.* ,pl.name as plname,pa.name as paname,st.name as stname ,sa.name as saleman")
+                ->select("s.* ,pl.name as plname,pa.name as paname,st.name as stname ,if( sa.name  is null  , s.saleman,sa.name) as saleman")  
+                        // 因为 我弄的是按 id关联销售员。。但以前做的是直接存人名。。。。。
                 ->join(PREFIX."sale_platform pl","s.saleplatform =pl.id","left")
                 ->join(PREFIX."sale_payment pa ","pa.id=s.payment","left")
                 ->join(PREFIX."product_status st","st.id=s.saletype","left")

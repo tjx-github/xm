@@ -125,7 +125,7 @@
 
 
                     <div class="form-group form-inline">
-                                <label class="col-md-2">所属仓库：</label>
+                                <label class="col-md-2">参拍场次：</label>
                                 <select name="storeid" id="storeid" class="form-control">
                                     <option value="">选择仓库</option>
                                      <?php 
@@ -180,7 +180,7 @@
 
 
                       <div class="form-group form-inline">
-                                <label class="col-md-2">所在城市：</label>
+                                <label class="col-md-2">所属门店：</label>
                                 <select name="cityid" id="cityid" class="form-control">
                                     <option value="">选择城市</option>
                                     <?php 
@@ -205,14 +205,14 @@
 
 
                     <div class="form-group form-inline">
-                     <label class="col-md-2">收 货 人：</label>
-                         <input class="form-control" name="receiver" id="receiver"  placeholder="收货人">
+                     <label class="col-md-2">销售：</label>
+                         <input class="form-control" name="receiver" id="receiver"  placeholder="销售">
                       </div>
                       
 
                       <div class="form-group form-inline" id="piddiv">
-                        <label class="col-md-2">来源客户：</label>
-                        <input class="form-control" name="owner" id="owner"  placeholder="来源客户">
+                        <label class="col-md-2">货品来源：</label>
+                        <input class="form-control" name="owner" id="owner"  placeholder="货品来源">
                     </div>
 
                     

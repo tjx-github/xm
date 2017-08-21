@@ -138,7 +138,7 @@
 
 
                     <div class="form-group form-inline">
-                                <label class="col-md-2">所属仓库：</label>
+                                <label class="col-md-2">参拍场次：</label>
                                   <select name="storeid" id="storeid" class="form-control">
                                     <option value="">选择仓库</option>
                                   <?php 
@@ -166,6 +166,15 @@
                         <label class="col-md-2">销售价：</label>
                         <input class="form-control" name="saleprice" id="saleprice"  value="<?php echo $product['saleprice']?>"  placeholder="请输入销售价">
                     </div>
+<?php  
+if($product['siteid'] !== 0){
+
+?>
+                     <div class="form-group form-inline" id="piddiv">
+                        <label class="col-md-2">管理员销售价：</label>
+                        <input class="form-control" name="AdminSellingPrice" id="AdminSellingPrice"  value="<?php echo $product['AdminSellingPrice']?>"  placeholder="请输入销售价">
+                    </div>
+<?php  }?>
 
                      <div class="form-group form-inline" id="piddiv">
                         <label class="col-md-2">同行价：</label>
@@ -204,7 +213,7 @@
 
 
                       <div class="form-group form-inline">
-                                <label class="col-md-2">所属城市：</label>
+                                <label class="col-md-2">所属门店：</label>
                                <select name="cityid" id="cityid" class="form-control">
                                     <option value="">选择城市</option>
                                   <?php 
@@ -233,13 +242,13 @@
 
 
                      <div class="form-group form-inline">
-                     <label class="col-md-2">收 货 人：</label>
+                     <label class="col-md-2">销售：</label>
                       <input class="form-control" name="receiver" id="receiver"  placeholder="收货人" value="<?php echo $product['receiver']?>">
                          
                       </div>
 
                       <div class="form-group form-inline" id="piddiv">
-                        <label class="col-md-2">来源客户：</label>
+                        <label class="col-md-2">货品来源：</label>
                         <input class="form-control" name="owner" id="owner" value="<?php echo $product['owner']?>"  placeholder="来源客户">
                     </div>
 

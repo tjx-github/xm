@@ -45,7 +45,13 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-
+    <script src="<?php echo site_url('/')?>bootadmin/vendor/jquery/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<?php echo site_url('/')?>bootadmin/vendor/bootstrap/js/bootstrap.min.js"></script>
+    
+    <link href="/bootadmin/bootstrap-switch-master/docs/css/highlight.css" rel="stylesheet">
+    <link href="/bootadmin/bootstrap-switch-master/docs/css/bootstrap-switch.css" rel="stylesheet">
+    
 </head>
 
 <body>
@@ -64,25 +70,53 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <form   action="<?php  echo site_url("home/product_list");  ?>"   method="GET">
-                            <div class="row">
-                                <div class="col-xs-12 col-md-3 ">
+                            <div class="row" id="search">
+                                <div class="col-xs-12 col-md-2 ">
                                     <input type="text" name="title" class="form-control"  placeholder="关键字">
                                 </div>
-                                <div class="col-xs-12 col-md-3 ">
+                                <div class="col-xs-12 col-md-2 ">
                                     <input type="text" name="pid" class="form-control"   placeholder="货号">
                                 </div>
-                                <div class="col-xs-12 col-md-3" id="search">
+                                <div class="col-xs-12 col-md-2" >
                                     <select class="form-control" name="cityid"> 
-                                        <option class="btn-lg" disabled="disabled" selected="selected">城市</option>
-                                        <option class="btn-lg"   v-for="a in search.city"  v-bind:value="[a.id]">{{a.name}}</option>
+                                        <option class="btn-lg" disabled   selected="selected">城市</option>
+                                        <option class="btn-lg"   v-for="a in search.city" v-if="a.id =='<?php echo isset($_GET['cityid']) ? $_GET['cityid']:'';?>'"  v-bind:value="[a.id]" selected>{{a.name}}</option>
+                                        <option class="btn-lg"    v-else  v-bind:value="[a.id]">{{a.name}}</option>
                                     </select>
                                 </div>
-                                <div class="col-xs-12 col-md-3">
+                                <div class="col-xs-12 col-md-2" >
+                                    <select class="form-control" name="category"> 
+                                        <option class="btn-lg"  disabled  selected="selected">产品类别</option>
+                                        <option class="btn-lg"   v-for="a in search.category" v-if="a.id =='<?php echo isset($_GET['category']) ? $_GET['category']:'';?>'"  v-bind:value="[a.id]" selected>{{a.name}}</option>
+                                        <option class="btn-lg"  v-else  v-bind:value="[a.id]">{{a.name}}</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-xs-12 col-md-2" >
+                                    <select class="form-control" name="desc">
+                                        <option class="btn-lg" disabled  selected="selected">价格排序</option>
+                                        
+                                    <?php
+                                        if(isset($_GET['desc'])){
+                                            if($_GET['desc'] == 1)  {
+                                                echo '<option class="btn-lg" value="1" selected>从价格最高</option><option class="btn-lg" value="2">从价格最低</option>';
+                                            }else{
+                                                echo '<option class="btn-lg" value="1">从价格最高</option><option class="btn-lg" value="2" selected>从价格最低</option>';
+                                            }
+                                        }else{
+                                            echo '<option class="btn-lg" value="1">从价格最高</option><option class="btn-lg" value="2" >从价格最低</option>';
+                                        }
+                                    ?>
+                                        
+                                    </select>
+                                </div>
+                                <div class="col-xs-12 col-md-2">
                                     <input type="submit" class="btn btn-success "  value="搜索" > </input>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 ">查询总记录:<?php echo $count;?> <a href="<?php  
+                                <div class="col-xs-12">
+                                    <div class="col-md-3 ">查询总记录:<?php echo $count;?> <a href="<?php  
                                
                                         if(strpos($_SERVER['REQUEST_URI'] ,"?") === false){
                                             echo $_SERVER['REQUEST_URI']."?download=true";
@@ -92,6 +126,7 @@
                                         
                                         
                                         ?>"  target="_blank" title="导出EXCEL格式"> <i class="fa fa-2x fa-download"></i></a></div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -212,7 +247,9 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="/bootadmin/dist/js/sb-admin-2.js"></script>
-
+    <script src="/bootadmin/bootstrap-switch-master/docs/js/highlight.js"></script>
+    <script src="/bootadmin/bootstrap-switch-master/newjavascript.js"></script>
+    <script src="/bootadmin/bootstrap-switch-master/docs/js/main.js"></script>
 
 <div id="qrcode" style="width:100px; height:100px;z-index:200;position: fixed;top: 54%;left:85%;"></div>
 

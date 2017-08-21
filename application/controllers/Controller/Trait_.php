@@ -23,7 +23,7 @@ trait Trait_  {
     }
     
     
-    static public function page_html($function,$count){
+    static public function page_html( $function,$count){
             self::$ci->load->library('pagination');
             $config['base_url'] =site_url($function);
             $config['total_rows'] = (int)$count;

@@ -1291,7 +1291,7 @@ class Home  extends CI_Controller {
 //print_r($_SERVER);
 //die;
 
-        if(count($_GET) < 4  and ! isset($_GET['dfas'])) { 
+        if(count($_GET) < 6  and ! isset($_GET['dfas'])) { 
              return $this->Factory("product_list","Product") ->showallview();
         }
         $menu=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
@@ -1388,6 +1388,8 @@ class Home  extends CI_Controller {
         $myinput['agentid'] = $this->input->post('agentid', true);
         $myinput['receiver'] = $this->input->post('receiver', true);
         $myinput['owner'] = $this->input->post('owner', true);
+        
+        $myinput['AdminSellingPrice'] = $this->input->post('AdminSellingPrice', true);
 
         $myinput['payment'] = $this->input->post('payment', true);
          $myinput['content'] = $this->input->post('content', true);
@@ -1580,29 +1582,17 @@ class Home  extends CI_Controller {
 
  /*销售员列表*/
     public function saleman_list(){
-        global $login;
-        $data['login']=$login;
-        $query = $this->db->query("select * from " . PREFIX . "saleman  order by ordernum asc");
-        $saleman = $query->result();
-        $data['saleman'] = $saleman;
-
-        $query = $this->db->query("select max(ordernum) as t from " . PREFIX . "saleman ");
-        $maxarr = $query->result_array();
-        $data['maxnum'] = $maxarr[0]['t']+1;
-
-
-        $data['nav']=$this->load->view('home/nav',$data,true);
-        $this->load->view('home/saleman_list',$data);
+        return $this->Factory("saleman_list","Saleman")->showpview();
     }
 
 /*增加销售员*/
     public function saleman_add_save(){
-         global $login;
+        global $login;
         $data['login']=$login;
       
         $myinput['name'] = $this->input->post('name', true);
         $myinput['ordernum'] = $this->input->post('ordernum', true);
-    
+        $myinput['siteid']=SITEID;
         
         $this->db->insert(PREFIX.'saleman',$myinput);
         header('location:' . site_url('home/saleman_list'));
@@ -1626,9 +1616,9 @@ class Home  extends CI_Controller {
     public function saleman_del(){
         global $login;
         $data['login']=$login;
-        $id=$this->uri->segment(3);
+        $id=(int) $this->uri->segment(3);
         
-        $this->db->query('delete from '.PREFIX.'saleman where id='.$id);
+        $this->db->query('delete from '.PREFIX."saleman where id={$id} and siteid=".SITEID);
         header('location:' . site_url('home/saleman_list'));
     }
 
@@ -1669,9 +1659,9 @@ class Home  extends CI_Controller {
     public function store_del(){
         global $login;
         $data['login']=$login;
-        $id=$this->uri->segment(3);
+        $id=(int)$this->uri->segment(3);
         
-        $this->db->query('delete from '.PREFIX.'store where id='.$id);
+        $this->db->query('delete from '.PREFIX."store where id={$id} and siteid=".SITEID);
         $sql="update ".PREFIX."product set storeid=2 where storeid=".$id;
         $this->db->query($sql);
 
@@ -1789,9 +1779,9 @@ class Home  extends CI_Controller {
     public function sale_platform_del(){
         global $login;
         $data['login']=$login;
-        $id=$this->uri->segment(3);
+        $id=(int) $this->uri->segment(3);
         
-        $this->db->query('delete from '.PREFIX.'sale_platform where id='.$id);
+        $this->db->query('delete from '.PREFIX."sale_platform where id={$id} and siteid=".SITEID);
         header('location:' . site_url('home/sale_platform_list'));
     }
 
@@ -1918,9 +1908,13 @@ public function sale_add()
     {
         global $login;
         $data['login']=$login;
+        $bv=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
         if($login['roleid']  == 4  || $login['roleid'] == 6){
-            return $this->Factory("product_private_list","SaleAdd")->showonepview() ;  
+            if(! isset($_GET['type'])){
+                return $this->Factory("product_private_list","SaleAdd")->showonepview() ;
+            }
         }
+       
         $pid=$this->uri->segment(3,0);
 
 //        echo $pid= preg_replace("/（.+$/","",urldecode($pid));
@@ -1993,7 +1987,8 @@ public function sale_add()
         
         $data['product']=$product;
 
-        $data['nav']=$this->load->view('home/nav',$data,true);
+//        $data['nav']=$this->load->view('home/nav',$data,true);
+        $data['nav']=$bv;
         $this->load->view('home/sale_add',$data);
     }
 
@@ -2004,7 +1999,9 @@ public function sale_add()
         global $login;
         $data['login']=$login;
        if($login['roleid']  == 4  || $login['roleid']==6){
-            return $this->Factory("product_private_list","SaleAdd")->updae_p() ;  
+//            if(!isset($_POST['type'])) {
+                return $this->Factory("product_private_list","SaleAdd")->updae_p() ; 
+//            }
         }
         $myinput['siteid'] = SITEID;
         
@@ -2137,13 +2134,13 @@ public function sale_add()
     }
 
 
-    /* 产品列表 */
+    /* 产品列表 */ 
       public function sale_list() {
         global $login;
         if( $login['roleid'] != 5){
             return $this->Factory("sale_list","SaleList")->showpview() ;
         }
-        
+        $menu=$this->Factory("set_my_pass","UserUpdatePassword")->MenuView();
         $data=$this->home_model->sale_list();
 
         //销售平台
@@ -2174,9 +2171,7 @@ public function sale_add()
         $this->session->sess_expiration=31536000;
 
         $data['login']=$login;
-        $data['nav']=$this->load->view('home/nav',$data,true);
-//        print_r($data);
-//        die;
+        $data['nav']=$menu;
         $this->load->view('home/sale_list',$data);
 
     }

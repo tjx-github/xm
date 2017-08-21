@@ -4,6 +4,7 @@ class Product999 extends CAbstract{
     use Trait_;
     protected $search=[
         "city"=>            ["column"=>["name","id"], "where"=>[] ,"order"=>"ordernum asc" ], # 地点，城市
+        "category"=>        ["column"=>["id","name"] ,    "where"=>[],"order" =>"ordernum asc" ],
     ];
  
     public function showallview() {

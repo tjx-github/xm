@@ -30,7 +30,8 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <link href="/bootadmin/bootstrap-switch-master/docs/css/highlight.css" rel="stylesheet">
+    <link href="/bootadmin/bootstrap-switch-master/docs/css/bootstrap-switch.css" rel="stylesheet">
 </head>
 
 <body>
@@ -79,11 +80,11 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-
+                            <form action="/home/sale_list" method="get">
                              <div class="form-group input-group row  ">
                                     <div class="col-md-2" ><input type="text" class="form-control" name="title" id="title" value="<?php echo $search['title']?>" placeholder="关键词" ></div>
                                     <div class="col-md-2" ><input type="text" class="form-control" name="pid" id="pid" value="<?php echo $search['pid']?>" placeholder="货号" ></div>
-                                    <div class="col-md-2" ><input type="text" class="form-control" name="receiver" id="receiver" value="<?php echo $search['receiver']?>" placeholder="收货人" ></div>
+                                    <div class="col-md-2" ><input type="text" class="form-control" name="receiver" id="receiver" value="<?php echo $search['receiver']?>" placeholder="货品来源" ></div>
                                 <div class="col-md-2" >
                                     <select name="saleman" id="saleman" class="form-control" >
                                              <option value="">销售员</option>
@@ -104,7 +105,7 @@
                                     
                                     <div class="col-md-2" >
                                         <select name="saletype" id="saletype" class="form-control" >
-                                        <option value="">全部状态OO</option>
+                                        <option value="">全部状态</option>
                                         <?php 
                                     foreach ($status as $key => $value) {
                                      
@@ -184,14 +185,20 @@
             <input type="text" class="form-control" name="endday" id="endday" value="<?php echo $search['endday']?>" placeholder="结束日期 如：<?php echo date('Y-m-d',time())?>" >
     </div>
        <div class="col-md-12  ">&nbsp;</div>
-    <div class="col-md-10" > 
+    <div class="col-md-6" > 
         <input type="text" class="form-control" name="owner" id="owner"  placeholder="来源客户" > 
     </div>
-    <div class="col-md-2" >   
+       <div class="col-lg-3"  >
+    <input type="checkbox" id="xz"  name="admin"  data-on-text='所有售出订单' data-off-text='总部售出订单'     <?php 
+            if(isset($_GET['admin']) and $_GET["admin"] == "false" ){}else{ echo "checked"; }
+    
+    ?>  />
+</div>
+    <div class="col-md-offset-1 col-md-2" >   
         <button class="btn btn-success " type="button" id="searchbtn">搜索 </button>
     </div>
                                       
-                            <!--</div>-->
+    </form>                     <!--</div>-->
                 </div>
 
 <div class="alert alert-success" role="alert">
@@ -377,7 +384,9 @@
     <!-- Custom Theme JavaScript -->
     <script src="<?php echo site_url('/')?>bootadmin/dist/js/sb-admin-2.js"></script>
 
-
+    <script src="/bootadmin/bootstrap-switch-master/docs/js/highlight.js"></script>
+    <script src="/bootadmin/bootstrap-switch-master/newjavascript.js"></script>
+    <script src="/bootadmin/bootstrap-switch-master/docs/js/main.js"></script>
     <script type="text/javascript">
     function getid(id){
          $('#myid').val(id);
@@ -423,8 +432,7 @@
         query=query+'&payment='+payment;
         query=query+'&ispayback='+ispayback;
         query=query+'&owner='+$("#owner").val();
-        
-
+        query=query+'&admin='+$("#xz").is(":checked");
         window.location='<?php echo site_url("home/sale_list/1")?>/'+query;
        // alert($('#wd').val());
     });  
